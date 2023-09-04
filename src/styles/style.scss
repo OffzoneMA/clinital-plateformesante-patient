@@ -1,0 +1,475 @@
+// colors
+$purple: #9e58ff;
+$light-purple: #c989dd;
+$blue: #6dc0f9;
+$light-blue: #a6e0fa;
+$grey: #aaaaaa;
+$red: #e85555;
+$green: #5fc657;
+$black: #303030;
+$orange: #fcb769;
+$pink: #f48888;
+$light-grey: #e5e5e5;
+
+// Font
+$ave-ultra-light: "Avenir_Next_LT_Pro_Ultra_Light";
+$ave-regular: "Avenir_Next_LT_Pro_Regular";
+$ave-demi: "Avenir_Next_LT_Pro_Demi";
+$ave-bold: "Avenir_Next_LT_Pro_Bold";
+$ave-heavy: "Avenir_Next_LT_Pro_Heavy";
+$ave-medium: "Avenir_Next_LT_Pro_It";
+
+mark {
+  font-family: $ave-demi;
+  color: $light-purple;
+  text-decoration: underline;
+  background-color: transparent;
+}
+.disable {
+  pointer-events: none;
+  opacity: 0.2;
+  &:not(img) {
+    opacity: 0.4;
+  }
+}
+
+.agenda-work-days {
+  .agenda-wrapper {
+    border-radius: 5px;
+    background-color: white;
+    padding: 12px 15px;
+    position: relative;
+    width: fit-content;
+
+    .btns {
+      left: 50%;
+      display: flex;
+      top: 25px + 12px;
+      justify-content: space-between;
+      position: absolute;
+      width: 455px + 15px;
+      transform: translate(-50%, -50%);
+
+      button {
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #ededed;
+        border: none;
+        padding: 0;
+
+        svg {
+          width: 8px;
+        }
+
+        &:first-child {
+          svg {
+            transform: rotate(90deg);
+          }
+        }
+        &:last-child {
+          svg {
+            transform: rotate(-90deg);
+          }
+        }
+      }
+    }
+
+    .agenda-container {
+      background-color: rgb(252 252 252);
+      width: 455px;
+      height: auto;
+      // min-height: 245px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 6px;
+
+      .agenda-header {
+        .days-container {
+          display: flex;
+          width: fit-content;
+
+          .day-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: calc(455px / 7);
+            padding: 12px 0;
+            gap: 5px;
+
+            strong {
+              font-size: 12px;
+              font-family: $ave-demi;
+            }
+            span {
+              font-size: 11px;
+              font-family: $ave-regular;
+            }
+
+            &:nth-child(even) {
+              background-color: rgb(246 246 246);
+            }
+          }
+        }
+      }
+      .days-time-container {
+        display: flex;
+        height: 183px;
+        overflow: hidden;
+        width: fit-content;
+
+        .day-time {
+          width: calc(455px / 7);
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          height: fit-content;
+          padding: 6px 0;
+          gap: 3px;
+
+          span {
+            width: 51px;
+            height: 22.5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            font-family: $ave-demi;
+            font-size: 14px;
+            color: rgba(150, 150, 150, 0.5);
+
+            &:not(.empty) {
+              color: #969696;
+              background-color: rgb($purple, 0.1);
+              transition: all 400ms ease;
+              cursor: pointer;
+              &:hover {
+                color: white;
+                background-color: $light-purple;
+              }
+            }
+            &.active-time {
+              color: white;
+              background-color: $light-purple;
+            }
+          }
+          &:nth-child(even) {
+            background: rgb(246 246 246);
+          }
+
+          .empty {
+            pointer-events: none;
+          }
+        }
+      }
+    }
+
+    .btns-scroll {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      gap: 10px;
+      padding-top: 6px;
+
+      button {
+        height: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 30px;
+        background-color: #f6f6f6;
+        border: none;
+        gap: 7px;
+        padding: 0;
+        font-size: 12px;
+
+        svg {
+          width: 8px;
+        }
+
+        &:first-child {
+          width: 15px;
+          svg {
+            transform: rotate(180deg);
+          }
+        }
+        &:last-child {
+          width: fit-content;
+          padding: 0 6px;
+          svg {
+            transform: rotate(0);
+          }
+        }
+      }
+      .disable {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .agenda-warning {
+    // height: 60px;
+    // width: 343px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    gap: 10px;
+    background-color: rgb($orange, 0.1);
+    padding: 20px 30px;
+    border-radius: 6px;
+
+    span {
+      color: $orange;
+      font-size: 14px;
+      // font-family: $ave-demi;
+    }
+    img {
+      height: 20px;
+    }
+  }
+  .agenda-next-rdv {
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    background: #ffffff;
+    box-shadow: 0px 4px 33px rgba(0, 0, 0, 0.13), inset 0px 2px 0px #ffffff;
+    padding: 13px 35px;
+    border-radius: 6px;
+    width: 260px;
+
+    span {
+      font-family: $ave-demi;
+      color: $light-purple;
+      font-size: 14px;
+    }
+    img {
+      height: 20px;
+    }
+  }
+}
+
+// ------------
+.rdv-section {
+  .model-wrapper {
+    height: calc(100vh - 73px);
+    width: 100vw;
+    position: absolute;
+    top: 73px;
+    left: 0;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .bg-close {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background: rgba(48, 48, 48, 0.7);
+    }
+
+    .model-container {
+      position: relative;
+      background-color: white;
+      width: 680px;
+      height: 230px;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      border-radius: 20px;
+      flex-direction: column;
+      padding: 20px;
+
+      h2 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 700;
+        font-family: "Montserrat";
+      }
+
+      .btns-container {
+        width: 100%;
+        display: flex;
+        gap: 24px;
+        align-items: center;
+        justify-content: center;
+
+        button {
+          width: 240px;
+          height: 44px;
+          font-size: 14px;
+          border-radius: 3px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .close-btn {
+          background-color: white;
+          border: 1px solid $grey;
+          color: $grey;
+        }
+        .delete-btn {
+          background-color: $red;
+          border: none;
+          color: white;
+          box-shadow: 0px 0px 14px rgba(232, 85, 85, 0.5);
+        }
+      }
+    }
+  }
+  .rdv-popup-popup {
+    z-index: 999;
+    .agenda-work-days {
+      height: 284px;
+      img{
+        display: none;
+      }
+    }
+      
+  }
+}
+.rdv-popup {
+  .doc-box {
+    padding: 30px 40px;
+
+    > div {
+      width: 100%;
+      justify-content: space-between;
+      display: flex;
+      gap: 15px;
+      div {
+
+        h3 {
+          color: $blue;
+          font-size: 18px;
+          font-family: "Montserrat";
+          font-weight: 600;
+          margin: 0;
+        }
+      }
+      span {
+        height: 40px;
+        width: fit-content;
+        gap: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        font-family: $ave-demi;
+        border-radius: 4px;
+        font-size: 14px;
+        background-color: rgb($light-purple, 1);
+        color: white;
+        img {
+          height: 18px;
+        }
+      }
+      p {
+        font-family: $ave-demi;
+        margin: 4px 0 0 0;
+        color: $black;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .patient-box {
+    margin: 15px 40px;
+  }
+
+  .rdv-action {
+    padding: 10px 40px;
+    border-top: 1px solid rgba(170, 170, 170, 0.2);
+    border-bottom: 1px solid rgba(170, 170, 170, 0.2);
+    .btns-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+
+      button {
+        font-size: 16px;
+        background-color: transparent;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        text-transform: uppercase;
+        font-family: $ave-demi;
+      }
+      .rdv-deplace {
+        color: $purple;
+      }
+      .rdv-annuler {
+        color: $red;
+      }
+      .rdv-confirme {
+        height: 44px;
+        width: 100%;
+        color: white;
+        background-color: $blue;
+        border-radius: 4px;
+        margin: 10px 10px 10px 0;
+        a {
+          color: white;
+        }
+      }
+      .rdv-other {
+        height: 44px;
+        width: 235px;
+        color: $blue;
+        border: 1.5px solid $blue;
+        background-color: white;
+        border-radius: 4px;
+        margin: 10px 0;
+      }
+    }
+  }
+
+  .rdv-patient-box {
+    border-top: 1px solid rgba(170, 170, 170, 0.2);
+    padding: 30px 40px;
+
+    .title {
+      display: flex;
+      align-items: center;
+      margin: 0 0 10px 0;
+      gap: 12px;
+
+      h4 {
+        font-family: "Montserrat";
+        font-weight: 600;
+        font-size: 16px;
+        margin: 0;
+      }
+      img {
+        width: 17px;
+      }
+    }
+
+    .content {
+      p {
+        font-size: 14px;
+        margin: 0 0 0 30px;
+        line-height: 20px;
+      }
+    }
+  }
+}
+// ------------
+
+

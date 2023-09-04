@@ -1,0 +1,270 @@
+@import '../../styles/style.scss';
+
+.register {
+    min-height: calc(100vh - 75px);
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  
+    .bg {
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -2;
+  
+      img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+      }
+    }
+    .linear-border {
+      height: calc(100% + 4px);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      width: 554px;
+      background: linear-gradient(to left, $light-purple, $blue);
+      border-radius: 17px;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding: 27px;
+      width: 550px;
+      background: #ffffff;
+      // border: 1px solid $light-blue;
+      // border-image-slice: 1;
+      // border-image-source: linear-gradient(to left, $light-purple, $blue);
+      border-radius: 15px;
+  
+      h1 {
+        margin: 15px auto 22px auto;
+        font-family: "montserrat";
+        font-weight: 700;
+        font-size: 22px;
+      }
+  
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+  
+        > div {
+          margin-top: 20px;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+  
+          label {
+            font-family: $ave-demi;
+            font-size: 14px;
+            margin: 0 0 6px 0;
+            padding-left: 10px;
+          }
+  
+          input {
+            height: 44px;
+            border: 2px solid rgba(170, 170, 170, 0.2);
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-family: $ave-regular;
+            outline: none;
+  
+            &::placeholder {
+              color: $grey;
+            }
+          }
+  
+          > img {
+            position: absolute;
+            cursor: pointer;
+            right: 15px;
+            height: 18px;
+            bottom: 14px;
+          }
+        }
+        .checkbox {
+          flex-direction: row;
+          align-items: center;
+  
+          a {
+            color: $blue;
+          }
+  
+          label {
+            margin: 0;
+            line-height: 12px;
+            font-family: $ave-regular;
+          }
+  
+          input[type="checkbox"] {
+            height: 18px;
+            width: 18px;
+          }
+        }
+  
+        > button {
+          background-color: $blue;
+          color: white;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 12px;
+          height: 44px;
+          border: none;
+          opacity: 0.9;
+          transition: all 600ms ease;
+          margin-top: 20px;
+          img {
+            height: 11px;
+          }
+  
+          &:hover {
+            gap: 30px;
+            opacity: 1;
+          }
+        }
+  
+        > .button {
+          width: 100%;
+          background-color: $blue;
+          color: white;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 12px;
+          height: 44px;
+          border: none;
+          opacity: 0.9;
+          transition: all 600ms ease;
+          margin-top: 20px;
+          img {
+            height: 11px;
+          }
+  
+          &:hover {
+            gap: 30px;
+            opacity: 1;
+          }
+        }
+        .btns {
+          flex-direction: row;
+          gap: 7px;
+  
+          button {
+            width: 100%;
+            background: rgba(81, 142, 248, 0.1);
+            border-radius: 10px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            padding: 8px;
+          }
+        }
+  
+        > a {
+          margin: 20px auto 0 auto;
+          font-size: 14px;
+          color: $grey;
+          font-family: $ave-demi;
+        }
+  
+        .subForm {
+          background-color: #f8f8f8;
+          padding: 17px;
+          border-radius: 10px;
+          text-align: center;
+          h3 {
+            font-size: 18px;
+            font-family: "Montserrat";
+            font-weight: 700;
+            margin: 0 0 12px 0;
+          }
+          h2 {
+            font-family: "Montserrat";
+            font-weight: 700;
+            margin: 0 0 12px 0;
+          }
+          a {
+            font-size: 16px;
+            color: $light-purple;
+            font-family: $ave-demi;
+          }
+        }
+  
+        p {
+          color: $red;
+          font-family: $ave-demi;
+          font-size: 14px;
+          margin: 6px 0 0 0;
+          display: none;
+        }
+      }
+      .invalid {
+        input {
+          border-color: $red !important;
+        }
+        > p {
+          display: block;
+        }
+      }
+  
+      > img {
+        position: absolute;
+        top: 50%;
+        left: 41px;
+        transform: translate(-100%, -50%);
+      }
+    }
+    .invalid {
+      form {
+        input {
+          border-color: $red !important;
+        }
+        > img,
+        > p {
+          display: block;
+        }
+      }
+      > img {
+        display: block !important;
+      }
+    }
+    .close-btn {
+      position: absolute;
+      right: 16px;
+      top: 15px;
+      height: 20px;
+      width: 20px;
+      cursor: pointer;
+  
+      &::after,
+      &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        border-radius: 2px;
+        top: 50%;
+        left: -0%;
+        transform: rotate(45deg);
+        background-color: $black;
+      }
+      &::after {
+        transform: rotate(-45deg);
+      }
+    }
+  }

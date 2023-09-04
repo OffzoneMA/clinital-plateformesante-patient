@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "Avenir_Next_LT_Pro_Ultra_Light";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Avenir Next LT Pro Ultra Light"),
+    url("Avenir/AvenirNextLTPro-It.otf") format("OpenType");
+}
+
+@font-face {
+  font-family: "Avenir_Next_LT_Pro_Regular";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Avenir Next LT Pro Regular"),
+    url("Avenir/AvenirNextLTPro-Regular.otf") format("OpenType");
+}
+
+@font-face {
+  font-family: "Avenir_Next_LT_Pro_Demi";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Avenir Next LT Pro Demi"),
+    url("Avenir/AvenirNextLTPro-Demi.otf") format("OpenType");
+}
+
+@font-face {
+  font-family: "Avenir_Next_LT_Pro_Bold";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Avenir Next LT Pro Bold"),
+    url("Avenir/AvenirNextLTPro-Bold.otf") format("OpenType");
+}
+
+@font-face {
+  font-family: "Avenir_Next_LT_Pro_Heavy";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Avenir Next LT Pro Heavy"),
+    url("Avenir/AvenirNextLTPro-Heavy.woff") format("woff");
+}

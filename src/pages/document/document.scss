@@ -1,0 +1,262 @@
+
+@import "../../styles/style.scss";
+
+.document-section {
+    width: 100%;
+    // background-color: $grey;
+    padding: 30px 0;
+  
+    .container {
+      width: 100%;
+      margin: auto;
+      // max-width: 1440px;
+  
+      .action-container {
+        .first-action {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 30px 0;
+  
+          .select {
+            width: 100%;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            width: fit-content;
+            // width: 932px;
+            border-radius: 0 10px 10px 0;
+            background-color: white;
+            padding: 30px 50px;
+  
+            span {
+              padding: 0 10px;
+              font-size: 14px;
+              cursor: pointer;
+              padding: 5px 15px;
+            }
+            .active-span {
+              background-color: rgba($color: $blue, $alpha: 0.1);
+              font-family: $ave_regular;
+              font-weight: bolder;
+              color: $blue;
+              border-radius: 60px;
+            }
+            hr {
+              border: none;
+              border-left: 1px black solid;
+              height: 20px;
+              opacity: 0.2;
+            }
+          }
+  
+          > button {
+            background-color: $light_purple;
+            color: white;
+            width: 260px;
+            height: 44px;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none;
+            margin: 0 50px;
+            box-shadow: 0px 0px 14px rgba(201, 137, 221, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            span {
+              height: 22px;
+            }
+          }
+        }
+        .second-action {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 7px 10px;
+          background: rgba(170, 170, 170, 0.07);
+          position: relative;
+          border-radius: 8px;
+          margin: auto;
+          width: 660px;
+          gap: 20px;
+  
+          svg {
+            cursor: pointer;
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+  
+          input {
+            background: #ffffff;
+            border: 2px solid rgba(170, 170, 170, 0.2);
+            padding: 0 10px 0 20px;
+            min-width: 210px;
+            height: 44px;
+            border-radius: 8px;
+            outline: none;
+  
+            &::placeholder {
+              font-size: 14px;
+              font-family: $ave_regular;
+              opacity: 0.6;
+            }
+          }
+  
+          div {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+  
+            span {
+              padding: 0 15px;
+              font-weight: bolder;
+              font-size: 16px;
+              line-height: 25px;
+              border-radius: 30px;
+              background-color: rgba($color: $blue, $alpha: 0.1);
+              color: $blue;
+            }
+            .redSpan {
+              font-weight: normal;
+              opacity: 0.6;
+              background-color: transparent;
+              color: $red;
+            }
+          }
+        }
+        .third-action {
+          width: 100%;
+          height: 58px;
+          background: #f8f8f8;
+          border: 1px solid rgba(170, 170, 170, 0.3);
+          display: flex;
+          align-items: center;
+          padding: 5px 50px;
+          margin-top: 16px;
+  
+          > input,
+          > button,
+          > div {
+            text-align: center;
+            height: calc(100% - 10px);
+            width: 215px;
+            border: none;
+            border-left: 2px solid rgba(170, 170, 170, 0.1);
+            background-color: transparent;
+            color: #aaa;
+            outline: none;
+            font-family: $ave_regular;
+            font-size: 14px;
+            &::placeholder {
+              opacity: 0.5;
+              font-family: $ave_regular;
+            }
+          }
+          select {
+            background-color: transparent;
+            border: none;
+            pointer-events: none;
+          }
+          input {
+            color: $black;
+          }
+  
+          button {
+            text-transform: uppercase;
+            font-weight: bolder;
+            border: none;
+            text-align: left;
+            padding-left: 30px;
+            img {
+              margin-right: 5px;
+            }
+          }
+  
+          div {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 30px;
+            align-items: center;
+            color: $black;
+          }
+  
+          input:last-child {
+            border-right: 2px solid rgba(170, 170, 170, 0.1);
+          }
+  
+          label span {
+            margin: 0 5px;
+          }
+        }
+      }
+  
+      .table-container {
+        padding: 0 50px;
+  
+        table {
+          width: 100%;
+          margin-top: 25px;
+          border-collapse: collapse;
+  
+          tbody tr {
+            height: 80px;
+          }
+          tr {
+            line-height: 35px;
+            border-bottom: 1px solid #aaa;
+          }
+          th {
+            font-family: "Montserrat";
+            font-weight: 700;
+          }
+  
+          th,
+          td {
+            width: inherit;
+            text-align: center;
+            &:first-child,
+            &:last-child {
+              padding-left: 15px;
+              text-align: left;
+            }
+            &:first-child {
+              max-width: 150px;
+              input {
+                height: 17px;
+                width: 17px;
+                background-color: transparent;
+                margin: 0 10px 0 0;
+                transform: translateY(3px);
+              }
+            }
+          }
+          td {
+            font-size: 14px;
+  
+            label {
+              cursor: pointer;
+            }
+  
+            &:nth-child(2),
+            &:nth-child(4) {
+              font-size: 16px;
+            }
+          }
+          .table-action {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            height: inherit;
+  
+            img {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
