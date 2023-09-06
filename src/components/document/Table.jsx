@@ -2,6 +2,8 @@ import React from "react";
 import { data } from "../../assets/data/data";
 
 function Table() {
+
+
   return (
     <div className="table-container">
       <table>
