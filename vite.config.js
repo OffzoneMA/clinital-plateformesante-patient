@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
 import svgrPlugin from 'vite-plugin-svgr'
-
+import react from "@vitejs/plugin-react";
 // see all documentation here https://vitejs.dev/config/
 export default defineConfig({
   // This changes the out put dir from dist to build change as your need
@@ -10,6 +10,7 @@ export default defineConfig({
     outDir: 'build',
   },
   plugins: [
+    react(),
     reactRefresh(),
     svgrPlugin({
       svgrOptions: {
@@ -18,4 +19,8 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    port: 3000
+  }
 })
+
