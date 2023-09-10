@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { ORIGIN } from './api';
+import keyValueStorage from '../utils/storage/keyValueStorage';
 
-const BASE_URL = "apidb.clinital.io";
+const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
 
 let axiosInstance = axios.create({
-    baseURL: BASE_URL,
+    baseURL: import.meta.env.VITE_BASE_URL,
     responseType: "json",
     headers: {
         'Cache-Control': 'no-cache',
@@ -20,8 +21,9 @@ axiosInstance.CancelToken = axios.CancelToken;
 axiosInstance.isCancel = axios.isCancel;
 
 axiosInstance.interceptors.request.use(config => {
+  let token= localStorage.getItem('user').token;
     config.headers.token = localStorage.getItem('user').token;
-    config.headers.Authorization = localStorage.getItem('user').token;
+    config.headers.Authorization = `Bearer ${token}` ;
 
     return config;
 }, error => {
@@ -30,7 +32,7 @@ axiosInstance.interceptors.request.use(config => {
 
 // 
 const requestHandler = (request) => {
-    const token = KeyValueStorage.get("token");
+    const token = keyValueStorage.get("token");
     if (token !== 'undefined') {
         request.headers.Authorization = `Bearer ${token}`;
     }
@@ -39,7 +41,7 @@ const requestHandler = (request) => {
 
 const responseHandler = (response) => {
     if (response.status === 401) {
-        window.location = path.LOGIN;
+        // window.location = path.LOGIN;
     }
     if (response.errors) {
         return Promise.reject(response.message);

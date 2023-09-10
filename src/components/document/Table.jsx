@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { data } from "../../assets/data/data";
-
+import { useEffect } from "react";
+import DoumentServices from "./services/DoumentServices";
 function Table() {
-
+const [doc,setDoc]=useState({});
+useEffect(() => {
+  DoumentServices.index()
+  .then((respons)=>{
+    console.log();
+  })
+  return () => {
+    // cleanup
+  };
+}, []);
 
   return (
     <div className="table-container">
+    
       <table>
         <thead>
           <tr>
