@@ -22,7 +22,10 @@ export const Log = React.createContext();
 
 function App() {
   const [isValidToken, setIsValidToken] = useState(false)
-  const value = JSON.parse(localStorage.getItem("user"));
+  //const value = JSON.parse(localStorage.getItem("user"));
+  const [value, setValue] = useState(() => {
+    return JSON.parse(localStorage.getItem("user")) || []
+  });
 
   // Token Verification
   useEffect(() => {
