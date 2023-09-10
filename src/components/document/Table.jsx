@@ -7,7 +7,8 @@ const [doc,setDoc]=useState({});
 useEffect(() => {
   DoumentServices.index()
   .then((respons)=>{
-    console.log();
+    console.log(respons.data);
+    setDoc(respons.data);
   })
   return () => {
     // cleanup
@@ -16,7 +17,6 @@ useEffect(() => {
 
   return (
     <div className="table-container">
-    
       <table>
         <thead>
           <tr>
@@ -29,17 +29,17 @@ useEffect(() => {
           </tr>
         </thead>
         <tbody>
-          {data.map((x, index) => {
+          {doc.map((x, index) => {
             return (
               <tr key={index}>
                 <td>
-                  <input type="checkbox" name={x.doc} id={x.doc} />
-                  <label htmlFor={x.doc}>{x.doc}</label>
+                  <input type="checkbox" name={x.titre_doc} id={x.id_doc} />
+                  <label htmlFor={x.id_doc}>{x.titre_doc}</label>
                 </td>
-                <td>{x.num}</td>
-                <td>{x.type}</td>
-                <td>{x.date}</td>
-                <td>{x.added}</td>
+                <td>{x.id_doc}</td>
+                <td>{x.typeDoc.docType}</td>
+                <td>{x.date_ajout_doc}</td>
+                <td>{x.auteur}</td>
                 <td className="table-action">
                   <img src="../icon/down.svg" alt="" />
                   <img src="../icon/archive.svg" alt="" />

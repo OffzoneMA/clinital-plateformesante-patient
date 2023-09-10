@@ -20,19 +20,19 @@ let axiosInstance = axios.create({
 axiosInstance.CancelToken = axios.CancelToken;
 axiosInstance.isCancel = axios.isCancel;
 
-axiosInstance.interceptors.request.use(config => {
-  let token= localStorage.getItem('user').token;
-    config.headers.token = localStorage.getItem('user').token;
-    config.headers.Authorization = `Bearer ${token}` ;
+// axiosInstance.interceptors.request.use(config => {
+//   let token= localStorage.getItem('user').token;
+//     config.headers.token = localStorage.getItem('user').token;
+//     config.headers.Authorization = `Bearer ${token}` ;
 
-    return config;
-}, error => {
-    return Promise.reject(error);
-});
+//     return config;
+// }, error => {
+//     return Promise.reject(error);
+// });
 
 // 
 const requestHandler = (request) => {
-    const token = keyValueStorage.get("token");
+    const token = JSON.parse(localStorage.getItem('user')).token;
     if (token !== 'undefined') {
         request.headers.Authorization = `Bearer ${token}`;
     }
@@ -41,7 +41,7 @@ const requestHandler = (request) => {
 
 const responseHandler = (response) => {
     if (response.status === 401) {
-        // window.location = path.LOGIN;
+        window.location = "/";
     }
     if (response.errors) {
         return Promise.reject(response.message);
