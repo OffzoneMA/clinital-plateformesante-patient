@@ -3,16 +3,13 @@ import { data } from "../../assets/data/data";
 import { useEffect } from "react";
 import DoumentServices from "./services/DoumentServices";
 function Table() {
-const [doc,setDoc]=useState({});
+const [doc,setDoc]=useState([]);
 useEffect(() => {
   DoumentServices.index()
   .then((respons)=>{
     console.log(respons.data);
     setDoc(respons.data);
-  })
-  return () => {
-    // cleanup
-  };
+  });
 }, []);
 
   return (
@@ -41,8 +38,9 @@ useEffect(() => {
                 <td>{x.date_ajout_doc}</td>
                 <td>{x.auteur}</td>
                 <td className="table-action">
-                  <img src="../icon/down.svg" alt="" />
-                  <img src="../icon/archive.svg" alt="" />
+                  <img src="/icons/down.svg"  alt="" />
+                  <img src="/icons/eye-on.svg" alt="" />
+                  <img src="/icons/archive.svg" alt="" />
                 </td>
               </tr>
             );
