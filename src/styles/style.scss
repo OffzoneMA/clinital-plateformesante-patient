@@ -10,7 +10,8 @@ $black: #303030;
 $orange: #fcb769;
 $pink: #f48888;
 $light-grey: #e5e5e5;
-
+@import "../components/document/style/document.scss";
+@import"../../node_modules/bootstrap/scss/bootstrap";
 // Font
 $ave-ultra-light: "Avenir_Next_LT_Pro_Ultra_Light";
 $ave-regular: "Avenir_Next_LT_Pro_Regular";
