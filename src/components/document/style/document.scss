@@ -1,0 +1,24 @@
+.doc-container{
+    margin:0 48px auto;
+    background-color: #F4F4F4;
+    border: 1px solid #6DC0F9;
+    border-radius: 9px 9px 9px 9px;
+   overflow-y: auto;
+    .info-doc{
+        background-color: #FFFFFF;
+        max-width: 37%;
+        margin: 0;
+        padding: 0;
+    }
+    span{
+        display: block;
+        width: 100% !important;
+        border-bottom: 1px solid #F4F4F4;
+    }
+    .info-doc div{
+        position: relative;
+        display: block;
+        width: 100% !important;
+    }
+
+}
