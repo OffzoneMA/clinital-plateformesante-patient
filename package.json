@@ -17,10 +17,12 @@
     "react": "^18.2.0",
     "react-calendar": "^3.9.0",
     "react-date-object": "^2.1.7",
+    "react-doc-viewer": "^0.1.5",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.1",
     "react-loading-skeleton": "^3.3.1",
     "react-map-gl": "^7.1.5",
+    "react-pdf": "^7.3.3",
     "react-router-dom": "^6.3.0",
     "react-toastify": "^9.0.8",
     "sass": "^1.54.4",
@@ -54,6 +56,7 @@
     ]
   },
   "devDependencies": {
-    "mark.js": "^8.11.1"
+    "mark.js": "^8.11.1",
+    "vite-plugin-sass": "^0.1.0"
   }
 }

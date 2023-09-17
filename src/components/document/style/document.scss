@@ -44,6 +44,8 @@
         padding: 16px 0px 16px 0px ;
         .profile{
             border-radius: 8px;
+            width: 46px;
+            height: 46px;
             background: var(--profile-picture-02, lightgray -11.973px -5.941px / 152.055% 190.168% no-repeat, #C4C4C4);
         }
         h4{
@@ -60,7 +62,7 @@
         }
          .pill{
             display: flex;
-            padding: 6px 10px;
+            padding: 6px 10px !important;
             justify-content: center;
             align-items: center;
             border-radius: 20px;
@@ -71,7 +73,7 @@
             font-size: 12px;
             font-style: normal;
             font-weight: 400;
-            line-height: normal;
+            //line-height: normal;
             letter-spacing: -0.12px;
         }
          .doc-name{
@@ -80,6 +82,16 @@
             font-style: normal;
             font-weight: 600;
             line-height: 130%;
+        }
+        .adresse{
+            color: var(--black, #303030);
+            leading-trim: both;
+            text-edge: cap;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+            letter-spacing: -0.12px;
         }
     
     } 

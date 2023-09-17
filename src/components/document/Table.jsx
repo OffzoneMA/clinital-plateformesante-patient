@@ -14,8 +14,9 @@ useEffect(() => {
   });
 }, []);
 
-const handleExplor=(doc)=>{
-
+const handleExplor=(file)=>{
+  console.log(file);
+  setDoc(file)
   setExplore(false);
 }
 
@@ -90,7 +91,7 @@ const handleExplor=(doc)=>{
               <tr key={index}>
                 <td>
                   <input type="checkbox" name={x.titre_doc} id={x.id_doc} />
-                  <label htmlFor={x.id_doc} onClick={()=>{handleExplor(x.id_doc)}}>{x.titre_doc}</label>
+                  <label htmlFor={x.id_doc} onClick={()=>{handleExplor(x)}}>{x.titre_doc}</label>
                 </td>
                 <td>{x.id_doc}</td>
                 <td>{x.typeDoc.docType}</td>
@@ -108,7 +109,7 @@ const handleExplor=(doc)=>{
       </table>
     </div></>}
     {!explor && (
-      <ExplorDocument/>
+      <ExplorDocument doc={doc}/>
     )}
     </>);
 }
