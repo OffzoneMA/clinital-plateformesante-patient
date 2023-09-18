@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import FilePreview from "../../../utils/FilePreview";
 import { Document, Page, pdfjs } from "react-pdf";
+import PdfViewerComponent from "../../../utils/FilePreview";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 const ExplorDocument = ({doc}) => {
 const [file,setFile]=useState({})
@@ -8,10 +9,10 @@ const [numPages, setNumPages] = useState(null);
 const [pageNumber, setPageNumber] = useState(1);
 
 
-const url =`https://www.africau.edu/images/default/sample.pdf`;
+const url =`/textura.pdf`;
+//const url =`https://www.africau.edu/images/default/sample.pdf`;
 function onDocumentLoadSuccess({ numPages }) {
-  setNumPages(numPages);
-  setPageNumber(1);
+  setNumPages(numPages); // <== here is the issue #1 - we save page number of file, but in case it's changed, we know about new number only after it's loaded, before doc is loaded, this value is wrong
 }
 
 function changePage(offset) {
@@ -111,21 +112,38 @@ function nextPage() {
                 </div>
               </div>
             </div>
+            <button className="send">envoyer</button>
             <span></span>
           </div>
           <div>
+          
             <span></span>
           </div>
           <div>
             <span></span>
           </div>
         </div>
-        <div className="col-7">
+        <div className="col-7" >
+        <div className="PDF-viewer">
+				<PdfViewerComponent document={url} />
+			  </div>
         
-        <Document file={url}
-        options={{ workerSrc: "/pdf.worker.js" }}
-        onLoadSuccess={onDocumentLoadSuccess}>
-      <Page pageNumber={1} />
+        {/* <Document 
+        file={url}
+          onLoadSuccess={onDocumentLoadSuccess}
+          error={"لطفا منتظر بمانید"}
+          loading={"wait for load"}
+          className={"PDFDoc"}
+          //onSourceError={onLoadError}
+          //onLoadError={onLoadError}
+          renderMode={"canvas"}
+          //onItemClick={goToPage}
+          options={{ cMapUrl: "cmaps/", cMapPacked: true }}>
+      <Page pageNumber={1} 
+       width={400}
+            height={900}
+     // Set the width of the page
+            />
     </Document>
     <div>
         <p>
@@ -141,7 +159,7 @@ function nextPage() {
         >
           Next
         </button>
-      </div>
+      </div> */}
           {/* <div><FilePreview fileUrl={url}/></div> */}
         </div>
       </div>
