@@ -9,7 +9,7 @@ const [numPages, setNumPages] = useState(null);
 const [pageNumber, setPageNumber] = useState(1);
 
 
-const url =`/textura.pdf`;
+const url =doc.fichier_doc;
 //const url =`https://www.africau.edu/images/default/sample.pdf`;
 function onDocumentLoadSuccess({ numPages }) {
   setNumPages(numPages); // <== here is the issue #1 - we save page number of file, but in case it's changed, we know about new number only after it's loaded, before doc is loaded, this value is wrong
