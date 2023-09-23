@@ -9,8 +9,10 @@ const [numPages, setNumPages] = useState(null);
 const [pageNumber, setPageNumber] = useState(1);
 
 
-const url =doc.fichier_doc;
-//const url =`https://www.africau.edu/images/default/sample.pdf`;
+// const url =doc.fichier_doc;
+const url =`https://www.africau.edu/images/default/sample.pdf`;
+//const url="https://images.unsplash.com/photo-1533450718592-29d45635f0a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80";
+
 function onDocumentLoadSuccess({ numPages }) {
   setNumPages(numPages); // <== here is the issue #1 - we save page number of file, but in case it's changed, we know about new number only after it's loaded, before doc is loaded, this value is wrong
 }
@@ -28,9 +30,9 @@ function nextPage() {
 }
   return (
     
-    <div className="doc-container">
-      <div className="row d-flex flex-wrap">
-        <div className="col-5 info-doc">
+    <div className="doc-container c-scrollbar ">
+      <div className="row mx-0">
+        <div className="col-3 info-doc">
           <div className="p-3">
             <div className="d-flex p-3">
               <div className="col-6">
@@ -123,9 +125,10 @@ function nextPage() {
             <span></span>
           </div>
         </div>
-        <div className="col-7" >
-        <div className="PDF-viewer">
-				<PdfViewerComponent document={url} />
+        <div className="col-9" >
+        <div className="file-preview">
+				{/* <PdfViewerComponent document={url} /> */}
+        <iframe src={url} className="c-scrollbar"/>
 			  </div>
         
         {/* <Document 

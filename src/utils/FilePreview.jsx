@@ -75,9 +75,6 @@ export default function PdfViewerComponent(props) {
 				baseUrl: `${window.location.protocol}//${window.location.host}/${import.meta.env.BASE_URL}`,
 			});
 		})();
-
-		
-
 		return () => PSPDFKit && PSPDFKit.unload(container);
 	}, []);
 
