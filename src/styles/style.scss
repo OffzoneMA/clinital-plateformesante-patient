@@ -20,6 +20,10 @@ $ave-bold: "Avenir_Next_LT_Pro_Bold";
 $ave-heavy: "Avenir_Next_LT_Pro_Heavy";
 $ave-medium: "Avenir_Next_LT_Pro_It";
 
+*{
+  box-sizing: border-box !important;
+}
+
 mark {
   font-family: $ave-demi;
   color: $light-purple;
@@ -341,6 +345,22 @@ mark {
     }
       
   }
+}
+.c-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  background: #1e1e2d;
+  border-radius: 3px;
+}
+.c-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.c-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+.c-scrollbar {
+  scrollbar-color: rgba(255, 255, 255, 0.2);
+  scrollbar-width: thin;
 }
 .rdv-popup {
   .doc-box {

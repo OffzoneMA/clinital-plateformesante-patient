@@ -7,7 +7,6 @@
     .info-doc{
         background-color: #FFFFFF;
         max-width: 37%;
-        margin-left: 13px;
         padding: 0;
     }
     span{
@@ -112,6 +111,26 @@
     .file-preview{
         width: 100%;
         height: 100%;
-        padding: 30px 130px 10px 130px;
+        //padding: 30px 130px 10px 130px;
+        iframe {
+            width: 100%;
+            height: 100%;
+            ::-webkit-scrollbar {
+                width: 10px;
+              }
+                ::-webkit-scrollbar-track {
+                background: #f1f1f1; 
+              }
+                ::-webkit-scrollbar-thumb {
+                background: #888; 
+                  border-radius:10px;
+              }
+              ::-webkit-scrollbar-thumb:hover {
+                
+                background: #555; 
+              }
+          }
+
+        
     }
 }
