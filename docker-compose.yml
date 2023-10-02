@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+
+  frontend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      VIRTUAL_HOST: app.clinital.io
+      VIRTUAL_PORT: 3000
+      LETSENCRYPT_HOST: app.clinital.io
+      LETSENCRYPT_EMAIL: support@clinital.io
+
+    ports:
+      - 3000:3000
