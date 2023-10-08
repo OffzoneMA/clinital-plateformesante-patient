@@ -1,5 +1,5 @@
 # Create image based on the official latest Node image from the dockerhub
-FROM node:15
+FROM node:18
 
 # Create a directory where our app will be placed
 RUN mkdir -p /usr/src/app
@@ -15,7 +15,7 @@ RUN npm install
 
 
 # Expose the port the app runs in
-EXPOSE 3000
+EXPOSE 5174
 
 
 # Serve the app
