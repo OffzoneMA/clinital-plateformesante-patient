@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { ORIGIN } from './api';
-import keyValueStorage from '../utils/storage/keyValueStorage';
+// import keyValueStorage from '../utils/storage/keyValueStorage';
 
-const BASE_URL = import.meta.env.VITE_REACT_APP_BASE_URL;
 
 let axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL,
+    baseURL: process.env.BASE_URL,
     responseType: "json",
     headers: {
         'Cache-Control': 'no-cache',
