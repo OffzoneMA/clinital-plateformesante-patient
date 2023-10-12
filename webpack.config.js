@@ -9,6 +9,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -39,9 +40,9 @@ module.exports = {
         use: [
           {
             loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-            },
+            // options: {
+            //   name: '[name].[ext]',
+            // },
           },
         ],
       },
@@ -49,7 +50,10 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      "process.env": {
+        // This has effect on the react lib size
+        NODE_ENV: JSON.stringify("development"),
+      },
       // ...
     }),
     new HtmlWebpackPlugin({
@@ -76,7 +80,7 @@ module.exports = {
     new BrowserSyncPlugin(
       {
         host: 'localhost',
-        port: 3000,
+        port: 4000,
         server: { baseDir: ['dist'] },
         files: ['dist/**/*'],
         open: false,
