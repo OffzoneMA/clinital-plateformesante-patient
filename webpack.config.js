@@ -2,7 +2,7 @@ const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const webpack = require('webpack');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.jsx',
@@ -54,7 +54,14 @@ module.exports = {
         // This has effect on the react lib size
         NODE_ENV: JSON.stringify("development"),
       },
+      
       // ...
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public/images', to: 'images' }, // Copy images from public/images to dist/images
+        { from: 'public/icons', to: 'icons' },   // Copy icons from public/icons to dist/icons
+      ],
     }),
     new HtmlWebpackPlugin({
       baseUrl: '/',
@@ -91,7 +98,7 @@ module.exports = {
     ),
   ],
   devServer: {
-    contentBase: './dist',
+    static: './dist', // Set the static directory
     hot: true,
   },
   resolve: {
