@@ -50,7 +50,7 @@
     "env": {
       "browser": true,
       "node": true
-  }
+    }
   },
   "browserslist": {
     "production": [
@@ -67,6 +67,7 @@
   "devDependencies": {
     "browser-sync": "^2.29.3",
     "browser-sync-webpack-plugin": "^2.3.0",
+    "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "mark.js": "^8.11.1",
     "sass": "^1.69.0",
