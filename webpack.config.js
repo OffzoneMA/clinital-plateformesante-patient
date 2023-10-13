@@ -59,7 +59,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'public/images', to: 'images' }, // Copy images from public/images to dist/images
-        { from: 'public/icons', to: 'icons' },   // Copy icons from public/icons to dist/icons
+        { from: 'public/icons', to: 'icons' }, 
+        { from: 'public', to: 'dist' },   // Copy icons from public/ to dist/
       ],
     }),
     new HtmlWebpackPlugin({
