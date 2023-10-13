@@ -3,7 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+const Dotenv = require('dotenv-webpack');
+const DEVELOPMENT = process.env.NODE_ENV === "development";
+const PRODUCTION = process.env.NODE_ENV === "production";
 module.exports = {
   entry: './src/index.jsx',
   output: {
@@ -49,14 +51,11 @@ module.exports = {
     ],
   },
   plugins: [
+    new Dotenv(),
     new webpack.DefinePlugin({
-      "process.env": {
-        // This has effect on the react lib size
-        NODE_ENV: JSON.stringify("development"),
-      },
-      
-      // ...
-    }),
+      "proccess.env.PRODUCTION": JSON.stringify(PRODUCTION),
+      "proccess.env.DEVELOPMENT": JSON.stringify(DEVELOPMENT),
+  }),
     new CopyWebpackPlugin({
       patterns: [
         { from: 'public/images', to: 'images' }, // Copy images from public/images to dist/images
@@ -90,7 +89,7 @@ module.exports = {
         port: 4000,
         server: { baseDir: ['dist'] },
         files: ['dist/**/*'],
-        open: false,
+        open: true,
       },
       {
         reload: false,
