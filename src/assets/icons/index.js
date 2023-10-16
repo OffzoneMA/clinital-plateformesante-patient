@@ -1,9 +1,9 @@
-import { ReactComponent as IconCall } from "./call-outline.svg";
-import { ReactComponent as IconCard } from "./card-outline.svg";
-import { ReactComponent as IconCash } from "./cash-outline.svg";
-import { ReactComponent as IconDocument } from "./document-outline.svg";
-import { ReactComponent as IconLocation } from "./location-outline.svg";
-import { ReactComponent as IconAnnuler } from "./annuler.svg";
-import { ReactComponent as IconDeplacer } from "./deplacer.svg";
+import {  IconCall } from "./call-outline.svg";
+import {  IconCard } from "./card-outline.svg";
+import {  IconCash } from "./cash-outline.svg";
+import {  IconDocument } from "./document-outline.svg";
+import {  IconLocation } from "./location-outline.svg";
+import {  IconAnnuler } from "./annuler.svg";
+import {  IconDeplacer } from "./deplacer.svg";
 
-export { IconCall, IconCard, IconCash, IconDocument, IconLocation, IconAnnuler, IconDeplacer };
+export  { IconCall, IconCard, IconCash, IconDocument, IconLocation, IconAnnuler, IconDeplacer };
