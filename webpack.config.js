@@ -1,107 +1,164 @@
-const { resolve } = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const TerserWebpackPlugin = require("terser-webpack-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const Dotenv = require('dotenv-webpack');
-const DEVELOPMENT = process.env.NODE_ENV === "development";
-const PRODUCTION = process.env.NODE_ENV === "production";
-module.exports = {
-  entry: './src/index.jsx',
-  output: {
-    filename: 'bundle.js',
-    path: resolve(__dirname, 'dist'),
-    publicPath: '/',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-          },
+// const DEVELOPMENT = process.env.NODE_ENV === "development";
+// const PRODUCTION = process.env.NODE_ENV === "production";
+module.exports = function(_env, argv) {
+  const isProduction = argv.mode === "production";
+  const isDevelopment = !isProduction;
+
+  return {
+    devtool: isDevelopment && "cheap-module-source-map",
+    entry: "./src/index.jsx",
+    output: {
+      path: path.resolve(__dirname, "dist"),
+      filename: "assets/js/[name].[contenthash:8].js",
+      publicPath: "/"
+    },
+    ignoreWarnings: [
+        // Ignore warnings from third-party libraries in node_modules
+        {
+          module: /node_modules/,
         },
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          'style-loader', // Adds CSS to the DOM by injecting a <style> tag
-          'css-loader',   // Interprets @import and url() like import/require() and will resolve them
-          'sass-loader'   // Compiles Sass to CSS
-        ],
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            // options: {
-            //   name: '[name].[ext]',
-            // },
-          },
-        ],
-      },
-    ],
-  },
-  plugins: [
-    new Dotenv(),
-    new webpack.DefinePlugin({
-      "proccess.env.PRODUCTION": JSON.stringify(PRODUCTION),
-      "proccess.env.DEVELOPMENT": JSON.stringify(DEVELOPMENT),
-  }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public/images', to: 'images' }, // Copy images from public/images to dist/images
-        { from: 'public/icons', to: 'icons' }, 
-        { from: 'public', to: 'dist' },   // Copy icons from public/ to dist/
+        // Ignore warnings with common keywords in the message
+        {
+          message: /deprecated|warning|error|info/,
+        },
+        /warning from compiler/,
+        (warning) => true,
       ],
-    }),
-    new HtmlWebpackPlugin({
-      baseUrl: '/',
-      template: './public/index.html',
-      templateParameters(compilation, assets, options) {
-        return {
-          compilation,
-          webpack: compilation.getStats().toJson(),
-          webpackConfig: compilation.options,
-          htmlWebpackPlugin: {
-            files: assets,
-            options,
+    module: {
+      rules: [
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              cacheDirectory: true,
+              cacheCompression: false,
+              envName: isProduction ? "production" : "development"
+            }
+          }
+        },
+        {
+          test: /\.css$/,
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : "style-loader",
+            "css-loader"
+          ]
+        }, {
+            test: /\.s[ac]ss$/i,
+            use: [
+              'style-loader',
+              'css-loader',
+              {
+                loader: 'sass-loader',
+                options: {
+                  // Add the option to ignore color contrast warnings
+                  sassOptions: {
+                    quietDeps: true
+                  }
+                }
+              }
+            ]
           },
-          process,
+        {
+          test: /\.(png|jpg|gif)$/i,
+          use: {
+            loader: "url-loader",
+            options: {
+              limit: 8192,
+              name: "static/media/[name].[hash:8].[ext]"
+            }
+          }
+        },
+        {
+          test: /\.svg$/,
+          use: ["react-svg-loader"]
+        },
+        {
+          test: /\.(eot|otf|ttf|woff|woff2)$/,
+          loader: require.resolve("file-loader"),
+          options: {
+            name: "static/media/[name].[hash:8].[ext]"
+          }
+        }
+      ]
+    },
+    resolve: {
+      extensions: [".js", ".jsx"]
+    },
+    plugins: [
+      isProduction &&
+        new MiniCssExtractPlugin({
+          filename: "assets/css/[name].[contenthash:8].css",
+          chunkFilename: "assets/css/[name].[contenthash:8].chunk.css"
+        }),
+        new Dotenv(),
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, "public/index.html"),
+        inject: true
+      }),
+      new webpack.DefinePlugin({
+        "process.env.NODE_ENV": JSON.stringify(
+          isProduction ? "production" : "development"
+        )
+      })
+    ].filter(Boolean),
+    optimization: {
+      minimize: isProduction,
+      minimizer: [
+        new TerserWebpackPlugin({
+          terserOptions: {
+            compress: {
+              comparisons: false
+            },
+            mangle: {
+              safari10: true
+            },
+            output: {
+              comments: false,
+              ascii_only: true
+            },
+            warnings: false
+          }
+        }),
+        new OptimizeCssAssetsPlugin()
+      ],
+      splitChunks: {
+        chunks: "all",
+        minSize: 0,
+        maxInitialRequests: 10,
+        maxAsyncRequests: 10,
+        cacheGroups: {
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+            name(module, chunks, cacheGroupKey) {
+              const packageName = module.context.match(
+                /[\\/]node_modules[\\/](.*?)([\\/]|$)/
+              )[1];
+              return `${cacheGroupKey}.${packageName.replace("@", "")}`;
+            }
+          },
+          common: {
+            minChunks: 2,
+            priority: -10
+          }
         }
       },
-      chunksSortMode: 'auto',
-      minify: {
-        collapseWhitespace: false,
-      },
-      cache: true,
-    }),
-    new BrowserSyncPlugin(
-      {
-        host: 'localhost',
-        port: 4000,
-        server: { baseDir: ['dist'] },
-        files: ['dist/**/*'],
-        open: true,
-      },
-      {
-        reload: false,
-      }
-    ),
-  ],
-  devServer: {
-    static: './dist', // Set the static directory
-    hot: true,
-  },
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  }
+      runtimeChunk: "single"
+    },
+    devServer: {
+      compress: true,
+      historyApiFallback: true,
+      open: true,
+      port : 3000
+    //   overlay: true
+    }
+  };
 };

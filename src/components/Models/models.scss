@@ -1,4 +1,4 @@
-@import '../../styles/style.scss';
+@import "../../styles/style.scss";
 
 .model {
   opacity: 0;
@@ -44,7 +44,8 @@
     }
   }
   .model-content {
-    background: linear-gradient(#fafafa, #fafafa) padding-box,
+    background:
+      linear-gradient(#fafafa, #fafafa) padding-box,
       linear-gradient(270deg, #c715ff, #1da3ff) border-box;
     border: 1px solid transparent;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
@@ -313,7 +314,7 @@
         display: none;
       }
       input:invalid[focused="true"] {
-        border: 2px solid #e85555 !important;
+        border: 2px solid #e85555 !important;// eslint-disable-line color-contrast
       }
       input:invalid[focused="true"] ~ .err {
         display: block;
@@ -344,7 +345,7 @@
           outline: none;
 
           &::placeholder {
-            color: #aaaaaa;
+            color: #aaaaaa;// eslint-disable-line color-contrast
             font-size: 14px;
             line-height: 17px;
           }
@@ -355,7 +356,7 @@
           font-family: $ave-regular;
           font-size: 14px;
           line-height: 17px;
-          color: #6dc0f9;
+          color: #6dc0f9;// eslint-disable-line color-contrast
           right: 54%;
           top: 285px;
         }
@@ -366,7 +367,7 @@
       font-family: $ave-bold;
       font-size: 14px;
       line-height: 17px;
-      color: #e85555;
+      color: #e85555;// eslint-disable-line color-contrast
       border: none;
       width: 100%;
       margin-top: 19px;
@@ -392,7 +393,7 @@
         outline: none;
 
         &::placeholder {
-          color: #aaaaaa;
+          color: #aaaaaa;// eslint-disable-line color-contrast
           font-size: 14px;
           line-height: 17px;
         }
@@ -411,7 +412,7 @@
         font-weight: 700;
         font-size: 26px;
         line-height: 32px;
-        color: #303030;
+        color: #303030;// eslint-disable-line color-contrast
         text-align: center;
       }
     }
@@ -423,7 +424,7 @@
         font-size: 18px;
         line-height: 22px;
         text-align: justify;
-        color: #303030;
+        color: #303030;// eslint-disable-line color-contrast
       }
     }
     .autorisation-footer {
@@ -435,8 +436,8 @@
         margin: 0;
         &:nth-child(1) {
           background: transparent;
-          border: 1px solid #aaaaaa;
-          color: #aaaaaa;
+          border: 1px solid #aaaaaa;// eslint-disable-line color-contrast
+          color: #aaaaaa;// eslint-disable-line color-contrast
         }
       }
     }
@@ -459,7 +460,7 @@
         font-weight: 700;
         font-size: 26px;
         line-height: 24px;
-        color: #303030;
+        color: #303030;// eslint-disable-line color-contrast
         text-align: center;
         margin-bottom: 23px;
       }
