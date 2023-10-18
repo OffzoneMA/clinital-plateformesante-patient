@@ -137,17 +137,14 @@ module.exports = function(_env, argv) {
         maxAsyncRequests: 10,
         cacheGroups: {
           vendors: {
+            // Use a more robust regular expression to match node_modules paths
             test: /[\\/]node_modules[\\/]/,
-            name(module, chunks, cacheGroupKey) {
-              const packageName = module.context.match(
-                /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-              )[1];
-              return `${cacheGroupKey}.${packageName.replace("@", "")}`;
-            }
+            name: 'vendors', // Optionally, you can give it a fixed name
+            priority: -10
           },
           common: {
             minChunks: 2,
-            priority: -10
+            priority: -20
           }
         }
       },
