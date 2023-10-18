@@ -2,15 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://apidb.clinital.io/api/ http://localhost:4000; script-src 'self'; img-src 'self'; style-src 'self'; base-uri 'self'; form-action 'self';"> -->
-    <meta http-equiv="Content-Security-Policy" content="default-src https://apidb.clinital.io/api/ http://localhost:8080; script-src 'self' www.google-analytics.com 'unsafe-inline' 'unsafe-eval';connect-src 'self' ws: https:; style-src 'self' https://fonts.googleapis.com 'unsafe-inline' 'unsafe-eval'; font-src 'self' https://fonts.gstatic.com; base-uri 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://localhost:3000 https://apidb.clinital.io/api/; script-src 'self' https://localhost:3000 'unsafe-hashes' 'unsafe-inline' 'unsafe-eval';style-src 'self' https://fonts.googleapis.com/ 'unsafe-inline';font-src 'self' https://fonts.gstatic.com;img-src 'self' data:;">
+
     <link rel="icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- <link
+    <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
-    /> -->
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -25,11 +25,11 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!-- Like below. This is the script tag for bootstrapping your Vite application -->
-    <!-- <script id="__bs_script__">
+    <script id="__bs_script__" >
       // <![CDATA[
-      document.write("<script async src='http://" + location.hostname + ":8080/browser-sync/browser-sync-client.2.12.5.js'><\/script>");
+      document.write("<script async src='http://" + location.hostname + ":3000/browser-sync/browser-sync-client.2.12.5.js'><\/script>");
       // ]]>
-    </script> -->
+    </script>
     <!-- <script type="module" src="/src/index.jsx"></script> -->
   </body>
 </html>
