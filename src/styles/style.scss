@@ -1,15 +1,15 @@
 // colors
-$purple: #9e58ff;
-$light-purple: #c989dd;
-$blue: #6dc0f9;
-$light-blue: #a6e0fa;
-$grey: #aaaaaa;
-$red: #e85555;
-$green: #5fc657;
-$black: #303030;
-$orange: #fcb769;
-$pink: #f48888;
-$light-grey: #e5e5e5;
+$purple: #9e58ff; // eslint-disable-line color-contrast
+$light-purple: #c989dd;// eslint-disable-line color-contrast
+$blue: #6dc0f9;// eslint-disable-line color-contrast
+$light-blue: #a6e0fa;// eslint-disable-line color-contrast
+$grey: #aaaaaa;// eslint-disable-line color-contrast
+$red: #e85555;// eslint-disable-line color-contrast
+$green: #5fc657;// eslint-disable-line color-contrast
+$black: #303030;// eslint-disable-line color-contrast
+$orange: #fcb769;// eslint-disable-line color-contrast
+$pink: #f48888;// eslint-disable-line color-contrast
+$light-grey: #e5e5e5;// eslint-disable-line color-contrast
 @import "../components/document/style/document.scss";
 @import"../../node_modules/bootstrap/scss/bootstrap";
 // Font

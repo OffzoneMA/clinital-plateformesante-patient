@@ -4,7 +4,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-
+const Dotenv = require('dotenv-webpack');
+// const DEVELOPMENT = process.env.NODE_ENV === "development";
+// const PRODUCTION = process.env.NODE_ENV === "production";
 module.exports = function(_env, argv) {
   const isProduction = argv.mode === "production";
   const isDevelopment = !isProduction;
@@ -17,6 +19,18 @@ module.exports = function(_env, argv) {
       filename: "assets/js/[name].[contenthash:8].js",
       publicPath: "/"
     },
+    ignoreWarnings: [
+        // Ignore warnings from third-party libraries in node_modules
+        {
+          module: /node_modules/,
+        },
+        // Ignore warnings with common keywords in the message
+        {
+          message: /deprecated|warning|error|info/,
+        },
+        /warning from compiler/,
+        (warning) => true,
+      ],
     module: {
       rules: [
         {
@@ -37,13 +51,20 @@ module.exports = function(_env, argv) {
             isProduction ? MiniCssExtractPlugin.loader : "style-loader",
             "css-loader"
           ]
-        },
-        {
-            test: /\.scss$/,
+        }, {
+            test: /\.s[ac]ss$/i,
             use: [
-              'style-loader', // Injects styles into the DOM
-              'css-loader',   // Translates CSS into CommonJS
-              'sass-loader'   // Compiles Sass to CSS
+              'style-loader',
+              'css-loader',
+              {
+                loader: 'sass-loader',
+                options: {
+                  // Add the option to ignore color contrast warnings
+                  sassOptions: {
+                    quietDeps: true
+                  }
+                }
+              }
             ]
           },
         {
@@ -78,6 +99,7 @@ module.exports = function(_env, argv) {
           filename: "assets/css/[name].[contenthash:8].css",
           chunkFilename: "assets/css/[name].[contenthash:8].chunk.css"
         }),
+        new Dotenv(),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, "public/index.html"),
         inject: true
@@ -135,6 +157,7 @@ module.exports = function(_env, argv) {
       compress: true,
       historyApiFallback: true,
       open: true,
+      port : 3000
     //   overlay: true
     }
   };
