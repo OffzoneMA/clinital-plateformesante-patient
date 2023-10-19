@@ -5,6 +5,7 @@ const webpack = require("webpack");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const Dotenv = require('dotenv-webpack');
+const CopyWebpackPlugin=require('copy-webpack-plugin');
 // const DEVELOPMENT = process.env.NODE_ENV === "development";
 // const PRODUCTION = process.env.NODE_ENV === "production";
 module.exports = function(_env, argv) {
@@ -100,6 +101,14 @@ module.exports = function(_env, argv) {
           chunkFilename: "assets/css/[name].[contenthash:8].chunk.css"
         }),
         new Dotenv(),
+        isProduction && new CopyWebpackPlugin({
+            patterns: [
+              { from: 'public/images', to: 'images' }, // Copy images from public/images to dist/images
+              { from: 'public/icons', to: 'icons' },   // Copy icons from public/icons to dist/icons
+              { from: 'public/icons', to: 'icons' }, 
+              { from: 'public', to: 'build' },   // Copy icons from public/ to dist/
+            ],
+          }),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, "public/index.html"),
         inject: true
