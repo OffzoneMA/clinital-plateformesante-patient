@@ -15,7 +15,7 @@ module.exports = function(_env, argv) {
     devtool: isDevelopment && "cheap-module-source-map",
     entry: "./src/index.jsx",
     output: {
-      path: path.resolve(__dirname, "dist"),
+      path: path.resolve(__dirname, "build"),
       filename: "assets/js/[name].[contenthash:8].js",
       publicPath: "/"
     },
