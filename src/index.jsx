@@ -4,7 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "./styles/style.scss";
 import "./styles/variables.scss";
-import "./assets/fonts/font.css";
+import "./assets/fonts/font.scss";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
