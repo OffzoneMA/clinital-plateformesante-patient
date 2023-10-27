@@ -13,7 +13,7 @@ let axiosInstance = axios.create({
         'Accept': 'application/json',
         'Content-Type': 'application/json',
     },
-    validateStatus: status => status >= 200 && status < 300 || status === 422,
+    validateStatus: status => (status >= 200 && status < 300) || status === 422,
 });
 
 axiosInstance.CancelToken = axios.CancelToken;

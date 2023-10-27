@@ -5,7 +5,9 @@ import AuthService from "../services/AuthService";
 export const verifyAuth = async (state) => {
   if (TOKEN) {
     try {
+      console.log("the token : "+TOKEN)
       const res = await AuthService.verifyToken(TOKEN)
+     
       if (res.data === false) {
         logOut()
         state(false)
@@ -15,6 +17,10 @@ export const verifyAuth = async (state) => {
     } catch (error) {
       toast.error(error.message)
     }
+  }else{
+    console.log("the token : "+TOKEN)
+    //logOut()
+    state(false)
   }
 };
 
