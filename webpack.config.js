@@ -4,7 +4,7 @@
 const ReactRefreshWebpackPlugin=require("@pmmmwh/react-refresh-webpack-plugin")
 // const webpack = require("webpack");
 // const TerserWebpackPlugin = require("terser-webpack-plugin");
-// const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const Dotenv = require('dotenv-webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
@@ -196,9 +196,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 //   };
 // };
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   mode: 'development',
@@ -282,11 +281,12 @@ module.exports = {
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: 'public/index.html'
   }),
-    new BundleAnalyzerPlugin(),
     new Dotenv(),
+    new OptimizeCssAssetsPlugin(),
     new ReactRefreshWebpackPlugin(),
     new CopyWebpackPlugin({
                 patterns: [
