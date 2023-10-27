@@ -198,6 +198,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: 'development',
@@ -296,6 +297,14 @@ module.exports = {
                 ],
               }),
   ],
+  optimization: {
+    // Minify JavaScript using Terser
+    minimizer: [new TerserPlugin()],
+    // Split common chunks into separate files for better caching
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   resolve: {
           extensions: [".js", ".jsx"],
         },
