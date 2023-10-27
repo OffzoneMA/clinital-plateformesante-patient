@@ -1,14 +1,14 @@
-import axios from 'axios';
-import { ORIGIN } from './api'
+import axios from "./Axios"
 
-
-const AUTH_URL = ORIGIN + '/api/auth'
+const AUTH_URL = '/api/auth'
 
 class AuthService {
     async verifyToken(token) {
+        
         const URL = AUTH_URL + '/checkToken/' + token;
         try {
             const response = await axios.get(URL);
+            console.log(response)
             return response;
         } catch (error) {
             throw error;

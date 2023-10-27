@@ -22,7 +22,7 @@ function Navbar() {
           />
         </Link>
         <ul>
-          {!user ? (
+          {user?.length===0 ? (
             <>
               <button className="large-btn">
                 Vous êtes professionnel de santé ?
@@ -68,19 +68,19 @@ function Navbar() {
           <Link
             to="/login"
             onClick={(e) => {
-              if (user) {
+              if (user.length>0) {
                 e.preventDefault();
               }
             }}
           >
-            <div className="user" onClick={() => user && setSubMenu((x) => !x)}>
+            <div className="user" onClick={() => user.length>0 && setSubMenu((x) => !x)}>
               <img
                 src="../../icons/person-circle-outline.svg"
                 alt="user"
                 height="26px"
               />
               <h4>
-                {user ? (
+                {user.length>0 ? (
                   <>
                     {user.email}
                     <svg

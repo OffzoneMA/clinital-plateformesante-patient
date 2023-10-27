@@ -26,10 +26,12 @@ function App() {
   const [value, setValue] = useState(() => {
     return JSON.parse(localStorage.getItem("user")) || []
   });
+  const [test, setTest] = useState(false);
 
   // Token Verification
   useEffect(() => {
-    verifyAuth(setIsValidToken)
+    console.log(value.length)
+    verifyAuth(setIsValidToken);
   }, []);
 
   return (
@@ -41,6 +43,7 @@ function App() {
             <Route exact path="/login//*" element={<Connexion />} />
             <Route exact path="/result//*" element={<Result />} />
             <Route exact path="/profil/:id" element={<Profil />} />
+            {console.log(isValidToken)}
             {isValidToken &&
               <>
                 <Route exact path="/contact" element={<Contact />} />
