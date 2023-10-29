@@ -80,7 +80,8 @@ function Navbar() {
                 height="26px"
               />
               <h4>
-                {user.length>0 ? (
+              {console.log(user)}
+                {user ? (
                   <>
                     {user.email}
                     <svg

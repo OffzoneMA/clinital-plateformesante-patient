@@ -185,8 +185,70 @@ function Calendar({ rdvs, setAgendaIsChanging }) {
           </span>
         </div>
       </div>
-
       <div className="calendar">
+      <div className="calendar-wrapper">
+      <div
+            className={`calendar-wrapper-header ${
+              option === "month" ? "calendar-wrapper-header-month" : ""
+            }`}
+          >
+    <div className="row w-100 d-flex">
+      <div className="col-1 p-0"><div className="left-btn">
+              <button onClick={nextOrPrev(-1)}>
+                <img src="../../icons/flech-black.svg" alt="" />
+              </button>
+              <div className="scrollHidder"></div>
+            </div></div>
+      <div className="col-10 p-0">{option !== "month" ? (
+              <div className="days-container" ref={daysContainer}>
+                <div className="container">
+                  {renderOption().map((week, index) => (
+                    <div
+                      onAnimationEnd={removeAnimation}
+                      className={`week ${
+                        index === 0 ? "prevWeek" : "currentWeek"
+                      }`}
+                      key={index}
+                    >
+                      {week.map((day, index_) => (
+                        <div
+                          className={`day ${
+                            new Date().toString() === day.toString()
+                              ? "today"
+                              : ""
+                          }`}
+                          key={index_}
+                        >
+                          <span>{day.toString().slice(0, 3)}</span>
+                          <strong>
+                            {day.toString().slice(8, 10) +
+                              "/" +
+                              day.toString().slice(4, 7)}
+                          </strong>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <MonthCalendar
+                setAgendaIsChanging={setAgendaIsChanging}
+                rdvType={rdvType}
+                rdvs={rdvs}
+                onChangeMonth={onChangeMonth}
+              />
+            )}</div>
+      <div className="col-1 p-0"><div className="right-btn">
+              <button onClick={nextOrPrev(1)}>
+                <img src="../../icons/flech-black.svg" alt="" />
+              </button>
+            </div></div>
+    </div>
+    </div>
+    
+  
+      {/* <div className="calendar">
         <div className="calendar-wrapper">
           <div
             className={`calendar-wrapper-header ${
@@ -246,17 +308,22 @@ function Calendar({ rdvs, setAgendaIsChanging }) {
               </button>
             </div>
           </div>
+          */}
           {option !== "month" && (
             <div className="calendar-wrapper-content">
-              <div className="container">
+            <div className="row w-100 d-flex">
+              <div className="container p-0">
+              <div className="col-1 p-0">
                 <div className="times-container">
                   {CONSTANTS.TIME.map((x, index) => (
-                    <span className="time" key={index}>
+                    <span className="time ms-auto" key={index}>
                       {x}
                     </span>
                   ))}
                 </div>
-                <div className="calendar-wrapper-content-main" ref={daysMain}>
+                </div>
+                <div className="col-10 me-auto p-0">
+                <div className="calendar-wrapper-content-main " ref={daysMain}>
                   {renderOption().map((week, index) => (
                     <div
                       key={index}
@@ -291,11 +358,13 @@ function Calendar({ rdvs, setAgendaIsChanging }) {
                     </div>
                   ))}
                 </div>
+                </div>
               </div>
               {rdvs.some( rdv => rdv.statut === CONSTANTS.RDV_STATE.ANNULE_DOC ) && <div className="rdv-annule-doc-label">Rendez-vous annulé</div>}
             </div>
+            </div>  
           )}
-        </div>
+          </div>                          
       </div>
     </div>
   );
