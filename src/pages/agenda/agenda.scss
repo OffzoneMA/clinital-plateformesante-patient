@@ -477,7 +477,7 @@
 
             .container {
               display: flex;
-              width: calc(100% - 48px + 5px + 0.75px);
+              width: 100%;
               justify-content: space-between;
               padding-bottom: 50px;
             }
@@ -507,19 +507,22 @@
               overflow: hidden;
               border-radius: 0 0 10px 10px;
               position: relative;
+              height: 100%;
+              
               .weekDays {
                 display: flex;
                 height: 100%;
                 width: 100%;
                 position: absolute;
                 top: 0;
-                left: 0;
+
+                // left: 0;
               }
               .day-container {
                 display: flex;
                 flex-direction: column;
-                // width: calc(100% / 7);
-                width: 100%;
+              
+                width: calc(100% / 7);
                 border-left: 0.5px solid #e9e9e9;
                 background-color: white;
                 &:first-child {
@@ -531,6 +534,7 @@
                   display: flex;
                   border-bottom: 0.5px solid #e9e9e9;
                   position: relative;
+                
 
                   .rdv-item {
                     width: 100%;
@@ -714,7 +718,6 @@
 ._50 {
   transform: translateY(33.33% * 2.5);
 }
-
 // Calendar
 .calendar-wrapper-header-month,
 .react-calendar,
