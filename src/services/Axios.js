@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ORIGIN } from './api';
+import { toast } from 'react-toastify';
 // import keyValueStorage from '../utils/storage/keyValueStorage';
 
 
@@ -58,31 +59,37 @@ const errorHandler = (error) => {
       // all the error responses
       switch (error.response.status) {
         case 400:
+          toast.error('📡 API | Nothing to display Data Not Found'+error.response.status+" "+error.message)
           console.error(error.response.status, error.message)
           console.log('📡 API | Nothing to display', 'Data Not Found')
           break
     
         case 401: // authentication error, logout the user
+        toast.error('📡 API | Please login again', 'Session Expired')
           console.log('📡 API | Please login again', 'Session Expired')
           localStorage.removeItem('user')
           break
     
         case 403:
+          toast.error('📡 API | Access denied Data Not Found'+error.response.status+" "+error.message)
           console.error(error.response.status, error.message)
           console.log('📡 API | Access denied', 'Data Not Found')
           break
     
         case 404:
+          toast.error('📡 API | Dataset not found Data Not Found '+error.response.status+" "+error.message)
           console.error(error.response.status, error.message)
           console.log('📡 API | Dataset not found', 'Data Not Found')
           break
     
         case 422:
+          toast.error('📡 API | Validation error Unprocessable Content '+error.response.status+" "+error.message+" "+error.response.data.detail)
           console.error(error.response.status, error.message, error.response.data.detail)
           console.log('📡 API | Validation error', 'Unprocessable Content')
           break
     
         default:
+          toast.error(error.response.status, error.message)
           console.error(error.response.status, error.message)
       }
       return Promise.reject(error)

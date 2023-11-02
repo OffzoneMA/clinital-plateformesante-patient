@@ -13,6 +13,7 @@ $light-grey: #e5e5e5;// eslint-disable-line color-contrast
 @import "../components/document/style/document.scss";
 @import"../../node_modules/bootstrap/scss/bootstrap";
 @import"./variables.scss";
+@import "../components/errors/page-not-found.scss";
 // Font
 @font-face {
   font-family: "Avenir_Next_LT_Pro_Ultra_Light";
