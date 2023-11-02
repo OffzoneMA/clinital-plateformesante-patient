@@ -192,14 +192,17 @@ function Calendar({ rdvs, setAgendaIsChanging }) {
               option === "month" ? "calendar-wrapper-header-month" : ""
             }`}
           >
-    <div className="row w-100 d-flex">
-      <div className="col-1 p-0"><div className="left-btn">
+      
+    <div className="row w-100">
+   
+      <div className="col-12 p-0 d-flex">
+      <div className="left-btn">
               <button onClick={nextOrPrev(-1)}>
                 <img src="../../icons/flech-black.svg" alt="" />
               </button>
               <div className="scrollHidder"></div>
-            </div></div>
-      <div className="col-10 p-0">{option !== "month" ? (
+      </div>
+      {option !== "month" ? (
               <div className="days-container" ref={daysContainer}>
                 <div className="container">
                   {renderOption().map((week, index) => (
@@ -238,12 +241,13 @@ function Calendar({ rdvs, setAgendaIsChanging }) {
                 rdvs={rdvs}
                 onChangeMonth={onChangeMonth}
               />
-            )}</div>
-      <div className="col-1 p-0"><div className="right-btn">
+            )}
+            <div className="right-btn">
               <button onClick={nextOrPrev(1)}>
                 <img src="../../icons/flech-black.svg" alt="" />
-              </button>
-            </div></div>
+              </button></div>
+    
+    </div>
     </div>
     </div>
     
