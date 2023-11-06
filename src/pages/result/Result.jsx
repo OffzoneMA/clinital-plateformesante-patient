@@ -58,6 +58,7 @@ function Result() {
       setLoading(true);
       try {
         const respond = await axios.get(link);
+        console.log(respond.data)
         setResult(respond.data);
         setLoading(false);
       } catch (error) {

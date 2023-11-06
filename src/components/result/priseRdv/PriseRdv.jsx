@@ -204,6 +204,7 @@ function PriseRdv() {
         isnewpatient: rdvData.isnewpatient === "non-consulte" ? false : rdvData.isnewpatient === "oui-consulte" ? true : rdvData.isnewpatient
 }
     const res = await addRdv(payload, setLoading)
+    console.log(res);
     res.data.body.message ? toast.error(res.data.body.message) : navigate(`/rdv/${res.data.body.id}`)
   };
 
