@@ -68,12 +68,12 @@ function Navbar() {
           <Link
             to="/login"
             onClick={(e) => {
-              if (user) {
+              if (user.length>0 || user) {
                 e.preventDefault();
               }
             }}
           >
-            <div className="user" onClick={() => user && setSubMenu((x) => !x)}>
+            <div className="user" onClick={() => (user.length>0 || user) && setSubMenu((x) => !x)}>
               <img
                 src="../../icons/person-circle-outline.svg"
                 alt="user"
@@ -81,7 +81,7 @@ function Navbar() {
               />
               <h4>
               {console.log(user)}
-                {user ? (
+                {user.length>0 || user ? (
                   <>
                     {user.email}
                     <svg

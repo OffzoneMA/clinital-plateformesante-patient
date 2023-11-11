@@ -8,6 +8,7 @@ import axios from "axios";
 import AgendaWorkDays_ from "../AgendaWorkDays_";
 import Register from "../../connexion/Register";
 import { addRdv } from "../../../action/Rdv";
+import RdvService from "../../../services/RdvService";
 
 function PriseRdv() {
   const user = useContext(Log);
@@ -44,34 +45,30 @@ function PriseRdv() {
   // };
   // New rdv data object
   const [rdvData, setRdvData] = useState({
-    // id: 0,
+    "id":0,
+    "canceledAt": "",
     day: dayName || "",
     start: (start_params && start_params) || "",
     end: (end_params && end_params) || "",
-    canceledAt: "2022-06-24T06:02:10.360Z",
-    statut: "ENATTENTE",
-
-    // patient: "",
-    // modeconsultation: "",
-    isnewpatient: "",
-    Commantaire: "",
-    // methodPayment: "",
-
-    medecinid: id * 1,
-    patientid: "",
-    motif: [{id_motif: 3, libelle: "URGENCE"}],
-    // modeconsultation: 3,
+  "medecinid": id*1,
+  "motif":0,
+  "patientid":0,
+  "statut": "CONJE",
+  "modeconsultation":0,
+  "isnewpatient":"",
+  "Commantaire":"",
+  "cabinet":1
   });
   // Set next step
   const toggleStep = (y) => {
     setStep((x) => x + y);
     y === -1 && setAutoNext(false);
   };
-  // Set motifConsultation value
+  // Set motif Consultation value
   const toggleType = (e) =>{
   const atr = e.target.getAttribute('label-value')
     setRdvData((x) => {
-      return { ...x, motifConsultation: atr };
+      return { ...x, motif: atr === "1"? 1 : atr === "2" ? 2 : atr === "3" ? 3 :""};
     });}
   // Get data from inputs
   const toggleRdv = (e) => {
@@ -81,11 +78,11 @@ function PriseRdv() {
         ...x,
         [name]:
           id === "CABINET"
-            ? [{ id: 1, mode: "CABINET" }]
+            ? 1
             : id === "VIDEO"
-            ? [{ id: 2, mode: "VIDEO" }]
+            ? 2
             : id === "DOMICILE"
-            ? [{ id: 3, mode: "DOMICILE" }]
+            ? 3
             : name === "patientid"
             ? Number(id)
             : type === "radio"
@@ -115,14 +112,14 @@ function PriseRdv() {
       case 1:
         if (
           autoNext &&
-          rdvData.motifConsultation &&
+          rdvData.motif &&
           rdvData.modeconsultation &&
           !start_params
         )
           setStep(2);
         if (
           autoNext &&
-          rdvData.motifConsultation &&
+          rdvData.motif &&
           rdvData.modeconsultation &&
           start_params &&
           isConnected
@@ -130,7 +127,7 @@ function PriseRdv() {
           setStep(3);
         if (
           autoNext &&
-          rdvData.motifConsultation &&
+          rdvData.motif &&
           rdvData.modeconsultation &&
           start_params &&
           !isConnected
@@ -200,12 +197,21 @@ function PriseRdv() {
     }
     const payload = {
         ...rdvData, 
-        Commantaire: rdvData.Commantaire === "false" ? false : rdvData.Commantaire === "true" ? true : rdvData.Commantaire,
+        Commantaire: rdvData.Commantaire === "false" ? "false" : "rdvData.Commantaire" === "true" ? "true" : "test",
         isnewpatient: rdvData.isnewpatient === "non-consulte" ? false : rdvData.isnewpatient === "oui-consulte" ? true : rdvData.isnewpatient
 }
-    const res = await addRdv(payload, setLoading)
-    console.log(res);
-    res.data.body.message ? toast.error(res.data.body.message) : navigate(`/rdv/${res.data.body.id}`)
+console.log(payload);
+RdvService.addRdv(payload)
+    .then((response)=>{
+      console.log(response)
+    }).catch((response)=>{
+      console.log("error");
+      console.log(response)
+    }).finally(()=>{
+
+    })
+
+    //res.data.body.message ? toast.error(res.data.body.message) : navigate(`/rdv/${res.data.body.id}`)
   };
 
   // ---------------------
@@ -331,15 +337,15 @@ function PriseRdv() {
                       <div className="value">
                         <p
                           style={
-                            rdvData.motifConsultation
+                            rdvData.motif
                               ? { opacity: 1 }
                               : { opacity: 0.5 }
                           }
                         >
-                          {rdvData.motifConsultation === 'CONSULTATION' && '1ère Consultation' }  
-                          {rdvData.motifConsultation === 'CONSULTATIONSUIVIE' && 'Consultation de suivi' }  
-                          {rdvData.motifConsultation === 'URGENCE' && 'Urgence' }  
-                          {!rdvData.motifConsultation && "Choisissez un motif"}
+                          {rdvData.motif === 'CONSULTATION' && '1ère Consultation' }  
+                          {rdvData.motif === 'CONSULTATIONSUIVIE' && 'Consultation de suivi' }  
+                          {rdvData.motif === 'URGENCE' && 'Urgence' }  
+                          {!rdvData.motif && "Choisissez un motif"}
                         </p>
                         <svg
                           width="11"
@@ -355,9 +361,9 @@ function PriseRdv() {
                         </svg>
                       </div>
                       <div className="options">
-                        <span onClick={toggleType} label-value='CONSULTATION'>1ère Consultation</span>
-                        <span onClick={toggleType} label-value='CONSULTATIONSUIVIE'>Consultation de suivi</span>
-                        <span onClick={toggleType} label-value='URGENCE'>Urgence</span>
+                        <span onClick={toggleType} label-value='1'>1ère Consultation</span>
+                        <span onClick={toggleType}  label-value='2'>Consultation de suivi</span>
+                        <span onClick={toggleType}  label-value='3'>Urgence</span>
                       </div>
                     </div>
                   </form>

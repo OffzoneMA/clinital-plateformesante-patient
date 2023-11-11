@@ -1,5 +1,5 @@
 import React from 'react';
-import './Modal.css'; // Assuming you have a separate CSS file for styles
+import './Modal.scss'; // Assuming you have a separate CSS file for styles
 import Register from '../connexion/Register';
 
 const LoginModal = ({ isOpen, onClose }) => {
