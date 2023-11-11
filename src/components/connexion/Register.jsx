@@ -41,7 +41,7 @@ function Register({ comp, setStep, setIsConnected }) {
       };
       // Save user
       if (user.role === "ROLE_PATIENT") {
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user)); 
 
         setLoading(false);
         setError(false);

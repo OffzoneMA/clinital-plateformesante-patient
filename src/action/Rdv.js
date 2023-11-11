@@ -61,7 +61,7 @@ export const getScheduls = async (docId, weeks, state, loading) => {
 export const addRdv = async (rdv, loading) => {
   loading(true)
   try {
-    loading(false)
+    loading(true)
     const res = await RdvService.addRdv(rdv)
     toast.error(res.data.body.success)
     return res 

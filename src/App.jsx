@@ -17,6 +17,7 @@ import RdvPopup from "./components/RdvPopup";
 // import AgendaWorkDays_ from "./components/result/AgendaWorkDays_";
 import RdvDejaPrise from "./components/RdvDejaPrise";
 import { verifyAuth } from "./action/Auth";
+import LoginModal from "./components/Modals/LoginModal";
 
 export const Log = React.createContext();
 
@@ -27,16 +28,23 @@ function App() {
     return JSON.parse(localStorage.getItem("user")) || []
   });
   const [test, setTest] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
   // Token Verification
   useEffect(() => {
     console.log(value.length)
     verifyAuth(setIsValidToken);
   }, []);
+  const handleCloseModal = () => {
+    setShowModal(false);
+    // You might want to redirect to a login page or remove the invalid token.
+  };
 
   return (
-    
+
     <div className="App">
+
+      <LoginModal isOpen={showModal} onClose={handleCloseModal} />
+
       <BrowserRouter>
         <Log.Provider value={value}>
           <Routes>
