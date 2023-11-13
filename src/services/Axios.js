@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { ORIGIN } from './api';
+import { ORIGIN,TOKEN } from './api';
 import { toast } from 'react-toastify';
 // import keyValueStorage from '../utils/storage/keyValueStorage';
-
 
 let axiosInstance = axios.create({
     baseURL: process.env.BASE_URL,
@@ -13,6 +12,7 @@ let axiosInstance = axios.create({
         'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT',
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${TOKEN}`
     },
     validateStatus: status => (status >= 200 && status < 300) || status === 422,
 });
@@ -32,9 +32,9 @@ axiosInstance.isCancel = axios.isCancel;
 
 // 
 const requestHandler = (request) => {
-    const token = JSON.parse(localStorage.getItem('user')).token;
-    if (token !== 'undefined') {
-        request.headers.Authorization = `Bearer ${token}`;
+
+    if (TOKEN !== 'undefined') {
+        request.headers.Authorization = `Bearer ${TOKEN}`;
     }
     return request;
 };

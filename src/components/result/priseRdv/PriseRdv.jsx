@@ -45,20 +45,22 @@ function PriseRdv() {
   // };
   // New rdv data object
   const [rdvData, setRdvData] = useState({
-    "id":0,
-    "canceledAt": "",
-    day: dayName || "",
-    start: (start_params && start_params) || "",
-    end: (end_params && end_params) || "",
-  "medecinid": id*1,
-  "motif":0,
-  "patientid":0,
-  "statut": "CONJE",
-  "modeconsultation":0,
-  "isnewpatient":"",
-  "Commantaire":"",
-  "cabinet":1
+    id: 0,
+    canceledat: "", // Ensure this matches the format expected for LocalDateTime
+    Day: dayName || "", // Make sure dayName is compatible with DayOfWeek
+    start: (start_params && start_params) || "", // Format as LocalDateTime
+    end: (end_params && end_params) || "", // Format as LocalDateTime
+    medecinid: id * 1,
+    patientid: 0,
+    statut: "CONJE", // Ensure this is a valid value for RdvStatutEnum
+    modeconsultation: 0,
+    isnewpatient: false, // Boolean value
+    commantaire: "",
+    motif: 0, // Ensure this is a valid value for MotifConsultationEnum
+    LinkVideoCall: "",
+    cabinet: 1
   });
+  
   // Set next step
   const toggleStep = (y) => {
     setStep((x) => x + y);
@@ -197,21 +199,22 @@ function PriseRdv() {
     }
     const payload = {
         ...rdvData, 
-        Commantaire: rdvData.Commantaire === "false" ? "false" : "rdvData.Commantaire" === "true" ? "true" : "test",
+        commantaire: rdvData.commantaire === "false" ? "false" : "rdvData.commantaire" === "true" ? "true" : "test",
         isnewpatient: rdvData.isnewpatient === "non-consulte" ? false : rdvData.isnewpatient === "oui-consulte" ? true : rdvData.isnewpatient
 }
-console.log(payload);
+console.log(rdvData);
 RdvService.addRdv(payload)
     .then((response)=>{
-      console.log(response)
+      response.body?.success === false ?toast.error(response.data?.body?.message):toast.success("Rendez vous bien ajouter avec succee");navigate(`/rdv/${response.data.body.id}`);
+      
     }).catch((response)=>{
       console.log("error");
-      console.log(response)
+      toast.error(response.data.body.message)
     }).finally(()=>{
 
     })
 
-    //res.data.body.message ? toast.error(res.data.body.message) : navigate(`/rdv/${res.data.body.id}`)
+
   };
 
   // ---------------------
@@ -507,9 +510,9 @@ RdvService.addRdv(payload)
                         <input
                           required
                           onChange={toggleRdv}
-                          value={rdvData.Commantaire}
+                          value={rdvData.commantaire}
                           type="radio"
-                          name="Commantaire"
+                          name="commantaire"
                           id='true'
                         />
                         <div className="input-doth"></div>
@@ -519,9 +522,9 @@ RdvService.addRdv(payload)
                         <input
                           required
                           onChange={toggleRdv}
-                          value={rdvData.Commantaire}
+                          value={rdvData.commantaire}
                           type="radio"
-                          name="Commantaire"
+                          name="commantaire"
                           id='false'
                         />
                         <div className="input-doth"></div>
@@ -531,9 +534,9 @@ RdvService.addRdv(payload)
                         <input
                           required
                           onChange={toggleRdv}
-                          value={rdvData.Commantaire}
+                          value={rdvData.commantaire}
                           type="radio"
-                          name="Commantaire"
+                          name="commantaire"
                           id="non-info"
                         />
                         <div className="input-doth"></div>
