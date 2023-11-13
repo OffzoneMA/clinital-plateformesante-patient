@@ -84,8 +84,23 @@ class RdvService {
  * @throws {Error} Throws an error if the request fails.
  */
 addRdv(rdv) {
+    const data ={
+        "id":0,
+        "canceledAt": "",
+        "day": "MONDAY",
+        "end": "2023-12-29T17:45:00.034Z",
+        "medecinid": 1,
+        "motif": 3,
+        "patientid": 1,
+        "start": "2022-12-29T17:30:00.034Z",
+        "statut": "CONJE",
+        "modeconsultation":1,
+        "isnewpatient":true,
+        "Commantaire":"i dont think so",
+        "cabinet":1
+      }
     console.log(apiRdv.addrdv())
-    return axios.post(apiRdv.addrdv(),rdv);
+    return axios.post(apiRdv.addrdv(),JSON.stringify(rdv));
 }
 
 

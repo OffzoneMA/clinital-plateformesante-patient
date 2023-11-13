@@ -207,9 +207,10 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: '[name][contenthash].js',
+    filename: '[name].[contenthash].js',
     clean: true,
-    assetModuleFilename: '[name][ext]',
+    publicPath: '/', // Explicitly set public path
+    assetModuleFilename: 'assets/[name].[hash][ext]', // Include hash in the filename
   },
   devtool: 'source-map',
   devServer: {
