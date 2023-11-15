@@ -81,7 +81,7 @@ function Navbar() {
               />
               <h4>
               {console.log(user)}
-                {user.length>0 || user ? (
+                {user.length>0 && user ? (
                   <>
                     {user.email}
                     <svg
