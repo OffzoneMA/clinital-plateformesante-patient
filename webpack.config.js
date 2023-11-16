@@ -199,9 +199,10 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
-
+const WorkerPlugin = require('worker-plugin');
+const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 module.exports = {
-  mode: 'development',
+  mode: mode,
   entry: {
     bundle: path.resolve(__dirname, 'src/index.jsx'),
   },
@@ -266,16 +267,19 @@ module.exports = {
           },
         ],
       }
-,       {
-        test: /\.jsx$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
-        },
-      },
+,      {
+  test: /\.(ts|js)x?$/,
+  exclude: /node_modules/,
+  use: {
+    loader: 'babel-loader',
+    options: {
+      presets: ['@babel/preset-env', '@babel/preset-react'],
+      plugins: [
+        mode === 'development' && require.resolve('react-refresh/babel')
+      ].filter(Boolean),
+    },
+  },
+},
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
@@ -288,16 +292,17 @@ module.exports = {
       template: 'public/index.html'
   }),
     new Dotenv(),
+    new WorkerPlugin(),
     new OptimizeCssAssetsPlugin(),
-    new ReactRefreshWebpackPlugin(),
     new CopyWebpackPlugin({
-                patterns: [
-                  { from: 'public/images', to: 'images' },
-                  { from: 'public/icons', to: 'icons' },
-                  { from: 'public', to: 'build' },
-                ],
-              }),
-  ],
+      patterns: [
+        { from: 'public/images', to: 'images' },
+        { from: 'public/icons', to: 'icons' },
+        { from: 'public', to: 'build' },
+      ],
+    }),
+    mode!=='production' && new ReactRefreshWebpackPlugin(),
+            ].filter(Boolean),
   optimization: {
     // Minify JavaScript using Terser
     minimizer: [new TerserPlugin()],
