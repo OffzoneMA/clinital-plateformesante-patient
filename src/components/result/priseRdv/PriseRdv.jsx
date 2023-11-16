@@ -9,11 +9,13 @@ import AgendaWorkDays_ from "../AgendaWorkDays_";
 import Register from "../../connexion/Register";
 import { addRdv } from "../../../action/Rdv";
 import RdvService from "../../../services/RdvService";
+import { useDispatch } from "react-redux";
+import { setRdv, setUser } from "../../../utils/redux/GlobalSlice";
 
 function PriseRdv() {
   const user = useContext(Log);
   const [isConnected, setIsConnected] = useState(user || false);
-
+  const dispatch =useDispatch();
   const [searchParams] = useSearchParams();
   const end_params = searchParams.get("end");
   // const availableSlot_params = searchParams.get("availableSlot");
@@ -205,7 +207,7 @@ function PriseRdv() {
 console.log(rdvData);
 RdvService.addRdv(payload)
     .then((response)=>{
-      response.body?.success === false ?toast.error(response.data?.body?.message):toast.success("Rendez vous bien ajouter avec succee");navigate(`/rdv/${response.data.body.id}`);
+      response.body?.success === false ?toast.error(response.data?.body?.message):toast.success("Rendez vous bien ajouter avec succee");dispatch(setRdv(response.body));navigate(`/rdv/${response.body.id}`);
       
     }).catch((response)=>{
       console.log("error");
