@@ -70,7 +70,8 @@ function SearchBarDoc({ setRandomX, comp }) {
       dispatch({ type: "CITY_FETCH" });
       try {
         const citys = await axios.get(
-          "https://apidb.clinital.io/api/ville/allvilles"
+          "http://localhost:8080/api/ville/allvilles"
+          //"https://apidb.clinital.io/api/ville/allvilles"
         );
         dispatch({ type: "CITY_SUCCESS", payload: citys.data });
       } catch (error) {
