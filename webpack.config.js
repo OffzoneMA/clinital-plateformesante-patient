@@ -202,7 +202,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const WorkerPlugin = require('worker-plugin');
 const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 module.exports = {
-  mode: mode,
+  mode: 'development',
   entry: {
     bundle: path.resolve(__dirname, 'src/index.jsx'),
   },
