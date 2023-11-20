@@ -1,5 +1,11 @@
 // Cannot load "react-refresh/babel" in production
-const plugins = [];
+const plugins = [
+  ["@babel/plugin-transform-runtime",
+      {
+        "corejs": 3
+      }
+    ]
+];
 if (process.env.NODE_ENV !== "production") {
   plugins.push("react-refresh/babel");
 }
