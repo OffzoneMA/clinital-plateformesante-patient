@@ -1,12 +1,8 @@
 // const path = require("path");
 // const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 // const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ReactRefreshWebpackPlugin=require("@pmmmwh/react-refresh-webpack-plugin")
 // const webpack = require("webpack");
 // const TerserWebpackPlugin = require("terser-webpack-plugin");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const Dotenv = require('dotenv-webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 // module.exports = function(_env, argv) {
 //   const isProduction = argv.mode === "production";
@@ -195,25 +191,173 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 //     watch: true
 //   };
 // };
-const path = require('path')
+// const path = require('path')
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+// const TerserPlugin = require("terser-webpack-plugin");
+// const WorkerPlugin = require('worker-plugin');
+// const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+// module.exports = {
+//   mode: 'development',
+//   entry: {
+//     bundle: path.resolve(__dirname, 'src/index.jsx'),
+//   },
+//   output: {
+//     path: path.resolve(__dirname, 'build'),
+//     filename: '[name].[contenthash].js',
+//     clean: true,
+//     publicPath: '/', // Explicitly set public path
+//     assetModuleFilename: 'assets/[name].[hash][ext]', // Include hash in the filename
+//   },
+//   devtool: 'source-map',
+//   devServer: {
+//     static: {
+//       directory: path.resolve(__dirname, 'build'),
+//     },
+//     port: 3000,
+//     open: true,
+//     hot: true,
+//     compress: true,
+//     historyApiFallback: true,
+//   },
+//       ignoreWarnings: [
+//       // Ignore warnings from third-party libraries in node_modules
+//       {
+//         module: /node_modules/,
+//       },
+//       // Ignore warnings with common keywords in the message
+//       {
+//         message: /deprecated|warning|error|info/,
+//       },
+//       /warning from compiler/,
+//       (warning) => true,
+//     ],
+//   module: {
+//     rules: [
+//       {
+//         test: /\.(sa|sc|c)ss$/,
+//         use: [
+//           'style-loader',
+//           'css-loader',
+//           {
+//             loader: 'resolve-url-loader',
+//             options: {
+//               sourceMap: true,
+//             },
+//           },
+//           {
+//             loader: 'postcss-loader',
+//             options: {
+//               sourceMap: true,
+//             },
+//           },
+//           {
+//             loader: 'sass-loader',
+//             options: {
+//               sourceMap: true,
+//               implementation: require('sass'),
+//               sassOptions: {
+//                 quietDeps: true,
+//               },
+//             },
+//           },
+//         ],
+//       }
+// ,      {
+//   test: /\.(ts|js)x?$/,
+//   exclude: /node_modules/,
+//   use: {
+//     loader: 'babel-loader',
+//     options: {
+//       presets: ['@babel/preset-env', '@babel/preset-react'],
+//       plugins: [
+//         mode === 'development' && require.resolve('react-refresh/babel')
+//       ].filter(Boolean),
+//     },
+//   },
+// },
+//       {
+//         test: /\.(png|svg|jpg|jpeg|gif)$/i,
+//         type: 'asset/resource',
+//       },
+//     ],
+//   },
+//   plugins: [
+//     new CleanWebpackPlugin(),
+//     new HtmlWebpackPlugin({
+//       template: 'public/index.html'
+//   }),
+//     new Dotenv(),
+//     new WorkerPlugin(),
+//     new OptimizeCssAssetsPlugin(),
+//     new CopyWebpackPlugin({
+//       patterns: [
+//         { from: 'public/images', to: 'images' },
+//         { from: 'public/icons', to: 'icons' },
+//         { from: 'public', to: 'build' },
+//       ],
+//     }),
+//     mode!=='production' && new ReactRefreshWebpackPlugin(),
+//             ].filter(Boolean),
+//   optimization: {
+//     // Minify JavaScript using Terser
+//     minimizer: [new TerserPlugin()],
+//     // Split common chunks into separate files for better caching
+//     splitChunks: {
+//       chunks: 'all',
+//     },
+//   },
+//   resolve: {
+//           extensions: [".js", ".jsx"],
+//         },
+// }
+const path = require('path');
+const ReactRefreshWebpackPlugin=require("@pmmmwh/react-refresh-webpack-plugin")
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const Dotenv = require('dotenv-webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WorkerPlugin = require('worker-plugin');
+
+// Environment setup
 const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
+const isProduction = mode === 'production';
+const isDevelopment = !isProduction;
+
+// Babel plugins based on environment
+const isDevPlugin = ['react-refresh/babel'];
+
+const isProdPlugin = [
+  '@babel/plugin-transform-block-scoping',
+  'transform-remove-console',
+  'babel-plugin-transform-remove-undefined',
+  ['transform-react-remove-prop-types', { mode: 'wrap', ignoreFilenames: ['node_modules'] }]
+];
+
+const isProdDevPlugin = [
+  '@babel/plugin-transform-async-to-generator',
+  '@babel/plugin-syntax-dynamic-import',
+  ['@babel/plugin-proposal-class-properties', { loose: true }],
+  ['@babel/plugin-transform-runtime', { corejs: 3, useESModules: true }],
+  // ['styled-jsx/babel', { optimizeForSpeed: true }]
+];
+
+const isPlugins = process.env.NODE_ENV !== 'production' ? isDevPlugin : isProdPlugin;
+
 module.exports = {
-  mode: 'development',
-  entry: {
-    bundle: path.resolve(__dirname, 'src/index.jsx'),
-  },
+  mode,
+  entry: './src/index.jsx',
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: '[name].[contenthash].js',
+    filename: 'assets/js/[name].[contenthash:8].js',
+    publicPath: '/',
     clean: true,
-    publicPath: '/', // Explicitly set public path
-    assetModuleFilename: 'assets/[name].[hash][ext]', // Include hash in the filename
+    assetModuleFilename: 'assets/[name].[hash][ext]',
   },
-  devtool: 'source-map',
+  devtool: isDevelopment ? 'cheap-module-source-map' : 'source-map',
   devServer: {
     static: {
       directory: path.resolve(__dirname, 'build'),
@@ -224,18 +368,18 @@ module.exports = {
     compress: true,
     historyApiFallback: true,
   },
-      ignoreWarnings: [
-      // Ignore warnings from third-party libraries in node_modules
-      {
-        module: /node_modules/,
-      },
-      // Ignore warnings with common keywords in the message
-      {
-        message: /deprecated|warning|error|info/,
-      },
-      /warning from compiler/,
-      (warning) => true,
-    ],
+  ignoreWarnings: [
+          // Ignore warnings from third-party libraries in node_modules
+          {
+            module: /node_modules/,
+          },
+          // Ignore warnings with common keywords in the message
+          {
+            message: /deprecated|warning|error|info/,
+          },
+          /warning from compiler/,
+          (warning) => true,
+        ],
   module: {
     rules: [
       {
@@ -243,45 +387,29 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader',
-          {
-            loader: 'resolve-url-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-              implementation: require('sass'),
-              sassOptions: {
-                quietDeps: true,
-              },
-            },
-          },
+          'resolve-url-loader',
+          'postcss-loader',
+          'sass-loader',
         ],
-      }
-,      {
-  test: /\.(ts|js)x?$/,
-  exclude: /node_modules/,
-  use: {
-    loader: 'babel-loader',
-    options: {
-      presets: ['@babel/preset-env', '@babel/preset-react'],
-      plugins: [
-        mode === 'development' && require.resolve('react-refresh/babel')
-      ].filter(Boolean),
-    },
-  },
-},
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: [...isProdDevPlugin, ...isPlugins],
+          },
+        },
+      },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
       },
     ],
@@ -289,8 +417,8 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: 'public/index.html'
-  }),
+      template: 'public/index.html',
+    }),
     new Dotenv(),
     new WorkerPlugin(),
     new OptimizeCssAssetsPlugin(),
@@ -301,17 +429,37 @@ module.exports = {
         { from: 'public', to: 'build' },
       ],
     }),
-    mode!=='production' && new ReactRefreshWebpackPlugin(),
-            ].filter(Boolean),
+    isProduction && new MiniCssExtractPlugin({
+      filename: 'assets/css/[name].[contenthash:8].css',
+      chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css',
+    }),
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
   optimization: {
-    // Minify JavaScript using Terser
-    minimizer: [new TerserPlugin()],
-    // Split common chunks into separate files for better caching
+    minimize: isProduction,
+    minimizer: [new TerserWebpackPlugin()],
     splitChunks: {
       chunks: 'all',
+      minSize: 0,
+      maxInitialRequests: 10,
+      maxAsyncRequests: 10,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          priority: -10,
+        },
+        common: {
+          minChunks: 2,
+          priority: -20,
+        },
+      },
     },
+    runtimeChunk: 'single',
   },
   resolve: {
-          extensions: [".js", ".jsx"],
-        },
-}
+    extensions: ['.js', '.jsx'],
+  },
+  watch: true,
+};
+
