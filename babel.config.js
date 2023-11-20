@@ -4,7 +4,9 @@ const plugins = [
       {
         "corejs": 3
       }
-    ]
+    ],
+    ["@babel/plugin-transform-class-properties", { "loose": true }],
+    ["@babel/plugin-transform-private-property-in-object", { "loose": true }]
 ];
 if (process.env.NODE_ENV !== "production") {
   plugins.push("react-refresh/babel");
