@@ -18,12 +18,15 @@ import RdvPopup from "./components/RdvPopup";
 import RdvDejaPrise from "./components/RdvDejaPrise";
 import { verifyAuth } from "./action/Auth";
 import LoginModal from "./components/Modals/LoginModal";
+import ErrorBoundary from "./components/errors/ErrorBoundery";
+import { useSelector } from "react-redux";
 
 export const Log = React.createContext();
 
 function App() {
   const [isValidToken, setIsValidToken] = useState(false)
   //const value = JSON.parse(localStorage.getItem("user"));
+ 
   const [value, setValue] = useState(() => {
     return JSON.parse(localStorage.getItem("user")) || []
   });
@@ -43,10 +46,11 @@ function App() {
 
     <div className="App">
 
-      <LoginModal isOpen={showModal} onClose={handleCloseModal} />
+      {/* {!user && <LoginModal isOpen={showModal} onClose={handleCloseModal} />} */}
 
       <BrowserRouter>
         <Log.Provider value={value}>
+        <ErrorBoundary>
           <Routes>
             <Route index path="/" element={<HomePage />} />
             <Route exact path="/login//*" element={<Connexion />} />
@@ -65,6 +69,7 @@ function App() {
               </>
             }
           </Routes>
+          </ErrorBoundary>
         </Log.Provider>
       </BrowserRouter>
       <ToastContainer />

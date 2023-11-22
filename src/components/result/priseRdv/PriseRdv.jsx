@@ -11,6 +11,7 @@ import { addRdv } from "../../../action/Rdv";
 import RdvService from "../../../services/RdvService";
 import { useDispatch } from "react-redux";
 import { setRdv, setUser } from "../../../utils/redux/GlobalSlice";
+import LoginModal from "../../Modals/LoginModal";
 
 function PriseRdv() {
   const user = useContext(Log);
@@ -98,7 +99,7 @@ function PriseRdv() {
 
   useEffect(() => {
     // Check validity
-    const allInputs = [...inputs.current.querySelectorAll("input")];
+    const allInputs = [...inputs.current?.querySelectorAll("input")];
     const isAllValid = allInputs.some((input) => !input.checkValidity());
 
     // allInputs.forEach(input =>  !input.checkValidity() && console.log(input));
@@ -220,9 +221,15 @@ RdvService.addRdv(payload)
   };
 
   // ---------------------
-
+  const [showModal,setShowModal]=useState(true);
+  const handleCloseModal = () => {
+    setShowModal(false);
+    // You might want to redirect to a login page or remove the invalid token.
+  };
   return (
-    <div className="prise-rdv">
+   <>
+   { user.length>0 && user ?
+   <div className="prise-rdv">
       <div className="bg-close" onClick={() => navigate(-1)}></div>
       <div className="prise-rdv-wrapper">
         <>
@@ -632,7 +639,8 @@ RdvService.addRdv(payload)
         </>
       </div>
       <ToastContainer />
-    </div>
+    </div>:<LoginModal isOpen={showModal} onClose={handleCloseModal} />
+    }</>
   );
 }
 

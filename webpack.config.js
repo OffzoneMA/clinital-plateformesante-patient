@@ -844,7 +844,7 @@ module.exports = {
             message: /deprecated|warning|error|info/,
           },
           /warning from compiler/,
-          (warning) => true,
+          (warning) => false,
         ],
   module: {
     rules: [
