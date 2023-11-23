@@ -85,7 +85,11 @@ body {
   *::before {
     box-sizing: border-box;
   }
-
+//react overlay error
+iframe#react-refresh-overlay {
+    display: none !important;
+  }
+ 
   *::selection {
     color: white;
     background-color: $blue;
