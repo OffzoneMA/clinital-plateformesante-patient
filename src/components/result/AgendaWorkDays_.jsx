@@ -5,8 +5,12 @@ import { useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DateObject from "react-date-object";
 import { getScheduls } from "../../action/Rdv";
+import LoginModal from "../Modals/LoginModal";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginToggle } from "../../utils/redux/GlobalSlice";
 
 function AgendaWorkDays({ docId, component, state }) {
+  const dispatch=useDispatch();
   // Reference
   const scrTop = useRef();
   const scrBottom = useRef();
@@ -18,7 +22,7 @@ function AgendaWorkDays({ docId, component, state }) {
   const [loading, setLoading] = useState(false);
   const [agendaStatus, setAgendaStatus] = useState(false);
   const [maxSlot, setMaxSlot] = useState([]);
-
+  const user=useSelector((state)=>state.global)
   // Navigation
   const navigate = useNavigate();
   const url_params = window.location.search;
@@ -247,8 +251,11 @@ function AgendaWorkDays({ docId, component, state }) {
 
   // addTime_("2020 08 21 10 55", "08:00", "MIN20");
   // addTime("2022-10-11T00:00:00", "08:00", "MIN20");
+  // You might want to redirect to a login page or remove the invalid token.
 
   return (
+    <>
+
     <div className="agenda-work-days">
       {loading ? (
         "Loading..."
@@ -316,7 +323,8 @@ function AgendaWorkDays({ docId, component, state }) {
                           toggleDach($day.availableSlot).map(
                             (slot, $indexSlot) => (
                               <span
-                                onClick={toggleTime(
+                                onClick={()=>{
+                                  user && user.length>0 ?toggleTime(
                                   component,
                                   slot,
                                   $day.workingDate,
@@ -324,7 +332,8 @@ function AgendaWorkDays({ docId, component, state }) {
                                   $day.period
                                     ? Number($day.period.slice(3, 5))
                                     : 0
-                                )}
+                                ):dispatch(setLoginToggle(true));console.log("togglelogin")
+                                } }
                                 index={$indexSlot}
                                 className={
                                   (slot === "—" || slot ===  'Reserved' || slot.length > 5)
@@ -440,6 +449,7 @@ function AgendaWorkDays({ docId, component, state }) {
         </>
       )}
     </div>
+    </>
   );
 }
 
