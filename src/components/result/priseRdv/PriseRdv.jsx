@@ -11,7 +11,7 @@ import { addRdv } from "../../../action/Rdv";
 import RdvService from "../../../services/RdvService";
 import { useDispatch } from "react-redux";
 import { setRdv, setUser } from "../../../utils/redux/GlobalSlice";
-import LoginModal from "../../Modals/LoginModal";
+
 
 function PriseRdv() {
   const user = useContext(Log);
@@ -227,8 +227,7 @@ RdvService.addRdv(payload)
     // You might want to redirect to a login page or remove the invalid token.
   };
   return (
-   <>
-   { user.length>0 && user ?
+  
    <div className="prise-rdv">
       <div className="bg-close" onClick={() => navigate(-1)}></div>
       <div className="prise-rdv-wrapper">
@@ -639,8 +638,7 @@ RdvService.addRdv(payload)
         </>
       </div>
       <ToastContainer />
-    </div>:<LoginModal isOpen={showModal} onClose={handleCloseModal} />
-    }</>
+    </div>
   );
 }
 

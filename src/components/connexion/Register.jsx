@@ -3,6 +3,9 @@ import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./register.scss";
+import ConnexionService from "./services/ConnexionService";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../utils/redux/GlobalSlice";
 
 function Register({ comp, setStep, setIsConnected }) {
   const cnx = useRef();
@@ -15,7 +18,8 @@ function Register({ comp, setStep, setIsConnected }) {
     password: "",
   });
   const navigator = useNavigate();
-
+  const dispatch=useDispatch();
+  const user = useSelector((state)=>state.global.user)
   // LogIn
   const connexion = async (e) => {
     e.preventDefault();
@@ -26,36 +30,42 @@ function Register({ comp, setStep, setIsConnected }) {
     try {
       // Inputs validity check
       setLoading(true);
-      const respond = await axios.post(
-        "https://apidb.clinital.io/api/auth/signin",
-        userCredentials
-      );
+      // const respond = await axios.post(
+      //   "https://apidb.clinital.io/api/auth/signin",
+      //   userCredentials
+      // );
+      ConnexionService.signin(userCredentials).then((response)=>{
+        const data = {
+          email: response.data.email,
+          id: response.data.id,
+          role: response.data.role,
+          telephone: response.data.telephone,
+          token: response.data.token,
+          type: response.data.type,
+        };
+       
+        if (data.role === "ROLE_PATIENT") {
+          dispatch(setUser(data));
+          setError(false);
+          comp !== "priseRdv" && (window.location = "/");
+          comp === "priseRdv" && setStep(3);
+          comp === "priseRdv" && setIsConnected(user);
+          // comp === "priseRdv" && addRdv(e, user, 'conx');
+          // comp === "priseRdv" && setRdvLoading(true);
+        } else {
+          toast.error("Ouups! You're not 'patient'");
+          return false;
+        }
+
+      }).catch((error)=>{
+        toast.error("Ouups! Somethig Went Wrong : "+error.message);
+      }).finally(()=>{
+        setLoading(false);
+      })
       // Get user
-      const user = {
-        email: respond.data.email,
-        id: respond.data.id,
-        role: respond.data.role,
-        telephone: respond.data.telephone,
-        token: respond.data.token,
-        type: respond.data.type,
-      };
+    
       // Save user
-      if (user.role === "ROLE_PATIENT") {
-        localStorage.setItem("user", JSON.stringify(user)); 
-
-        setLoading(false);
-        setError(false);
-
-        comp !== "priseRdv" && (window.location = "/");
-        comp === "priseRdv" && setStep(3);
-        comp === "priseRdv" && setIsConnected(user);
-        // comp === "priseRdv" && addRdv(e, user, 'conx');
-        // comp === "priseRdv" && setRdvLoading(true);
-      } else {
-        setLoading(false);
-        toast.error("Ouups! You're not 'patient'");
-        return false;
-      }
+      
     } catch (err) {
       toast.error(err.message);
       setLoading(false);
@@ -161,6 +171,7 @@ function Register({ comp, setStep, setIsConnected }) {
         </div>
       )}
       {comp === "priseRdv" && (
+      
         <div className="close-btn" onClick={() => navigator(-1)}></div>
       )}
     </div>

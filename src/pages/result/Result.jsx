@@ -12,6 +12,9 @@ import SearchBarDoc from "../../components/searchBarDoc/SearchBarDoc";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./result.scss";
+import LoginModal from "../../components/Modals/LoginModal";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginToggle } from "../../utils/redux/GlobalSlice";
 
 function Result() {
   const url = window.location.search;
@@ -114,11 +117,20 @@ function Result() {
   const toggleOptin = (e) => e.target.classList.toggle("active");
 
   // console.log(result);
-
+  const {logintoggle}=useSelector((state)=>state.global.logintoggle);
+  const dispatch=useDispatch();
+  const handleCloseModal=()=>{
+    dispatch(setLoginToggle(!logintoggle));
+  }
+  useEffect(() => {
+    console.log("login ")
+    console.log('logintoggle:', logintoggle)
+  }, [logintoggle]);
   return (
     <div className="result">
       <Navbar />
       <div className="result-container">
+      {logintoggle && <LoginModal isOpen={logintoggle} onClose={handleCloseModal} />}
         <div className="search">
           <SearchBarDoc setRandomX={setRandomX} />
         </div>
