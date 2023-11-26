@@ -34,6 +34,7 @@ function Register({ comp, setStep, setIsConnected }) {
       //   "https://apidb.clinital.io/api/auth/signin",
       //   userCredentials
       // );
+      console.log(userCredentials)
       ConnexionService.signin(userCredentials).then((response)=>{
         const data = {
           email: response.data.email,
