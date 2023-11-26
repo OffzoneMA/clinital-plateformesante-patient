@@ -20,7 +20,15 @@ import keyValueStorage from "../storage/keyValueStorage"
             console.log("log chng")
             state.logintoggle=action.payload;
             console.log(state.logintoggle)
-        }
+        },
+        setLoggedOut(state) {
+            keyValueStorage.remove("user");
+      
+            //state.isLoggedIn = false;
+            state.user = false;
+            //state.token = false;
+            //state.redirectTo = path.HOME;
+          },
     }
 
 });

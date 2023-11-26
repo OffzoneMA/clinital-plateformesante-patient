@@ -1,5 +1,5 @@
 export default{
 login(){
-        return "auth/signin";
+        return 'auth/signin';
     }
 }

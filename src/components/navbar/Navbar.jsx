@@ -2,10 +2,12 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Log } from "../../App";
 import './Navbar.scss'
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const [subMenu, setSubMenu] = useState(false);
-  const user = useContext(Log);
+  //const user = useContext(Log);
+  const user = useSelector((state)=>(state.global.user))
   const logOut = () => {
     localStorage.removeItem("user");
     window.location = "/login";
@@ -73,7 +75,7 @@ function Navbar() {
               }
             }}
           >
-            <div className="user" onClick={() => (user.length>0 || user) && setSubMenu((x) => !x)}>
+            <div className="user" onClick={() => user && setSubMenu((x) => !x)}>
               <img
                 src="../../icons/person-circle-outline.svg"
                 alt="user"
@@ -81,8 +83,9 @@ function Navbar() {
               />
               <h4>
               {console.log(user)}
-                {user.length>0 && user ? (
+                {user ? (
                   <>
+                  {console.log(user.email)}
                     {user.email}
                     <svg
                       width="12"
