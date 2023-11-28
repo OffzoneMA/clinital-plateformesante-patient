@@ -8,9 +8,9 @@ import axios from "axios";
 import AgendaWorkDays_ from "../AgendaWorkDays_";
 import Register from "../../connexion/Register";
 import { addRdv } from "../../../action/Rdv";
-import RdvService from "../../../services/RdvService";
 import { useDispatch } from "react-redux";
 import { setRdv, setUser } from "../../../utils/redux/GlobalSlice";
+import RdvService from "../services/RdvService";
 
 
 function PriseRdv() {
@@ -144,7 +144,7 @@ function PriseRdv() {
           autoNext &&
           rdvData.start &&
           rdvData.end &&
-          rdvData.canceledAt &&
+          rdvData.canceledat &&
           isConnected
         )
           setStep(3);
@@ -152,7 +152,7 @@ function PriseRdv() {
           autoNext &&
           rdvData.start &&
           rdvData.end &&
-          rdvData.canceledAt &&
+          rdvData.canceledat &&
           !isConnected
         )
           setStep(0);

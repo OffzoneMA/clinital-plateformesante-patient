@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import RdvService from "./services/RdvService";
 
 function AgendaWorkDays({ docId, component, setRdvData }) {
   const daysContainer = useRef();
@@ -142,16 +143,29 @@ function AgendaWorkDays({ docId, component, setRdvData }) {
     const fetchAgenda = () => {
       weeks.forEach(async (week) => {
         try {
-          const res = await axios.get(
-            `https://apidb.clinital.io/api/med/agenda/${docId}/1/${week}`
-          );
-          const resultat = res.data;
-          setData((x) => {
-            return { ...x, [week]: resultat };
-          });
-          setLoading(false);
+          setLoading(true);
+          RdvService.getAgenda(docId,week)
+          .then((response)=>{
+            setData((x) => {
+              return { ...x, [week]: response.data };
+            });
+          })
+          .catch((error)=>{
+            toast.error(error.message);
+          })
+          .finally(()=>{
+            setLoading(false);
+          })
+          // const res = await axios.get(
+          //   `https://apidb.clinital.io/api/med/agenda/${docId}/1/${week}`
+          // );
+          // const resultat = res.data;
+          // setData((x) => {
+          //   return { ...x, [week]: resultat };
+          // });
+          // setLoading(false);
         } catch (error) {
-          setLoading(false);
+          
           toast.error(error.message);
           console.log(error);
         }

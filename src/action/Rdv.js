@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { rdvAnnuleFromDoc } from "../assets/data/data";
-import RdvService from "../services/RdvService";
+import RdvService from "../components/result/services/RdvService";
 
 export const getAllRdv = async (state) => {
     try {

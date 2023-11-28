@@ -6,6 +6,8 @@ import Footer from '../../components/footer/Footer'
 import Model, { ModelBody, ModelFooter, ModelHeader } from '../../components/Models/Model'
 // import Form from '../Models/Form'
 import "./monCompte.scss";
+import CompteServices from './Services/CompteServices';
+import { toast } from 'react-toastify';
 
 
 const MonCompte = () => {
@@ -43,6 +45,7 @@ const MonCompte = () => {
     const [ActiveMoi, setActiveMoi] = useState(false)
     const [ActiveProche, setActiveProche] = useState(false)
     const [updateProche, setUpdateProche] = useState()
+    const [Loading,setLoading]=useState(false);
     const [cd1, setCd1] = useState(false);
     const [cd2, setCd2] = useState(false);
     const [cd3, setCd3] = useState(false);
@@ -58,21 +61,37 @@ const MonCompte = () => {
     const onSubmit = async (data) => {
         const pass = `${data.password}`
         try {
-            const res = await axios.post(
-                "https://apidb.clinital.io/api/users/respw",
-                {
-                    email: email,
-                    password: pass
+            setLoading(true);
+            CompteServices.ResetPassword({
+                email: email,
+                password: pass
+            })
+            .then((Response)=>{
+                if(Response.status===200){
+                    setShowModelPassword(false)
+                    setShowPasswordchanged(true)
                 }
-                ,
-                config
-            )
-            if (res.status === 200) {
-                setShowModelPassword(false)
-                setShowPasswordchanged(true)
-            }
+            }).catch((error)=>{
+                toast.error(error.message)
+
+            }).finally(()=>{
+                setLoading(false);
+            })
+            // const res = await axios.post(
+            //     "https://apidb.clinital.io/api/users/respw",
+            //     {
+            //         email: email,
+            //         password: pass
+            //     }
+            //     ,
+            //     config
+            // )
+            // if (res.status === 200) {
+            //     setShowModelPassword(false)
+            //     setShowPasswordchanged(true)
+            // }
         } catch (error) {
-            console.log(error);
+           toast.error(error.message)
         }
     }
     const deleteProche = async () => {

@@ -1,7 +1,7 @@
-import axios from './Axios';
-import CONSTANTS from '../constant/constant';
-import { ORIGIN, TOKEN, USER_ID } from './api'
-import apiRdv from '../components/result/apiRdv/apiRdv';
+import axios from '../../../services/Axios';
+import CONSTANTS from '../../../constant/constant';
+import { ORIGIN, TOKEN, USER_ID } from '../../../services/api'
+import apiRdv from '../apiRdv/apiRdv';
 const RDV_URL = ORIGIN + '/api/rdv/patient'
 const GET_RDV_URL = ORIGIN + '/api/rdv/rdvs/patient'
 const SCHEDULS_URL = ORIGIN + '/api/med'
@@ -83,25 +83,7 @@ class RdvService {
  * @returns {Promise<Object>} A promise that resolves to the response of the add operation.
  * @throws {Error} Throws an error if the request fails.
  */
-addRdv(rdv) {
-    const data ={
-        "id":0,
-        "canceledAt": "",
-        "day": "MONDAY",
-        "end": "2023-12-29T17:45:00.034Z",
-        "medecinid": 1,
-        "motif": 3,
-        "patientid": 1,
-        "start": "2022-12-29T17:30:00.034Z",
-        "statut": "CONJE",
-        "modeconsultation":1,
-        "isnewpatient":true,
-        "Commantaire":"i dont think so",
-        "cabinet":1
-      }
-    console.log(apiRdv.addrdv())
-    return axios.post(apiRdv.addrdv(),JSON.stringify(rdv));
-}
+
 
 
     async moveRdv(rdvId, date) {
@@ -113,6 +95,13 @@ addRdv(rdv) {
             throw error;
         }
     }
+//========================
+addRdv(rdv) {
+    return axios.post(apiRdv.addrdv(),JSON.stringify(rdv));
+    }
+async getAgenda(docid,week){
+    return await axios.get(apiRdv.getagenda(docid,week));
+}
 }
 
 export default new RdvService();
