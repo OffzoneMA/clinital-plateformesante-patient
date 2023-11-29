@@ -30,10 +30,6 @@ function Register({ comp, setStep, setIsConnected }) {
     try {
       // Inputs validity check
       setLoading(true);
-      // const respond = await axios.post(
-      //   "https://apidb.clinital.io/api/auth/signin",
-      //   userCredentials
-      // );
       console.log(userCredentials)
       ConnexionService.signin(userCredentials).then((response)=>{
         const data = {
