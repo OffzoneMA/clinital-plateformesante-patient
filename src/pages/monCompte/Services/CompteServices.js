@@ -1,5 +1,5 @@
 import axiosInstance from "../../../services/Axios";
-import Compteapi from "../compteapi/Compteapi";
+import Compteapi from "../Apiaccount/Compteapi";
 
 class AccountService{
 
