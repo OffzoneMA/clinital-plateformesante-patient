@@ -23,20 +23,15 @@ export const getAllRdvByTooMonth = async (state, month) => {
 export const getRdvById = async (id, state, loading, error) => {
     // loading(true)
     try {
-        if (id == 95) {
-            state(rdvAnnuleFromDoc)
-        } else {
-            const res = await RdvService.getRdvById(id)
-            
-            if (typeof res.data === "object") {
-                state(res.data)
-            } else {
-                state(JSON.parse(res.data.slice(0,-2) + ':""' + res.data.slice(-2)))
-            }
-        } 
-        
+      await RdvService.getRdvById(id)
+      .then((res)=>{
+        state(res)
+      }).catch((error)=>{
+        toast.error(error)
+      }).finally(()=>{
         loading(false)
-        
+      })
+      
     } catch (e) {
         error && error('Not found')
         toast.error(e.message)

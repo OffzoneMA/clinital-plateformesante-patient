@@ -1,7 +1,7 @@
 
 export default{
     showByid(id){
-            return `rdv/rdvs/patient/rdvById/${id}`;
+            return `rdv/patient/rdvById/${id}`;
     },
     addrdv(){
         return 'rdv/patient/addRdv';

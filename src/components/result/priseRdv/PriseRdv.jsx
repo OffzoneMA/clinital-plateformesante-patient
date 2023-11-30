@@ -50,7 +50,7 @@ function PriseRdv() {
   const [rdvData, setRdvData] = useState({
     id: 0,
     canceledat: "", // Ensure this matches the format expected for LocalDateTime
-    Day: dayName || "", // Make sure dayName is compatible with DayOfWeek
+    day: dayName || "", // Make sure dayName is compatible with DayOfWeek
     start: (start_params && start_params) || "", // Format as LocalDateTime
     end: (end_params && end_params) || "", // Format as LocalDateTime
     medecinid: id * 1,
@@ -208,11 +208,19 @@ function PriseRdv() {
 console.log(rdvData);
 RdvService.addRdv(payload)
     .then((response)=>{
-      response.body?.success === false ?toast.error(response.data?.body?.message):toast.success("Rendez vous bien ajouter avec succee");dispatch(setRdv(response.body));navigate(`/rdv/${response.body.id}`);
-      
-    }).catch((response)=>{
+      if (response.data?.body?.success === false) {
+        // Show error toast if success is false
+        toast.error(response.data?.body?.message);
+    } else {
+        // Show success toast and perform further actions if success is not false
+        toast.success("Rendez-vous bien ajouté avec succès");
+        dispatch(setRdv(response.data?.body));
+        navigate(`/rdv/${response.data?.body.id}`);
+    }
+    
+    }).catch((error)=>{
       console.log("error");
-      toast.error(response.data.body.message)
+      toast.error(error)
     }).finally(()=>{
 
     })
