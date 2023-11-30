@@ -2,6 +2,7 @@ import axios from '../../../services/Axios';
 import CONSTANTS from '../../../constant/constant';
 import { ORIGIN, TOKEN, USER_ID } from '../../../services/api'
 import apiRdv from '../apiRdv/apiRdv';
+import { toast } from 'react-toastify';
 const RDV_URL = ORIGIN + '/api/rdv/patient'
 const GET_RDV_URL = ORIGIN + '/api/rdv/rdvs/patient'
 const SCHEDULS_URL = ORIGIN + '/api/med'
@@ -33,7 +34,8 @@ class RdvService {
 
     getRdvById(id) {
         if (!id) {
-            throw new Error('its requires a valid ID.');
+            toast.error('its requires a valid ID.');
+            return;
         }
     
         const endpoint = apiRdv.showByid(id);

@@ -17,6 +17,7 @@ function Rdv() {
   // Get rdv by id
   useEffect(() => {
     getRdvById(id, setRdv, setLoading, setError)
+    console.log(rdv)
   }, [id]);
 
   // Get month name
@@ -46,7 +47,7 @@ function Rdv() {
       ) : !loading ? (
         <>
           <div className="rdv-header">
-            {rdv.modeConsultation !== "VIDEO" ? (
+            {rdv.modeConsultation?.mode !== "VIDEO" ? (
               <div className="rdv-status-message rdv-confirmed">
                 <img src="../../icons/done.svg" alt="" />
                 <div>
@@ -91,7 +92,7 @@ function Rdv() {
                   src="../../icons/calendar-clear-outline-white.svg"
                   alt=""
                 />
-                <span>{`${rdv.day.toLowerCase()} ${rdv.start.slice(
+                <span>{`${rdv.day?.toLowerCase()} ${rdv.start.slice(
                   8,
                   10
                 )} ${getMonthName(rdv.start.slice(5, 7))}`}</span>
