@@ -787,6 +787,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WorkerPlugin = require('worker-plugin');
+const webpack = require('webpack');
 
 // Environment setup
 const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
@@ -812,6 +813,8 @@ const isProdDevPlugin = [
 ];
 
 const isPlugins = process.env.NODE_ENV !== 'production' ? isDevPlugin : isProdPlugin;
+const DEVELOPMENT = process.env.NODE_ENV === "development";
+const PRODUCTION = process.env.NODE_ENV === "production";
 
 module.exports = {
   mode,
@@ -900,6 +903,10 @@ module.exports = {
       chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css',
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
+    new webpack.DefinePlugin({
+      "process.env.PRODUCTION": JSON.stringify(PRODUCTION),
+      "proccess.env.DEVELOPMENT": JSON.stringify(DEVELOPMENT),
+  })
   ].filter(Boolean),
   optimization: {
     minimize: isProduction,
