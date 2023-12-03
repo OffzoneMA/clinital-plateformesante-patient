@@ -903,10 +903,12 @@ module.exports = {
       chunkFilename: 'assets/css/[name].[contenthash:8].chunk.css',
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
-    new webpack.DefinePlugin({
-      "process.env.PRODUCTION": JSON.stringify(PRODUCTION),
-      "proccess.env.DEVELOPMENT": JSON.stringify(DEVELOPMENT),
-  })
+    isProduction &&new webpack.DefinePlugin({
+      'process.env.NODE_ENV' : JSON.stringify('production')
+  }),
+  isDevelopment &&new webpack.DefinePlugin({
+    'process.env.NODE_ENV' : JSON.stringify('development')
+})
   ].filter(Boolean),
   optimization: {
     minimize: isProduction,
