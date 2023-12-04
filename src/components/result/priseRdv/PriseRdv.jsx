@@ -11,12 +11,13 @@ import { addRdv } from "../../../action/Rdv";
 import { useDispatch } from "react-redux";
 import { setRdv, setUser } from "../../../utils/redux/GlobalSlice";
 import RdvService from "../services/RdvService";
+import PatientService from "../../../services/PatientService";
 
 
 function PriseRdv() {
   const user = useContext(Log);
   const [isConnected, setIsConnected] = useState(user || false);
-  const dispatch =useDispatch();
+  const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const end_params = searchParams.get("end");
   // const availableSlot_params = searchParams.get("availableSlot");
@@ -63,18 +64,19 @@ function PriseRdv() {
     LinkVideoCall: "",
     cabinet: 1
   });
-  
+
   // Set next step
   const toggleStep = (y) => {
     setStep((x) => x + y);
     y === -1 && setAutoNext(false);
   };
   // Set motif Consultation value
-  const toggleType = (e) =>{
-  const atr = e.target.getAttribute('label-value')
+  const toggleType = (e) => {
+    const atr = e.target.getAttribute('label-value')
     setRdvData((x) => {
-      return { ...x, motif: atr === "1"? 1 : atr === "2" ? 2 : atr === "3" ? 3 :""};
-    });}
+      return { ...x, motif: atr === "1" ? 1 : atr === "2" ? 2 : atr === "3" ? 3 : "" };
+    });
+  }
   // Get data from inputs
   const toggleRdv = (e) => {
     const { name, value, type, id } = e.target;
@@ -85,14 +87,14 @@ function PriseRdv() {
           id === "CABINET"
             ? 1
             : id === "VIDEO"
-            ? 2
-            : id === "DOMICILE"
-            ? 3
-            : name === "patientid"
-            ? Number(id)
-            : type === "radio"
-            ? id
-            : value,
+              ? 2
+              : id === "DOMICILE"
+                ? 3
+                : name === "patientid"
+                  ? Number(id)
+                  : type === "radio"
+                    ? id
+                    : value,
       };
     });
   };
@@ -176,15 +178,18 @@ function PriseRdv() {
         return false;
       } else {
         try {
-          const res = await axios.get(
-            "https://apidb.clinital.io/api/patient/getall",
-            {
-              headers: {
-                Authorization: `${isConnected.type} ${isConnected.token}`,
-              },
+ 
+          PatientService.getAllProche()
+          .then((response)=>{
+            if(response.status===200){
+              setAllProche(response.data);
             }
-          );
-          setAllProche(res.data);
+          }).catch((error)=>{
+            toast.error(error.message)
+          })
+          .finally(()=>{
+
+          })
         } catch (error) {
           console.log(error);
         }
@@ -201,42 +206,42 @@ function PriseRdv() {
       return false;
     }
     const payload = {
-        ...rdvData, 
-        commantaire: rdvData.commantaire === "false" ? "false" : "rdvData.commantaire" === "true" ? "true" : "test",
-        isnewpatient: rdvData.isnewpatient === "non-consulte" ? false : rdvData.isnewpatient === "oui-consulte" ? true : rdvData.isnewpatient
-}
-console.log(rdvData);
-RdvService.addRdv(payload)
-    .then((response)=>{
-      if (response.data?.body?.success === false) {
-        // Show error toast if success is false
-        toast.error(response.data?.body?.message);
-    } else {
-        // Show success toast and perform further actions if success is not false
-        toast.success("Rendez-vous bien ajouté avec succès");
-        dispatch(setRdv(response.data?.body));
-        navigate(`/rdv/${response.data?.body.id}`);
+      ...rdvData,
+      commantaire: rdvData.commantaire === "false" ? "false" : "rdvData.commantaire" === "true" ? "true" : "test",
+      isnewpatient: rdvData.isnewpatient === "non-consulte" ? false : rdvData.isnewpatient === "oui-consulte" ? true : rdvData.isnewpatient
     }
-    
-    }).catch((error)=>{
-      console.log("error");
-      toast.error(error)
-    }).finally(()=>{
+    console.log(rdvData);
+    RdvService.addRdv(payload)
+      .then((response) => {
+        if (response.data?.body?.success === false) {
+          // Show error toast if success is false
+          toast.error(response.data?.body?.message);
+        } else {
+          // Show success toast and perform further actions if success is not false
+          toast.success("Rendez-vous bien ajouté avec succès");
+          dispatch(setRdv(response.data?.body));
+          navigate(`/rdv/${response.data?.body.id}`);
+        }
 
-    })
+      }).catch((error) => {
+        console.log("error");
+        toast.error(error)
+      }).finally(() => {
+
+      })
 
 
   };
 
   // ---------------------
-  const [showModal,setShowModal]=useState(true);
+  const [showModal, setShowModal] = useState(true);
   const handleCloseModal = () => {
     setShowModal(false);
     // You might want to redirect to a login page or remove the invalid token.
   };
   return (
-  
-   <div className="prise-rdv">
+
+    <div className="prise-rdv">
       <div className="bg-close" onClick={() => navigate(-1)}></div>
       <div className="prise-rdv-wrapper">
         <>
@@ -322,7 +327,7 @@ RdvService.addRdv(payload)
                     <label
                       htmlFor="DOMICILE"
                       className="input-check-box"
-                      // className="input-check-box disable"
+                    // className="input-check-box disable"
                     >
                       <input
                         required
@@ -361,9 +366,9 @@ RdvService.addRdv(payload)
                               : { opacity: 0.5 }
                           }
                         >
-                          {rdvData.motif === 'CONSULTATION' && '1ère Consultation' }  
-                          {rdvData.motif === 'CONSULTATIONSUIVIE' && 'Consultation de suivi' }  
-                          {rdvData.motif === 'URGENCE' && 'Urgence' }  
+                          {rdvData.motif === 'CONSULTATION' && '1ère Consultation'}
+                          {rdvData.motif === 'CONSULTATIONSUIVIE' && 'Consultation de suivi'}
+                          {rdvData.motif === 'URGENCE' && 'Urgence'}
                           {!rdvData.motif && "Choisissez un motif"}
                         </p>
                         <svg
@@ -381,8 +386,8 @@ RdvService.addRdv(payload)
                       </div>
                       <div className="options">
                         <span onClick={toggleType} label-value='1'>1ère Consultation</span>
-                        <span onClick={toggleType}  label-value='2'>Consultation de suivi</span>
-                        <span onClick={toggleType}  label-value='3'>Urgence</span>
+                        <span onClick={toggleType} label-value='2'>Consultation de suivi</span>
+                        <span onClick={toggleType} label-value='3'>Urgence</span>
                       </div>
                     </div>
                   </form>
@@ -487,7 +492,7 @@ RdvService.addRdv(payload)
                           type="radio"
                           name="isnewpatient"
                           id="oui-consulte"
-                          />
+                        />
                         <span>Oui</span>
                       </label>
                       <label htmlFor="non-consulte">
@@ -625,9 +630,8 @@ RdvService.addRdv(payload)
                         console.log("gfd");
                       }}
                       ref={confirmeRdvBtn}
-                      className={`btn-confirm ${
-                        !confirme ? "btn-confirm-disable" : ""
-                      }`}
+                      className={`btn-confirm ${!confirme ? "btn-confirm-disable" : ""
+                        }`}
                     >
                       {loading ? "Loading..." : "Confirmez le rendez-vous"}
                     </button>

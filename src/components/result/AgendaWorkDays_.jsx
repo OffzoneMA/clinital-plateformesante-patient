@@ -22,7 +22,7 @@ function AgendaWorkDays({ docId, component, state }) {
   const [loading, setLoading] = useState(false);
   const [agendaStatus, setAgendaStatus] = useState(false);
   const [maxSlot, setMaxSlot] = useState([]);
-  const user=useSelector((state)=>state.global)
+  const user=useSelector((state)=>state.global.user)
   // Navigation
   const navigate = useNavigate();
   const url_params = window.location.search;
@@ -88,7 +88,7 @@ function AgendaWorkDays({ docId, component, state }) {
   const sortData = () => {
     var $data = [];
     const arr = Object.values(data);
-    arr.map( week => {
+    arr.map( (week) => {
       const filteredArr = week.reduce((acc, current) => {
         const x = acc.find(item => item.day === current.day);
         if (!x) {
@@ -207,7 +207,8 @@ function AgendaWorkDays({ docId, component, state }) {
     return { start: start, end: end };
   };
   // Toggle time value
-  const toggleTime = (comp, time, day, dayName, duration) => () => {
+  const toggleTime = (comp, time, day, dayName, duration) => {
+    console.log(comp)
     const star = addTime(day, time, duration).start;
     const end = addTime(day, time, duration).end;
     setAvailabeSlot({ time: time, day: day.slice(0, 10) });
@@ -223,6 +224,7 @@ function AgendaWorkDays({ docId, component, state }) {
         navigate('')
     }
     if (comp === "doctorResult")
+    console.log("test")
       navigate(
         `prise-rdv/${url_params}&id=${docId}&day=${dayName.toUpperCase()}&start=${star}&end=${end}&availableSlot=${time}`
       );
@@ -324,7 +326,8 @@ function AgendaWorkDays({ docId, component, state }) {
                             (slot, $indexSlot) => (
                               <span
                                 onClick={()=>{
-                                  user && user.length>0 ?toggleTime(
+                                  user ? 
+                                  toggleTime(
                                   component,
                                   slot,
                                   $day.workingDate,
@@ -332,8 +335,10 @@ function AgendaWorkDays({ docId, component, state }) {
                                   $day.period
                                     ? Number($day.period.slice(3, 5))
                                     : 0
-                                ):dispatch(setLoginToggle(true));console.log("togglelogin")
+                                ):console.log("false")
+                                // user && user.length>0 ? :dispatch(setLoginToggle(true))
                                 } }
+                                
                                 index={$indexSlot}
                                 className={
                                   (slot === "—" || slot ===  'Reserved' || slot.length > 5)
@@ -345,6 +350,7 @@ function AgendaWorkDays({ docId, component, state }) {
                                     : ""
                                 }
                               >
+                              {console.log(user)}
                                 {slot ===  'Reserved' || slot.length > 5 ? '—' : slot}
                               </span>
                             )
