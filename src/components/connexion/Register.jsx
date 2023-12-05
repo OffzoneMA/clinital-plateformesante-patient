@@ -13,6 +13,7 @@ function Register({ comp, setStep, setIsConnected }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const conxBtn = useRef();
+  const logintoggle =useSelector((state)=>state.global.logintoggle);
   const [userCredentials, setUserCredentials] = useState({
     email: "",
     password: "",
@@ -90,7 +91,7 @@ function Register({ comp, setStep, setIsConnected }) {
       <div className="container">
         <div className="linear-border"></div>
         <h1>J'ai déjà un compte Clinital</h1>
-
+{console.log(logintoggle)}
         <form ref={cnx} className={error ? "invalid" : ""}>
           <div>
             <label htmlFor="email">Adresse e-mail ou Numéro de téléphone</label>
@@ -163,9 +164,9 @@ function Register({ comp, setStep, setIsConnected }) {
         )}
       </div>
       {comp !== "priseRdv" && (
-        <div className="bg">
+        !logintoggle ?<div className="bg">
           <img src="../../images/connexion-bg.png" alt="" />
-        </div>
+        </div>:null
       )}
       {comp === "priseRdv" && (
       

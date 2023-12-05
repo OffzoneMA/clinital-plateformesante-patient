@@ -208,7 +208,6 @@ function AgendaWorkDays({ docId, component, state }) {
   };
   // Toggle time value
   const toggleTime = (comp, time, day, dayName, duration) => {
-    console.log(comp)
     const star = addTime(day, time, duration).start;
     const end = addTime(day, time, duration).end;
     setAvailabeSlot({ time: time, day: day.slice(0, 10) });
@@ -224,7 +223,7 @@ function AgendaWorkDays({ docId, component, state }) {
         navigate('')
     }
     if (comp === "doctorResult")
-    console.log("test")
+
       navigate(
         `prise-rdv/${url_params}&id=${docId}&day=${dayName.toUpperCase()}&start=${star}&end=${end}&availableSlot=${time}`
       );
@@ -335,8 +334,8 @@ function AgendaWorkDays({ docId, component, state }) {
                                   $day.period
                                     ? Number($day.period.slice(3, 5))
                                     : 0
-                                ):console.log("false")
-                                // user && user.length>0 ? :dispatch(setLoginToggle(true))
+                                ):dispatch(setLoginToggle(true))
+                           
                                 } }
                                 
                                 index={$indexSlot}
