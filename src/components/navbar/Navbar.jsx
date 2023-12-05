@@ -2,12 +2,14 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Log } from "../../App";
 import './Navbar.scss'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginToggle } from "../../utils/redux/GlobalSlice";
 
 function Navbar() {
   const [subMenu, setSubMenu] = useState(false);
   //const user = useContext(Log);
   const user = useSelector((state)=>(state.global.user))
+  const dispatch=useDispatch()
   const logOut = () => {
     localStorage.removeItem("user");
     window.location = "/login";
@@ -24,7 +26,7 @@ function Navbar() {
           />
         </Link>
         <ul>
-          {user?.length===0 ? (
+          {!user ? (
             <>
               <button className="large-btn">
                 Vous êtes professionnel de santé ?
@@ -103,7 +105,10 @@ function Navbar() {
                     </svg>
                   </>
                 ) : (
-                  "Se connecter"
+                  <div onClick={()=>{dispatch(setLoginToggle(false))}}>
+                     Se connecter
+                  </div>
+                 
                 )}
               </h4>
             </div>
