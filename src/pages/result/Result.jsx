@@ -16,6 +16,8 @@ import LoginModal from "../../components/Modals/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginToggle } from "../../utils/redux/GlobalSlice";
 import Register from "../../components/connexion/Register";
+import searchApi from "../../components/searchBarDoc/SearchApi/searchApi";
+import SearchServices from "../../components/searchBarDoc/SearchServices/SearchServices";
 
 function Result() {
   const url = window.location.search;
@@ -27,51 +29,60 @@ function Result() {
   const filterBar = useRef();
   const [randomX, setRandomX] = useState();
   const [params] = useSearchParams();
-
-  // Get search params & fetch search result
-  const searchDoc = () => {
-    const id_ville = params.get("id_ville");
+    const idVille = params.get("id_ville");
     const page = Number(params.get("page"));
     const search = params.get("search");
     const ville = params.get("ville");
 
+    // Function to generate API link
+    const generateApiLink = () => {
+      if (idVille) {
+        return searchApi.getMedbyCity(idVille);
+      } else if (search && !ville) {
+        return searchApi.getMedbySpecOrName(search);
+      } else if (search && ville) {
+        return searchApi.getMedbyNameOrSpecAndCity(search, ville);
+      }
+    };
+    // Function to fetch search results
+    const fetchResult = (link) => {
+      console.log(link)
+      setLoading(true);
+      try {
+        SearchServices.FetchSearchResult(link).then((res)=>{
+          console.log("test"+link)
+          if (res.status >= 200 && res.status < 300) {
+            setResult(res.data);
+            console.log(link)
+          }
+        }).catch((error)=>{
+          toast.error(error.message);
+        }).finally(()=>{
+          setLoading(false);
+        });
+        
+      } catch (error) {
+        toast.error(error.message);
+        console.error(error);
+      }
+    };
+  // Get search params & fetch search result
+  const searchDoc = () => {
+
+    console.log("serachdoct")
     setS_Params({
-      id_ville: id_ville,
+      idVille: idVille,
       search: search,
       ville: ville,
       page: page,
     });
 
-    // Generate API link
-    var link;
-    if (id_ville) {
-      link = `https://apidb.clinital.io/api/med/medByVille?id_ville=${id_ville}`;
-    }
-    if (search && !ville) {
-      link = `https://apidb.clinital.io/api/med/medByNameOrSpec?search=${search}`;
-    }
-    if (search && ville) {
-      link = `https://apidb.clinital.io/api/med/medByNameOrSpecAndVille?search=${search}&ville=${ville}`;
-    }
-
-    // Set search values to the input
-    // setSearch({ city: ville || id_ville, spec: search || "" });
-
     // Fetch result
-    const fetchResult = async () => {
-      setLoading(true);
-      try {
-        const respond = await axios.get(link);
-        console.log(respond.data)
-        setResult(respond.data);
-        setLoading(false);
-      } catch (error) {
-        toast.error(error.message);
-        console.log(error);
-        setLoading(false);
-      }
-    };
-    fetchResult();
+    const link = generateApiLink();
+    console.log(link)
+    if (link) {
+      fetchResult(link);
+    }
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => searchDoc(), [randomX]);

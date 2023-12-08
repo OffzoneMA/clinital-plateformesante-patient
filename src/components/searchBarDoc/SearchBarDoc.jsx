@@ -4,51 +4,53 @@ import { useState, useEffect } from "react";
 import Mark from "mark.js";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import './searchBarDoc.scss'
+import SearchServices from "./SearchServices/SearchServices";
+import { toast } from "react-toastify";
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "CITY_FETCH":
-      return { ...state, city: { ...state.city, loading: true } };
-    case "CITY_SUCCESS":
-      return {
-        ...state,
-        city: { ...state.city, loading: false, items: action.payload },
-      };
-    case "CITY_FAIL":
-      return {
-        ...state,
-        city: { ...state.city, loading: false, error: action.payload },
-      };
-    case "SPEC_FETCH":
-      return { ...state, spec: { ...state.spec, loading: true } };
-    case "SPEC_SUCCESS":
-      return {
-        ...state,
-        spec: { ...state.spec, loading: false, items: action.payload },
-      };
-    case "SPEC_FAIL":
-      return {
-        ...state,
-        spec: { ...state.spec, loading: false, error: action.payload },
-      };
-    default:
-      return state;
-  }
-};
+// const reducer = (state, action) => {
+//   switch (action.type) {
+//     case "CITY_FETCH":
+//       return { ...state, city: { ...state.city, loading: true } };
+//     case "CITY_SUCCESS":
+//       return {
+//         ...state,
+//         city: { ...state.city, loading: false,: action.payload },
+//       };
+//     case "CITY_FAIL":
+//       return {
+//         ...state,
+//         city: { ...state.city, loading: false, error: action.payload },
+//       };
+//     case "SPEC_FETCH":
+//       return { ...state, spec: { ...state.spec, loading: true } };
+//     case "SPEC_SUCCESS":
+//       return {
+//         ...state,
+//         spec: { ...state.spec, loading: false,: action.payload },
+//       };
+//     case "SPEC_FAIL":
+//       return {
+//         ...state,
+//         spec: { ...state.spec, loading: false, error: action.payload },
+//       };
+//     default:
+//       return state;
+//   }
+// };
 
 function SearchBarDoc({ setRandomX, comp }) {
-  const [{ city, spec }, dispatch] = useReducer(reducer, {
-    city: {
-      items: [],
-      loading: false,
-      error: "false",
-    },
-    spec: {
-      items: [],
-      loading: false,
-      error: "false",
-    },
-  });
+  // const [{ city, spec }, dispatch] = useReducer(reducer, {
+  //   city: {
+  //    : [],
+  //     loading: false,
+  //     error: "false",
+  //   },
+  //   spec: {
+  //    : [],
+  //     loading: false,
+  //     error: "false",
+  //   },
+  // });
 
   const [searchParams] = useSearchParams();
   const ville_params = searchParams.get("ville");
@@ -63,43 +65,74 @@ function SearchBarDoc({ setRandomX, comp }) {
   const citySearchContainer = useRef();
   const specSearchContainer = useRef();
   const navigate = useNavigate();
-
+  const [city,setCity]=useState([{}])
+  const [spec,setSpec]=useState([{}])
+  const [loading,setLoading]=useState(false)
   // Fetch citys & speciality
   useEffect(() => {
-    const cityFetch = async () => {
-      dispatch({ type: "CITY_FETCH" });
-      try {
-        const citys = await axios.get(
-          "https://apidb.clinital.io/api/ville/allvilles"
-        );
-        dispatch({ type: "CITY_SUCCESS", payload: citys.data });
-      } catch (error) {
-        dispatch({ type: "CITY_FAIL", payload: error });
-      }
-    };
-    cityFetch();
-    const specFetch = async () => {
-      dispatch({ type: "SPEC_FETCH" });
-      try {
-        const citys = await axios.get(
-          "https://apidb.clinital.io/api/med/getAllSpec"
-        );
-        dispatch({ type: "SPEC_SUCCESS", payload: citys.data });
-        // console.log(spec.items);
-      } catch (error) {
-        dispatch({ type: "SPEC_FAIL", payload: error });
-      }
-    };
-    specFetch();
+    // const cityFetch = async () => {
+    //   dispatch({ type: "CITY_FETCH" });
+    //   try {
+    //     const citys = await axios.get(
+    //       "https://apidb.clinital.io/api/ville/allvilles"
+    //     );
+    //     dispatch({ type: "CITY_SUCCESS", payload: citys.data });
+    //   } catch (error) {
+    //     dispatch({ type: "CITY_FAIL", payload: error });
+    //   }
+    // };
+    // cityFetch();
+    // const specFetch = async () => {
+    //   dispatch({ type: "SPEC_FETCH" });
+    //   try {
+    //     const citys = await axios.get(
+    //       "https://apidb.clinital.io/api/med/getAllSpec"
+    //     );
+    //     dispatch({ type: "SPEC_SUCCESS", payload: citys.data });
+    //     // console.log(spec);
+    //   } catch (error) {
+    //     dispatch({ type: "SPEC_FAIL", payload: error });
+    //   }
+    // };
+    // specFetch();
+    
+    try {
+      setLoading(true)
+     SearchServices.getAllCities().then((res)=>{
+      console.log(res)
+        setCity(res.data)
+
+      }).catch((error)=>{
+        toast.error(error.message)
+      }).finally(()=>{
+        setLoading(false)
+      });
+      
+    } catch (error) {
+      toast.error(error.message)
+    }
+    try{
+
+    SearchServices.getAllSpecialities().then((res)=>{
+      console.log(res)
+        setSpec(res.data)
+      }).catch((error)=>{
+        toast.error(error.message)
+      }).finally(()=>{
+        setLoading(false)
+      });
+    } catch (error) {
+      toast.error(error.message)
+    }
     window.scrollTo(0, 0);
   }, []);
 
   // Filter citys
   const filterSearch = (array, search, param) => {
     const x = array && array.toLowerCase();
-    const newArray = search.filter((item) =>
+    const newArray = search?.filter((item) =>
       item[param]
-        .toLowerCase()
+        ?.toLowerCase()
         .normalize("NFD")
         .replace(/\p{Diacritic}/gu, "")
         .includes(x)
@@ -111,8 +144,8 @@ function SearchBarDoc({ setRandomX, comp }) {
   const handleSeach = (array, container) => {
     const context = container.current;
     const instance = new Mark(context);
-    if (array && city.items) instance.unmark(array);
-    if (array && city.items && !city.loading) instance.mark(array);
+    if (array && city) instance.unmark(array);
+    if (array && city && !loading) instance.mark(array);
   };
   // Toggle search
   const toggleSeach = (e) => {
@@ -132,12 +165,12 @@ function SearchBarDoc({ setRandomX, comp }) {
     handleSeach(search.city, citySearchContainer);
     handleSeach(search.spec, specSearchContainer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [search, city.items]);
+  }, [search, city]);
 
   const showResult = async (e) => {
     e.preventDefault();
     var link;
-    const citySelected = city.items.filter(
+    const citySelected = city?.filter(
       (element) => element.nom_ville === search.city
     )[0];
     if (search.city && !search.spec) {
@@ -166,10 +199,10 @@ function SearchBarDoc({ setRandomX, comp }) {
           placeholder="Médecin, établissement, spécialité"
         />
         <div className="result" ref={specSearchContainer}>
-          {spec.loading ? (
+          {loading ? (
             <span className="loading">Loading...</span>
           ) : (
-            filterSearch(search.spec, spec.items, "libelle").map((x, index) => (
+            filterSearch(search.spec, spec, "libelle")?.map((x, index) => (
               <span
                 key={index}
                 onClick={() => toggleSeachOnClick("spec", x.libelle)}
@@ -191,10 +224,10 @@ function SearchBarDoc({ setRandomX, comp }) {
           placeholder="Où ?"
         />
         <div className="result" ref={citySearchContainer}>
-          {city.loading ? (
+          {loading ? (
             <span className="loading">Loading...</span>
           ) : (
-            filterSearch(search.city, city.items, "nom_ville").map(
+            filterSearch(search.city, city, "nom_ville")?.map(
               (x, index) => (
                 <span
                   key={index}
