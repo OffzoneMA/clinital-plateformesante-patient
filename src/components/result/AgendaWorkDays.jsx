@@ -156,14 +156,7 @@ function AgendaWorkDays({ docId, component, setRdvData }) {
           .finally(()=>{
             setLoading(false);
           })
-          // const res = await axios.get(
-          //   `https://apidb.clinital.io/api/med/agenda/${docId}/1/${week}`
-          // );
-          // const resultat = res.data;
-          // setData((x) => {
-          //   return { ...x, [week]: resultat };
-          // });
-          // setLoading(false);
+     
         } catch (error) {
           
           toast.error(error.message);
