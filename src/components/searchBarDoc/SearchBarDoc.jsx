@@ -6,6 +6,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import './searchBarDoc.scss'
 import SearchServices from "./SearchServices/SearchServices";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setSpecialite, setVilles } from "../../utils/redux/GlobalSlice";
 
 // const reducer = (state, action) => {
 //   switch (action.type) {
@@ -68,6 +70,7 @@ function SearchBarDoc({ setRandomX, comp }) {
   const [city,setCity]=useState([{}])
   const [spec,setSpec]=useState([{}])
   const [loading,setLoading]=useState(false)
+  const dispatch=useDispatch();
   // Fetch citys & speciality
   useEffect(() => {
     // const cityFetch = async () => {
@@ -101,7 +104,7 @@ function SearchBarDoc({ setRandomX, comp }) {
      SearchServices.getAllCities().then((res)=>{
       console.log(res)
         setCity(res.data)
-
+        dispatch(setVilles(res.data))
       }).catch((error)=>{
         toast.error(error.message)
       }).finally(()=>{
@@ -116,6 +119,7 @@ function SearchBarDoc({ setRandomX, comp }) {
     SearchServices.getAllSpecialities().then((res)=>{
       console.log(res)
         setSpec(res.data)
+        dispatch(setSpecialite(res.data))
       }).catch((error)=>{
         toast.error(error.message)
       }).finally(()=>{

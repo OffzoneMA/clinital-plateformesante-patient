@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from "react-hook-form";
 import axios from 'axios'
 import Navbar from '../../components/navbar/Navbar'
@@ -8,6 +8,9 @@ import Model, { ModelBody, ModelFooter, ModelHeader } from '../../components/Mod
 import "./monCompte.scss";
 import CompteServices from './Services/CompteServices';
 import { toast } from 'react-toastify';
+import { Toast } from 'bootstrap';
+import { useSelector } from 'react-redux';
+import Mark from 'mark.js';
 
 
 const MonCompte = () => {
@@ -51,11 +54,27 @@ const MonCompte = () => {
     const [cd3, setCd3] = useState(false);
     const [cd4, setCd4] = useState(false);
     const [idProche, setIdProche] = useState()
+    const [patient,setPatient]=useState({
+        adresse_pat: "",
+        civilite_pat: "",
+        codePost_pat: "",
+        dateNaissance: "",
+        email: "",
+        matricule_pat: "",
+        mutuelNumber:"" ,
+        nom_pat:"" ,
+        patient_type:"" ,
+        placeOfBirth:"" ,
+        prenom_pat: "",
+        telephone:"" ,
+        villeId: ""
+    })
 
     const { id, type, token, email } = JSON.parse(localStorage.getItem("user"));
-    const config = {
-        headers: { Authorization: `${type} ${token}` }
-    };
+    const {villes,specialite}=useSelector((state)=>state.global)
+    // const config = {
+    //     headers: { Authorization: `${type} ${token}` }
+    // };
     const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: 'onSubmit' });
 
     const onSubmit = async (data) => {
@@ -73,7 +92,7 @@ const MonCompte = () => {
                 }
             }).catch((error)=>{
                 toast.error(error.message)
-
+                setLoading(false)
             }).finally(()=>{
                 setLoading(false);
             })
@@ -94,18 +113,163 @@ const MonCompte = () => {
            toast.error(error.message)
         }
     }
-    const deleteProche = async () => {
+    const deleteProche = () => {
         try {
-            const res = await axios.delete(`https://apidb.clinital.io/api/patient/delete/${idProche}`,
-                config)
-            if (res.status === 200) {
-                alert("suppression avec secces")
-            }
+            setLoading(true)
+            CompteServices.deleteProche(idProche)
+            .then((response)=>{
+                if(response.status===200){
+                    toast.success("suppression avec secces")
+                }
+                
+            }).catch((error)=>{
+                toast.error(error.message)
+                setLoading(false)
+            }).finally(()=>{
+                setLoading(false)
+            })
         } catch (error) {
             console.log(error);
         }
     }
 
+    const addProche = async () => {
+        try {
+            // const res = await axios.post("https://apidb.clinital.io/api/patient/addpatient",
+            //     {
+            //         "adresse_pat": `${adresse_pat}`,
+            //         "civilite_pat": `${civilite_pat}`,
+            //         "codePost_pat": `${codePost_pat}`,
+            //         "dateNaissance": `${dateNaissance}`,
+            //         "email": `${emailPat}`,
+            //         "matricule_pat": `${matricule_pat}`,
+            //         "mutuelNumber": `${mutuelNumber}`,
+            //         "nom_pat": `${nom_pat}`,
+            //         "patient_type": "PROCHE",
+            //         "placeOfBirth": `${placeOfBirth}`,
+            //         "prenom_pat": `${prenom_pat}`,
+            //         "telephone": `${telephone}`,
+            //         "villeId": 58
+            //     }
+            //     ,
+            //     config
+            // )
+            CompteServices.addProche(patient)
+            .then((response)=>{
+                if (response.status === 200) {
+                    toast.success("un proche a été ajouté avec succes")
+                }
+            }).catch((error)=>{
+                toast.error(error.message)
+                setLoading(false)
+            }).finally(()=>{
+                setLoading(false)
+            })
+//  .then(()=>{
+
+//             }).catch(()=>{
+
+//             }).finally(()=>{
+                
+//             })
+
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+    const modifierProche = async () => {
+        try {
+            // const res = await axios.post(`https://apidb.clinital.io/api/patient/updatepatient/${id}`, {
+            //     adresse_pat: adresse_pat,
+            //     civilite_pat: civilite_pat,
+            //     codePost_pat: codePost_pat,
+            //     dateNaissance: dateNaissance,
+            //     email: emailPat,
+            //     matricule_pat: matricule_pat,
+            //     mutuelNumber: mutuelNumber,
+            //     nom_pat: nom_pat,
+            //     patient_type: "MOI",
+            //     placeOfBirth: placeOfBirth,
+            //     prenom_pat: prenom_pat,
+            //     telephone: telephone,
+            //     villeId: 58
+            // },
+            //     config
+            // )
+
+            CompteServices.modifierProche(id,patient)
+             .then((res)=>{
+                if (res.status === 200) {
+                    toast.success("les données change avec succes")
+                }
+            }).catch((error)=>{
+                    toast.error(error.message)
+                    setLoading(false)
+            }).finally(()=>{
+                setLoading(false)
+            })
+        } catch (error) {
+            toast.error(error.message);
+        }
+
+    }
+    const modifierAnathorProche = async () => {
+        try {
+            // const res = await axios.post(`https://apidb.clinital.io/api/patient/updatepatient/${idProche}`, {
+            //     adresse_pat: adresse_pat,
+            //     civilite_pat: civilite_pat,
+            //     codePost_pat: codePost_pat,
+            //     dateNaissance: dateNaissance,
+            //     email: emailPat,
+            //     matricule_pat: matricule_pat,
+            //     mutuelNumber: mutuelNumber,
+            //     nom_pat: nom_pat,
+            //     patient_type: "PROCHE",
+            //     placeOfBirth: placeOfBirth,
+            //     prenom_pat: prenom_pat,
+            //     telephone: telephone,
+            //     villeId: 58
+            // },
+            //     config
+            // )
+
+            CompteServices.modifierProche(id,patient)
+            .then((res)=>{
+               if (res.status === 200) {
+                   toast.success("les données change avec succes")
+               }
+           }).catch((error)=>{
+                   toast.error(error.message)
+                   setLoading(false)
+           }).finally(()=>{
+               setLoading(false)
+           })
+        } catch (error) {
+            toast.error(error.message)
+        }
+
+    }
+    const getAllProcheOfCurrentUser = async () => {
+        try {
+            // const res = await axios.get(`https://apidb.clinital.io/api/patient/getallproch`,
+            //     config)
+            
+CompteServices.getProchesOfCurrentUser()
+        .then((res)=>{
+               if (res.status === 200) {
+                setAllProche(res.data)
+               }
+           }).catch((error)=>{
+                   toast.error(error.message)
+                   setLoading(false)
+           }).finally(()=>{
+               setLoading(false)
+           })
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
     const clickFilter = () => {
         setFilter(!filter)
     }
@@ -115,101 +279,7 @@ const MonCompte = () => {
             ? (input.type = "text")
             : (input.type = "password");
     };
-    const addProche = async () => {
-        try {
-            const res = await axios.post("https://apidb.clinital.io/api/patient/addpatient",
-                {
-                    "adresse_pat": `${adresse_pat}`,
-                    "civilite_pat": `${civilite_pat}`,
-                    "codePost_pat": `${codePost_pat}`,
-                    "dateNaissance": `${dateNaissance}`,
-                    "email": `${emailPat}`,
-                    "matricule_pat": `${matricule_pat}`,
-                    "mutuelNumber": `${mutuelNumber}`,
-                    "nom_pat": `${nom_pat}`,
-                    "patient_type": "PROCHE",
-                    "placeOfBirth": `${placeOfBirth}`,
-                    "prenom_pat": `${prenom_pat}`,
-                    "telephone": `${telephone}`,
-                    "villeId": 58
-                }
-                ,
-                config
-            )
-
-            if (res.status === 200) {
-                alert("un proche a été ajouté avec succes")
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const modifierProche = async () => {
-        try {
-            const res = await axios.post(`https://apidb.clinital.io/api/patient/updatepatient/${id}`, {
-                adresse_pat: adresse_pat,
-                civilite_pat: civilite_pat,
-                codePost_pat: codePost_pat,
-                dateNaissance: dateNaissance,
-                email: emailPat,
-                matricule_pat: matricule_pat,
-                mutuelNumber: mutuelNumber,
-                nom_pat: nom_pat,
-                patient_type: "MOI",
-                placeOfBirth: placeOfBirth,
-                prenom_pat: prenom_pat,
-                telephone: telephone,
-                villeId: 58
-            },
-                config
-            )
-            if (res.status === 200) {
-                alert("les données change avec succes")
-            }
-        } catch (error) {
-            console.log(error);
-        }
-        // console.log(adresse_pat, codePost_pat, dateNaissance, emailPat, matricule_pat, mutuelNumber, nom_pat, placeOfBirth, prenom_pat, telephone)
-    }
     const [res, setRes] = useState()
-    const modifierAnathorProche = async () => {
-        try {
-            const res = await axios.post(`https://apidb.clinital.io/api/patient/updatepatient/${idProche}`, {
-                adresse_pat: adresse_pat,
-                civilite_pat: civilite_pat,
-                codePost_pat: codePost_pat,
-                dateNaissance: dateNaissance,
-                email: emailPat,
-                matricule_pat: matricule_pat,
-                mutuelNumber: mutuelNumber,
-                nom_pat: nom_pat,
-                patient_type: "PROCHE",
-                placeOfBirth: placeOfBirth,
-                prenom_pat: prenom_pat,
-                telephone: telephone,
-                villeId: 58
-            },
-                config
-            )
-
-            if (res.status === 200) {
-                alert("les données change avec succes")
-            }
-        } catch (error) {
-            console.log(error);
-        }
-
-    }
-    const getProcheOfCurrentUser = async () => {
-        try {
-            const res = await axios.get(`https://apidb.clinital.io/api/patient/getallproch`,
-                config)
-            setAllProche(res.data)
-        } catch (error) {
-            console.log(error);
-        }
-    }
 
     const condition = () => {
         setShowSupprimerCompte(false)
@@ -233,36 +303,47 @@ const MonCompte = () => {
         setActiveMoi(!ActiveMoi)
         setActiveProche(false)
     }
+const GetPatient=(id)=>{
+    try{
+    setLoading(true);
+    CompteServices.getPatientById(id)
+    .then((res)=>{
+        if (res.status === 200) {
+            setPatient(res.data)
+        }
+    }).catch((error)=>{
+         toast.error(error.message);
+         setLoading(false)
+    }).finally(()=>{
+        setLoading(false)
+    });
 
+    } catch (error) {
+        toast.error(error.message)
+    }
+}
 
     useEffect(() => {
+                // const res = await axios.get(
+                //     `https://apidb.clinital.io/api/patient/getPatientById/${id}`,
+                //     config
+                // );
+                // setData(res.data);
+                // setCivilite_pat(res.data.civilite_pat)
+                // setNom_pat(res.data.nom_pat);
+                // setPlaceOfBirth(res.data.placeOfBirth);
+                // setPrenom_pat(res.data.prenom_pat)
+                // setTelephone(res.data.telephone)
+                // setAdresse_pat(res.data.adresse_pat);
+                // setCodePost_pat(res.data.codePost_pat);
+                // setDateNaissance(res.data.dateNaissance);
+                // setEmailPat(res.data.emailPat);
+                // setMatricule_pat(res.data.matricule_pat);
+                // setMutuelNumber(res.data.mutuelNumber);
 
-        const getData = async () => {
-            try {
-                const res = await axios.get(
-                    `https://apidb.clinital.io/api/patient/getPatientById/${id}`,
-                    config
-                );
-                setData(res.data);
-                setCivilite_pat(res.data.civilite_pat)
-                setNom_pat(res.data.nom_pat);
-                setPlaceOfBirth(res.data.placeOfBirth);
-                setPrenom_pat(res.data.prenom_pat)
-                setTelephone(res.data.telephone)
-                setAdresse_pat(res.data.adresse_pat);
-                setCodePost_pat(res.data.codePost_pat);
-                setDateNaissance(res.data.dateNaissance);
-                setEmailPat(res.data.emailPat);
-                setMatricule_pat(res.data.matricule_pat);
-                setMutuelNumber(res.data.mutuelNumber);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        getData();
-        getProcheOfCurrentUser();
-    }, []);
+        GetPatient(id)
+        getAllProcheOfCurrentUser();
+    }, [id]);
 
     const ActiveBtn = (e) => {
         const allElements = [...document.querySelectorAll(".filtre .moiproche")];
@@ -273,6 +354,49 @@ const MonCompte = () => {
     const handelFocused = (e) => {
         setFocused(true)
     }
+  // Toggle search
+  const [search, setSearch] = useState({
+    city: "",
+    spec: "",
+  });
+  const toggleSeach = (e) => {
+    const { name, value } = e.target;
+    setSearch((x) => {
+      return { ...x, [name]: value };
+    });
+  };
+  const toggleSeachOnClick = (name, libelle) => {
+    setSearch((y) => {
+      return { ...y, [name]: libelle, villeName: '' };
+    });
+  };
+    // Filter citys
+    const filterSearch = (array, search, param) => {
+        const x = array && array.toLowerCase();
+        const newArray = search?.filter((item) =>
+          item[param]
+            ?.toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .includes(x)
+        );
+        const y = !array ? [] : newArray;
+        return y;
+      };
+ // Mark citys
+ 
+ const handleSeach = (array, container) => {
+    const context = container.current;
+    const instance = new Mark(context);
+    if (array && villes) instance.unmark(array);
+    if (array && villes && !Loading) instance.mark(array);
+  };
+  const citySearchContainer = useRef();
+  const specSearchContainer = useRef();
+  useEffect(() => {
+    handleSeach(search.city, citySearchContainer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, villes]);
     const password = watch('password')
     return (<>
         <Navbar />
@@ -370,7 +494,7 @@ const MonCompte = () => {
                     setShow={setShowPasswordchanged}
                 >
                     <div className="modifierPassword">
-                        < ModelHeader className="model-header">
+                        <ModelHeader className="model-header">
                             <h3>Votre mot de passe a été mis à jour</h3>
                             <img className='close-black' src="/icons/black-close.svg" alt="" onClick={() => setShowPasswordchanged(false)} />
                         </ModelHeader>
@@ -429,7 +553,7 @@ const MonCompte = () => {
                                                         type="radio"
                                                         name="Civilité"
                                                         id="dam"
-                                                        onClick={() => setCivilite_pat("Mme")}
+                                                        onClick={() => {setPatient({...patient,civility:"Mme"});setCivilite_pat("Mme")}}
                                                     />
                                                     <div className="input-doth"></div>
                                                     <span>Madame</span>
@@ -440,7 +564,7 @@ const MonCompte = () => {
                                                         type="radio"
                                                         name="Civilité"
                                                         id="Mr"
-                                                        onClick={() => setCivilite_pat("Mr")}
+                                                        onClick={() =>{setPatient({...patient,civility:"Mr"}); setCivilite_pat("Mr")}}
                                                     />
                                                     <div className="input-doth"></div>
                                                     <span>Monsieur</span>
@@ -456,7 +580,7 @@ const MonCompte = () => {
                                                     name=""
                                                     placeholder="Saisir votre Prénom"
                                                     required
-                                                    onChange={(e) => setPrenom_pat(e.target.value)}
+                                                    onChange={(e) => {setPatient({...patient,prenom_pat:e.target.value});setPrenom_pat(e.target.value)}}
 
                                                     focused={focused.toString()}
                                                 />
@@ -470,7 +594,7 @@ const MonCompte = () => {
                                                     name=""
                                                     placeholder="Nom"
                                                     required
-                                                    onChange={(e) => setNom_pat(e.target.value)}
+                                                    onChange={(e) => {setPatient({...patient,nom_pat:e.target.value});setNom_pat(e.target.value)}}
                                                     focused={focused.toString()}
                                                 />
                                                 <span className='err'>Le nom est obligatoire</span>
@@ -483,7 +607,7 @@ const MonCompte = () => {
                                                     name=""
                                                     placeholder="Date de naissance"
                                                     required
-                                                    onChange={(e) => setDateNaissance(e.target.value)}
+                                                    onChange={(e) => {setPatient({...patient, dateNaissance:e.target.value});setDateNaissance(e.target.value)}}
                                                     focused={focused.toString()}
                                                 />
                                                 <span className='err'>la date de naissance est obligatoire</span>
@@ -497,7 +621,7 @@ const MonCompte = () => {
                                                     name=""
                                                     placeholder="Lieu de naissance"
                                                     required
-                                                    onChange={(e) => setPlaceOfBirth(e.target.value)}
+                                                    onChange={(e) =>{setPatient({...patient,placeOfBirth:e.target.value}); setPlaceOfBirth(e.target.value)}}
                                                     focused={focused.toString()}
                                                 />
                                                 <span className='err'>le lieu de naissance est obligatoire</span>
@@ -510,7 +634,7 @@ const MonCompte = () => {
                                                     name=""
                                                     placeholder="Adresse e-mail"
                                                     required
-                                                    onChange={(e) => setEmailPat(e.target.value)}
+                                                    onChange={(e) => {setPatient({...patient,email:e.target.value});setEmailPat(e.target.value)}}
                                                     focused={focused.toString()}
                                                 />
                                                 <span className='err'>L'email est obligatoire</span>
@@ -523,7 +647,7 @@ const MonCompte = () => {
                                                     name=""
                                                     placeholder="Téléphone"
                                                     required
-                                                    onChange={(e) => setTelephone(e.target.value)}
+                                                    onChange={(e) => {setPatient({...patient,telephone:e.target.value});setTelephone(e.target.value)}}
                                                     focused={focused.toString()}
                                                 />
                                                 <span className='err'>Le telephone est obligatoire</span>
@@ -536,7 +660,7 @@ const MonCompte = () => {
                                                     name=""
                                                     placeholder="N° de Mutuelle / CNSS / CNOP"
                                                     // required
-                                                    onChange={(e) => setMutuelNumber(e.target.value)}
+                                                    onChange={(e) =>{setPatient({...patient,mutuelNumber:e.target.value}); setMutuelNumber(e.target.value)}}
                                                 />
                                             </div>
                                             <div>
@@ -549,7 +673,7 @@ const MonCompte = () => {
                                                     placeholder="N° de patient"
 
                                                     disabled
-                                                    onChange={(e) => setMatricule_pat(e.target.value)}
+                                                    onChange={(e) => {setPatient({...patient,matricule_pat:e.target.value});setMatricule_pat(e.target.value)}}
                                                 />
 
                                             </div>
@@ -563,11 +687,11 @@ const MonCompte = () => {
                                                 name=""
                                                 placeholder="Adresse"
                                                 // required
-                                                onChange={(e) => setAdresse_pat(e.target.value)}
+                                                onChange={(e) => {setPatient({...patient,adresse:e.target.value});setAdresse_pat(e.target.value)}}
                                             />
                                         </div>
                                         <div className='content'>
-                                            <div>
+                                            {/* <div>
                                                 <input
                                                     type="text"
                                                     name=""
@@ -576,14 +700,40 @@ const MonCompte = () => {
                                                     focused={focused.toString()}
                                                 />
                                                 <span className='err'>La ville est obligatoire</span>
-                                            </div>
+                                            </div> */}
+    <div>
+        <img src="../../icons/location-outline.svg" alt="" />
+        <input
+          type="text"
+          name="city"
+          onChange={(e) => toggleSeach(e)}
+          value={search.city}
+          placeholder="Où ?"
+        />
+        <div className="result" ref={citySearchContainer}>
+          {Loading ? (
+            <span className="loading">Loading...</span>
+          ) : (
+            filterSearch(search.city, villes, "nom_ville")?.map(
+              (x, index) => (
+                <span
+                  key={index}
+                  onClick={() => toggleSeachOnClick("city", x.nom_ville)}
+                >
+                  {x.nom_ville}
+                </span>
+              )
+            )
+          )}
+        </div>
+      </div>
                                             <div>
                                                 <input
                                                     type="text"
                                                     name=""
                                                     placeholder="Code postal"
                                                     // required
-                                                    onChange={(e) => setCodePost_pat(e.target.value)}
+                                                    onChange={(e) => {setPatient({...patient,codePost_pat:e.target.value});setCodePost_pat(e.target.value)}}
                                                 />
                                             </div>
                                         </div>
