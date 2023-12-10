@@ -6,12 +6,14 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import Navbar from "../../components/navbar/Navbar";
 import MiniFooter from "../../components/footer/MiniFooter";
-import Adresse from "../../components/profil/Adresse";
-import General from "../../components/profil/General";
-import Horaire from "../../components/profil/Horaire";
-import Tarif from "../../components/profil/Tarif";
-import Presentation from "../../components/profil/Presentation";
+import Adresse from "../../components/profil/Components/Adresse";
+import General from "../../components/profil/Components/General";
+import Horaire from "../../components/profil/Components/Horaire";
+import Tarif from "../../components/profil/Components/Tarif";
+import Presentation from "../../components/profil/Components/Presentation";
 import "./profil.scss";
+import ProfileServices from "../../components/profil/ProfileServices.js/ProfileServices";
+import { toast } from "react-toastify";
 
 const Profil = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,19 +27,17 @@ const Profil = () => {
     setViewPhoto(!viewPhoto);
   };
   useEffect(() => {
-    const getProfil = async () => {
+
       setLoading(true);
-      await axios
-        .get(`https://apidb.clinital.io/api/med/medById/${id}`)
-        .then((response) => {
-          const res = response.data;
-          setProfilInfo(res);
+        ProfileServices.getProfileMedecin(id).then((response) => {
+          setProfilInfo(response.data);
+        }).catch((error)=>{
+          toast.error(error.message)
+        }).finally(()=>{
           setLoading(false);
         });
 
-    };
-    getProfil();
-  }, []);
+  }, [id]);
   const Loading = () => {
     return (
       <div className="">

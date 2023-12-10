@@ -6,6 +6,8 @@ import keyValueStorage from "../storage/keyValueStorage"
         user:keyValueStorage.get("user")||null,
         rdv:keyValueStorage.get("rdv")||null,
         logintoggle:false,
+        villes:keyValueStorage.get("ville")||null,
+        specialite:keyValueStorage.get("specialite")||null,
     },
     reducers:{
         setUser(state,action){
@@ -29,12 +31,23 @@ import keyValueStorage from "../storage/keyValueStorage"
             //state.token = false;
             //state.redirectTo = path.HOME;
           },
+        setVilles(state,action){
+            state.villes=action.payload;
+            keyValueStorage.set("ville",JSON.stringify(action.payload));
+        },
+        setSpecialite(state,action){
+            state.villes=action.payload;
+            keyValueStorage.set("specialite",JSON.stringify(action.payload));
+        }
+
     }
 
 });
 export const {
     setUser,
     setRdv,
-    setLoginToggle
+    setLoginToggle,
+    setSpecialite,
+    setVilles,
 }=GlobalSlice.actions;
 export default GlobalSlice.reducer;
