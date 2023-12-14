@@ -22,7 +22,7 @@ function Agenda() {
       // getAllRdv(setRdvs)
       // getAllRdv(setAllRdvs)
   }, []);
-  // }, [agendaIsChanging]);
+
 
   const [filter, setFilter] = useState("");
   
@@ -46,8 +46,6 @@ function Agenda() {
     }
   });
 
-  // console.log(rdvs);
-  // console.log(filter);
 
   return (
     <div className="agenda-page">

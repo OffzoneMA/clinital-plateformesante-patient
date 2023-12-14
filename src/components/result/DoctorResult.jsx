@@ -4,36 +4,6 @@ import AgendaWorkDays from "./AgendaWorkDays";
 import AgendaWorkDays_ from "./AgendaWorkDays_";
 function DoctorResult({ item, type }) {
   const url = window.location.search;
-
-  // const user = useContext(Log);
-  // const [typeConsultation, setTypeConsultation] = useState([]);
-  //
-  // useEffect(() => {
-  //   const fetchTypeConsultation = async () => {
-  //     if (!user) {
-  //       console.log("Not connected");
-  //       return false;
-  //     } else {
-  //       try {
-  //         const res = await axios.get(
-  //           `https://apidb.clinital.io/api/med/getTypeConsultationById/${item.id}`,
-  //           {
-  //             headers: {
-  //               Authorization: `${user.type} ${user.token}`,
-  //             },
-  //           }
-  //         );
-  //         setTypeConsultation(res.data);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     }
-  //   };
-  //   console.log("re");
-  //   fetchTypeConsultation();
-  // }, [item, user]);
-
-  // console.log(typeConsultation);
   return (
     <>
       {item ? (

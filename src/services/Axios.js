@@ -20,17 +20,16 @@ let axiosInstance = axios.create({
 axiosInstance.CancelToken = axios.CancelToken;
 axiosInstance.isCancel = axios.isCancel;
 
-// axiosInstance.interceptors.request.use(config => {
-//   let token= localStorage.getItem('user').token;
-//     config.headers.token = localStorage.getItem('user').token;
-//     config.headers.Authorization = `Bearer ${token}` ;
+axiosInstance.interceptors.request.use(config => {
+  let token= localStorage.getItem('user').token;
+    config.headers.token = localStorage.getItem('user').token;
+    config.headers.Authorization = `Bearer ${token}` ;
 
-//     return config;
-// }, error => {
-//     return Promise.reject(error);
-// });
+    return config;
+}, error => {
+    return Promise.reject(error);
+});
 
-// 
 const requestHandler = (request) => {
 
     if (TOKEN !== 'undefined') {

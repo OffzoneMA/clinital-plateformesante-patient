@@ -127,43 +127,8 @@ function nextPage() {
         </div>
         <div className="col-9" >
         <div className="file-preview">
-				{/* <PdfViewerComponent document={url} /> */}
         <iframe src={url} className="c-scrollbar"/>
 			  </div>
-        
-        {/* <Document 
-        file={url}
-          onLoadSuccess={onDocumentLoadSuccess}
-          error={"لطفا منتظر بمانید"}
-          loading={"wait for load"}
-          className={"PDFDoc"}
-          //onSourceError={onLoadError}
-          //onLoadError={onLoadError}
-          renderMode={"canvas"}
-          //onItemClick={goToPage}
-          options={{ cMapUrl: "cmaps/", cMapPacked: true }}>
-      <Page pageNumber={1} 
-       width={400}
-            height={900}
-     // Set the width of the page
-            />
-    </Document>
-    <div>
-        <p>
-          Page {pageNumber || (numPages ? 1 : "--")} of {numPages || "--"}
-        </p>
-        <button type="button" disabled={pageNumber <= 1} onClick={previousPage}>
-          Previous
-        </button>
-        <button
-          type="button"
-          disabled={pageNumber >= numPages}
-          onClick={nextPage}
-        >
-          Next
-        </button>
-      </div> */}
-          {/* <div><FilePreview fileUrl={url}/></div> */}
         </div>
       </div>
     </div>

@@ -2,9 +2,6 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { Log } from "../../../App";
-import axios from "axios";
-
-// import AgendaWorkDays from "./AgendaWorkDays";
 import AgendaWorkDays_ from "../AgendaWorkDays_";
 import Register from "../../connexion/Register";
 import { addRdv } from "../../../action/Rdv";
@@ -34,20 +31,6 @@ function PriseRdv() {
   const [loading, setLoading] = useState(false);
   const [allProche, setAllProche] = useState([]);
 
-  // Add zero to the date
-  // const zeroFormatDate = (date) => {
-  //   var newDate;
-  //   const index = date.indexOf(":");
-
-  //   if (index === 12 && date.length === 14)
-  //     newDate = date.slice(0, index - 1) + "0" + date.slice(index - 1) + "0";
-  //   if (index === 13 && date.length === 15) newDate = date + "0";
-  //   if (index === 12 && date.length === 15)
-  //     newDate = date.slice(0, index - 1) + "0" + date.slice(index - 1);
-
-  //   return newDate;
-  // };
-  // New rdv data object
   const [rdvData, setRdvData] = useState({
     id: 0,
     canceledat: "", // Ensure this matches the format expected for LocalDateTime

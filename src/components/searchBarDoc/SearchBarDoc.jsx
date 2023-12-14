@@ -9,50 +9,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setSpecialite, setVilles } from "../../utils/redux/GlobalSlice";
 
-// const reducer = (state, action) => {
-//   switch (action.type) {
-//     case "CITY_FETCH":
-//       return { ...state, city: { ...state.city, loading: true } };
-//     case "CITY_SUCCESS":
-//       return {
-//         ...state,
-//         city: { ...state.city, loading: false,: action.payload },
-//       };
-//     case "CITY_FAIL":
-//       return {
-//         ...state,
-//         city: { ...state.city, loading: false, error: action.payload },
-//       };
-//     case "SPEC_FETCH":
-//       return { ...state, spec: { ...state.spec, loading: true } };
-//     case "SPEC_SUCCESS":
-//       return {
-//         ...state,
-//         spec: { ...state.spec, loading: false,: action.payload },
-//       };
-//     case "SPEC_FAIL":
-//       return {
-//         ...state,
-//         spec: { ...state.spec, loading: false, error: action.payload },
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
 function SearchBarDoc({ setRandomX, comp }) {
-  // const [{ city, spec }, dispatch] = useReducer(reducer, {
-  //   city: {
-  //    : [],
-  //     loading: false,
-  //     error: "false",
-  //   },
-  //   spec: {
-  //    : [],
-  //     loading: false,
-  //     error: "false",
-  //   },
-  // });
 
   const [searchParams] = useSearchParams();
   const ville_params = searchParams.get("ville");
@@ -73,32 +30,6 @@ function SearchBarDoc({ setRandomX, comp }) {
   const dispatch=useDispatch();
   // Fetch citys & speciality
   useEffect(() => {
-    // const cityFetch = async () => {
-    //   dispatch({ type: "CITY_FETCH" });
-    //   try {
-    //     const citys = await axios.get(
-    //       "https://apidb.clinital.io/api/ville/allvilles"
-    //     );
-    //     dispatch({ type: "CITY_SUCCESS", payload: citys.data });
-    //   } catch (error) {
-    //     dispatch({ type: "CITY_FAIL", payload: error });
-    //   }
-    // };
-    // cityFetch();
-    // const specFetch = async () => {
-    //   dispatch({ type: "SPEC_FETCH" });
-    //   try {
-    //     const citys = await axios.get(
-    //       "https://apidb.clinital.io/api/med/getAllSpec"
-    //     );
-    //     dispatch({ type: "SPEC_SUCCESS", payload: citys.data });
-    //     // console.log(spec);
-    //   } catch (error) {
-    //     dispatch({ type: "SPEC_FAIL", payload: error });
-    //   }
-    // };
-    // specFetch();
-    
     try {
       setLoading(true)
      SearchServices.getAllCities().then((res)=>{

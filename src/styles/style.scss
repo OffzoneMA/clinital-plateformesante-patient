@@ -120,28 +120,7 @@ iframe#react-refresh-overlay {
   }
 }
 
-// ::-webkit-scrollbar,
-// ::-webkit-scrollbar-corner {
-//   background-color: auto;
-//   background-color: #1d1b1b;
-// }
-// ::-webkit-scrollbar {
-//   border-left: 1px solid hsla(0, 0%, 100%, 0.125);
-//   height: 6px;
-//   width: 6px;
-// }
-// ::-webkit-scrollbar,
-// ::-webkit-scrollbar-corner {
-//   background-color: auto;
-//   background-color: $black;
-// }
-// ::-webkit-scrollbar-thumb {
-//   background: rgba($black, 0.2);
-//   background: $blue;
-//   border: 2px auto;
-//   border-radius: 10px;
-//   padding-right: 5px;
-// }
+
 ::-webkit-scrollbar {
   border-left: 1px solid hsla(0, 0%, 100%, 0);
   height: 6px;
