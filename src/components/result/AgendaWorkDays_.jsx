@@ -191,19 +191,6 @@ function AgendaWorkDays({ docId, component, state }) {
           $end.slice(13, 16)
         : $end.slice(0,16);
 
-    // console.log(start.slice(-2, -1));
-    // console.log(
-    //   start.slice(-2, -1) === "a"
-    //     ? start.slice(0, 11) +
-    //         (Number(start.slice(11, 13)) + 12) +
-    //         start.slice(13, 16)
-    //     : start.slice(0, 11) + start.slice(11, 16)
-    // );
-
-    // console.log(availableSlot.length > 0 && { start: start, end: end });
-
-    // console.log(new DateObject(day_).add(hour, "h").format(`YYYY-MM-DDThh:mm `));
-
     return { start: start, end: end };
   };
   // Toggle time value
@@ -217,7 +204,6 @@ function AgendaWorkDays({ docId, component, state }) {
           medecinid: docId,
           start: star,
           end: end,
-          // day: dayName.toUpperCase()
         }
       );
         navigate('')
@@ -238,21 +224,6 @@ function AgendaWorkDays({ docId, component, state }) {
       });
     }
   };
-  // ---------------------
-
-  // ---------------------
-  // console.log(sortData());
-  // console.log(sortData(), maxSlot);
-  // console.log(toggleDach(weeks[0].availableSlot));
-  // console.log(data);
-  // console.log(weeks);
-  // console.log('2022/10/11T08:20'.slice(0,10));
-  // console.log(availableSlot);
-  // console.log(new DateObject().format(`YYYY-MM-DDThh:mm pm`));
-
-  // addTime_("2020 08 21 10 55", "08:00", "MIN20");
-  // addTime("2022-10-11T00:00:00", "08:00", "MIN20");
-  // You might want to redirect to a login page or remove the invalid token.
 
   return (
     <>

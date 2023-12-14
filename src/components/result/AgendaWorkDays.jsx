@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -26,20 +25,6 @@ function AgendaWorkDays({ docId, component, setRdvData }) {
     day: start_params || "",
   });
 
-  // Add zero to the date
-  // const zeroFormatDate = (date) => {
-  //   var newDate;
-  //   const index = date.indexOf(":");
-
-  //   if (index === 12 && date.length === 14)
-  //     newDate = date.slice(0, index - 1) + "0" + date.slice(index - 1) + "0";
-  //   if (index === 13 && date.length === 15) newDate = date + "0";
-  //   if (index === 12 && date.length === 15)
-  //     newDate = date.slice(0, index - 1) + "0" + date.slice(index - 1);
-
-  //   return newDate;
-  // };
-  // Generat array with '-' on time box is empty
   const renderDaysTime = (array, maxL) => {
     var newArray = [];
     for (let i = 0; i < maxL; i++) {
@@ -127,19 +112,12 @@ function AgendaWorkDays({ docId, component, setRdvData }) {
 
   const [weeks, setweeks] = useState([
     fetchDayFormat(0 * 7),
-    // fetchDayFormat(1 * 7),
+
   ]);
 
   // Scroll & Fetch
   useEffect(() => {
-    // const weeks = [
-    //   fetchDayFormat(0 * 7),
-    //   fetchDayFormat(1 * 7),
-    //   // fetchDayFormat(2 * 7),
-    //   // fetchDayFormat(3 * 7),
-    // ];
-
-    weeks.length < 3 && setLoading(true);
+ weeks.length < 3 && setLoading(true);
     const fetchAgenda = () => {
       weeks.forEach(async (week) => {
         try {

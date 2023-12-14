@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const Horaire = ({ data }) => {
   const [editContact, setEditContact] = useState(false);
-  // const [editContactUrg, setEditContactUrg] = useState(false);
+
 
   const clickEditCS = () => {
     setEditContact(true);
@@ -10,13 +10,7 @@ const Horaire = ({ data }) => {
   const clickSauvgardeCS = () => {
     setEditContact(false);
   };
-  // const clickSauvgardeCUrg = () => {
-  //   setEditContactUrg(false);
-  // };
 
-  // const clickEditCUrg = () => {
-  //   setEditContactUrg(true);
-  // };
 
   return (
     <div className="container" id="horaire">

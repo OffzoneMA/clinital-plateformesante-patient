@@ -96,19 +96,6 @@ const MonCompte = () => {
             }).finally(()=>{
                 setLoading(false);
             })
-            // const res = await axios.post(
-            //     "https://apidb.clinital.io/api/users/respw",
-            //     {
-            //         email: email,
-            //         password: pass
-            //     }
-            //     ,
-            //     config
-            // )
-            // if (res.status === 200) {
-            //     setShowModelPassword(false)
-            //     setShowPasswordchanged(true)
-            // }
         } catch (error) {
            toast.error(error.message)
         }
@@ -135,25 +122,6 @@ const MonCompte = () => {
 
     const addProche = async () => {
         try {
-            // const res = await axios.post("https://apidb.clinital.io/api/patient/addpatient",
-            //     {
-            //         "adresse_pat": `${adresse_pat}`,
-            //         "civilite_pat": `${civilite_pat}`,
-            //         "codePost_pat": `${codePost_pat}`,
-            //         "dateNaissance": `${dateNaissance}`,
-            //         "email": `${emailPat}`,
-            //         "matricule_pat": `${matricule_pat}`,
-            //         "mutuelNumber": `${mutuelNumber}`,
-            //         "nom_pat": `${nom_pat}`,
-            //         "patient_type": "PROCHE",
-            //         "placeOfBirth": `${placeOfBirth}`,
-            //         "prenom_pat": `${prenom_pat}`,
-            //         "telephone": `${telephone}`,
-            //         "villeId": 58
-            //     }
-            //     ,
-            //     config
-            // )
             CompteServices.addProche(patient)
             .then((response)=>{
                 if (response.status === 200) {
@@ -165,13 +133,6 @@ const MonCompte = () => {
             }).finally(()=>{
                 setLoading(false)
             })
-//  .then(()=>{
-
-//             }).catch(()=>{
-
-//             }).finally(()=>{
-                
-//             })
 
         } catch (error) {
             toast.error(error.message);
@@ -180,24 +141,6 @@ const MonCompte = () => {
 
     const modifierProche = async () => {
         try {
-            // const res = await axios.post(`https://apidb.clinital.io/api/patient/updatepatient/${id}`, {
-            //     adresse_pat: adresse_pat,
-            //     civilite_pat: civilite_pat,
-            //     codePost_pat: codePost_pat,
-            //     dateNaissance: dateNaissance,
-            //     email: emailPat,
-            //     matricule_pat: matricule_pat,
-            //     mutuelNumber: mutuelNumber,
-            //     nom_pat: nom_pat,
-            //     patient_type: "MOI",
-            //     placeOfBirth: placeOfBirth,
-            //     prenom_pat: prenom_pat,
-            //     telephone: telephone,
-            //     villeId: 58
-            // },
-            //     config
-            // )
-
             CompteServices.modifierProche(id,patient)
              .then((res)=>{
                 if (res.status === 200) {
@@ -216,24 +159,6 @@ const MonCompte = () => {
     }
     const modifierAnathorProche = async () => {
         try {
-            // const res = await axios.post(`https://apidb.clinital.io/api/patient/updatepatient/${idProche}`, {
-            //     adresse_pat: adresse_pat,
-            //     civilite_pat: civilite_pat,
-            //     codePost_pat: codePost_pat,
-            //     dateNaissance: dateNaissance,
-            //     email: emailPat,
-            //     matricule_pat: matricule_pat,
-            //     mutuelNumber: mutuelNumber,
-            //     nom_pat: nom_pat,
-            //     patient_type: "PROCHE",
-            //     placeOfBirth: placeOfBirth,
-            //     prenom_pat: prenom_pat,
-            //     telephone: telephone,
-            //     villeId: 58
-            // },
-            //     config
-            // )
-
             CompteServices.modifierProche(id,patient)
             .then((res)=>{
                if (res.status === 200) {
@@ -252,9 +177,7 @@ const MonCompte = () => {
     }
     const getAllProcheOfCurrentUser = async () => {
         try {
-            // const res = await axios.get(`https://apidb.clinital.io/api/patient/getallproch`,
-            //     config)
-            
+           
 CompteServices.getProchesOfCurrentUser()
         .then((res)=>{
                if (res.status === 200) {
@@ -324,23 +247,6 @@ const GetPatient=(id)=>{
 }
 
     useEffect(() => {
-                // const res = await axios.get(
-                //     `https://apidb.clinital.io/api/patient/getPatientById/${id}`,
-                //     config
-                // );
-                // setData(res.data);
-                // setCivilite_pat(res.data.civilite_pat)
-                // setNom_pat(res.data.nom_pat);
-                // setPlaceOfBirth(res.data.placeOfBirth);
-                // setPrenom_pat(res.data.prenom_pat)
-                // setTelephone(res.data.telephone)
-                // setAdresse_pat(res.data.adresse_pat);
-                // setCodePost_pat(res.data.codePost_pat);
-                // setDateNaissance(res.data.dateNaissance);
-                // setEmailPat(res.data.emailPat);
-                // setMatricule_pat(res.data.matricule_pat);
-                // setMutuelNumber(res.data.mutuelNumber);
-
         GetPatient(id)
         getAllProcheOfCurrentUser();
     }, [id]);

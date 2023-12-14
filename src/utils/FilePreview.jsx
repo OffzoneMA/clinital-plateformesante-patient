@@ -8,16 +8,7 @@ export default function PdfViewerComponent(props) {
   const [error,setError]=useState();
 
   async function loadProtectedPDF(documentUrl,container) {
-    // Base64-encode your credentials and set them as an `Authorization` header.
-    // const headers = new Headers();
-    // const encodedCredentials = btoa(`${username}:${password}`);
-    // headers.set("Authorization", `Basic ${encodedCredentials}`);
-    // //headers.set("Authorization");
-    // // Fetch the PDF and read the response as an `ArrayBuffer`.
-    // const pdfResponse = await fetch(documentUrl);
-    // const documentBuffer = await pdfResponse.arrayBuffer();
-  
-    // Pass the `ArrayBuffer` as a PDF option instead of a URL.
+
     let PSPDFKit;
     PSPDFKit = await import('pspdfkit');
     axios.get(documentUrl)
@@ -56,11 +47,7 @@ export default function PdfViewerComponent(props) {
 	useEffect(() => {
 		const container = containerRef.current;
 		let instance, PSPDFKit;
-    // if(isRemoteUrl(props.document)){
-    //   loadProtectedPDF(props.document,"","")
-    // }else{
-      
-    // }
+ 
     (async function () {
 			PSPDFKit = await import('pspdfkit');
 
