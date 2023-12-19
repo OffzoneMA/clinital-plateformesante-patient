@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios  from 'axios';
 import { ORIGIN,TOKEN } from './api';
 import { toast } from 'react-toastify';
 // import keyValueStorage from '../utils/storage/keyValueStorage';
@@ -12,20 +12,24 @@ let axiosInstance = axios.create({
         'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT',
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${TOKEN}`
     },
     validateStatus: status => (status >= 200 && status < 300) || status === 422,
 });
+// Create a cancellation token source outside the interceptors
 
-axiosInstance.CancelToken = axios.CancelToken;
-axiosInstance.isCancel = axios.isCancel;
 
-axiosInstance.interceptors.request.use(config => {
-  let token= localStorage.getItem('user').token;
+axiosInstance.interceptors.request.use(
+  (config) => {
+    // Assign the cancellation token
+  let token= localStorage.getItem('user')?.token;
+  if(token!=null){
     config.headers.token = localStorage.getItem('user').token;
     config.headers.Authorization = `Bearer ${token}` ;
-
     return config;
+  }else{
+    return;
+  }
+   
 }, error => {
     return Promise.reject(error);
 });
@@ -39,9 +43,14 @@ const requestHandler = (request) => {
 };
 
 const responseHandler = (response) => {
-    if (response.status === 401) {
-        window.location = "/";
-    }
+  
+  if (response && response.status === 401) {
+    // Handle 401 error - remove token and redirect to login
+    toast.error('📡 API | Please login again', 'Session Expired');
+    console.log('📡 API | Please login again', 'Session Expired');
+    localStorage.removeItem('user'); // Remove token
+    window.location = "/"; // Redirect to login
+  }
     if (response.errors) {
         return Promise.reject(response.message);
     }
@@ -51,10 +60,12 @@ const responseHandler = (response) => {
 
 const errorHandler = (error) => {
     if (!error.response) {
-        console.log('📡 API | Network/Server error')
+        console.error('📡 API | Network/Server error'+error)
         return Promise.reject(error)
       }
-    
+      else if (axios.isCancel(error)) {
+        console.log('Request canceled:', error.message); // Handle cancellation
+      }
       // all the error responses
       switch (error.response.status) {
         case 400:

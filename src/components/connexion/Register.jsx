@@ -33,6 +33,7 @@ function Register({ comp, setStep, setIsConnected }) {
       setLoading(true);
       console.log(userCredentials)
       ConnexionService.signin(userCredentials).then((response)=>{
+        console.log(response)
         const data = {
           email: response.data.email,
           id: response.data.id,
