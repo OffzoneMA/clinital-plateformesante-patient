@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../../components/footer/Footer";
 import Table from "../../components/document/Table";
 import Navbar from "../../components/navbar/Navbar";
 import './document.scss'
+import UploadModal from "../../components/document/Modal/UploadDocModal";
 
 function Document() {
+  const [isOpen,setIsOpen]=useState(false)
   const activateSpan = (e) => e.target.classList.toggle("active-span");
+  const OpenUploadDoc=(e)=>{
+      e.preventDefault();
+      setIsOpen(!isOpen);
+  }
 
   return (
     <>
       <Navbar />
+      {isOpen && <UploadModal isOpen={isOpen} onRequestClose={() => setIsOpen(!isOpen)} />}
       <div className="document-section">
         <div className="container">
           <div className="action-container">
@@ -25,7 +32,7 @@ function Document() {
                 Documents partagés par un praticien
                 </span>
               </div>
-              <button>
+              <button onClick={OpenUploadDoc}>
                 <svg
                   width="22"
                   height="22"
