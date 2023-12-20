@@ -15,7 +15,8 @@ RUN npm install
 
 
 # Expose the port the app runs in
-EXPOSE 5174
+EXPOSE 8080
+
 
 
 # Serve the app
