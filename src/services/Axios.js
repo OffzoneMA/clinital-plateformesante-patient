@@ -16,23 +16,25 @@ let axiosInstance = axios.create({
     validateStatus: status => (status >= 200 && status < 300) || status === 422,
 });
 // Create a cancellation token source outside the interceptors
+// const cancelTokenSource = axios.CancelToken.source();
+// axiosInstance.CancelToken = axios.CancelToken;
+// axiosInstance.isCancel = axios.isCancel;
 
-
-axiosInstance.interceptors.request.use(
-  (config) => {
-    // Assign the cancellation token
-  let token= localStorage.getItem('user')?.token;
-  if(token!=null){
-    config.headers.token = localStorage.getItem('user').token;
-    config.headers.Authorization = `Bearer ${token}` ;
-    return config;
-  }else{
-    return;
-  }
+// axiosInstance.interceptors.request.use(
+//   (config) => {
+//     config.cancelToken = cancelTokenSource.token; // Assign the cancellation token
+//   let token= localStorage.getItem('user')?.token;
+//   if(token!=null){
+//     config.headers.token = localStorage.getItem('user').token;
+//     config.headers.Authorization = `Bearer ${token}` ;
+//     return config;
+//   }else{
+//     return;
+//   }
    
-}, error => {
-    return Promise.reject(error);
-});
+// }, error => {
+//     return Promise.reject(error);
+// });
 
 const requestHandler = (request) => {
 
