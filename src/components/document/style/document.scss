@@ -173,3 +173,44 @@ to {
 
 @keyframes my-animation { 0% { background-position: 0 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
 }
+
+///
+.click-area {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .dropdown-list {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 283px;
+height: 344px;
+flex-shrink: 0;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow */
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0; /* Add margin to separate from click-area */
+    z-index: 1000;
+  }
+  
+  .dropdown-list li {
+    padding: 8px 15px;
+    border-bottom: 1px solid #ccc; /* Separator between list items */
+  }
+  
+  .dropdown-list li:last-child {
+    border-bottom: none; /* Remove separator from last item */
+  }
+  
+  .click-area:hover .dropdown-list {
+    display: block;
+  }
+  
