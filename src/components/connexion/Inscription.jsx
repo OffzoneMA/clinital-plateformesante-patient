@@ -15,10 +15,10 @@ function Inscription() {
   const [loading, setLoading] = useState(false);
   const [isSame,setIsSame]=useState(true)
   const [formData, setFormData] = useState({
-    telephone: "",
-    email: "",
-    password: "",
-    role: "ROLE_PATIENT"
+    "email": "",
+    "password": "",
+    "role": "ROLE_PATIENT",
+    "telephone": ""
   });
 
   const cnx = useRef();

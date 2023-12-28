@@ -8,7 +8,6 @@ import Model, { ModelBody, ModelFooter, ModelHeader } from '../../components/Mod
 import "./monCompte.scss";
 import CompteServices from './Services/CompteServices';
 import { toast } from 'react-toastify';
-import { Toast } from 'bootstrap';
 import { useSelector } from 'react-redux';
 import Mark from 'mark.js';
 
@@ -49,6 +48,7 @@ const MonCompte = () => {
     const [ActiveProche, setActiveProche] = useState(false)
     const [updateProche, setUpdateProche] = useState()
     const [Loading,setLoading]=useState(false);
+    const [account,setAccount]=useState({})
     const [cd1, setCd1] = useState(false);
     const [cd2, setCd2] = useState(false);
     const [cd3, setCd3] = useState(false);
@@ -245,10 +245,30 @@ const GetPatient=(id)=>{
         toast.error(error.message)
     }
 }
+const getMainPatient=()=>{
+    try{
+    setLoading(true);
+    CompteServices.getMainPatient()
+    .then((res)=>{
+        if (res.status === 200) {
+            setAccount(res.data)
+        }
+    }).catch((error)=>{
+         toast.error(error.message);
+         setLoading(false)
+    }).finally(()=>{
+        setLoading(false)
+    });
+
+    } catch (error) {
+        toast.error(error.message)
+    }
+}
 
     useEffect(() => {
         GetPatient(id)
         getAllProcheOfCurrentUser();
+        getMainPatient();
     }, [id]);
 
     const ActiveBtn = (e) => {
@@ -312,12 +332,12 @@ const GetPatient=(id)=>{
                 <form action="">
                     <div>
                         <label htmlFor="">Adresse e-mail</label>
-                        <input type="email" placeholder='demos@clinital.io' defaultValue={data.patientEmail} />
+                        <input type="email" placeholder='demos@clinital.io' value={email || ""} />
                         <img className='done-email' src="/icons/done.svg" alt="" />
                         <br />
                         <label htmlFor="">Numéro de téléphone </label>
 
-                        <input type="text" placeholder='+212 5 00 00 00 00' defaultValue={data.patientTelephone} />
+                        <input type="text" placeholder='+212 5 00 00 00 00' value={account.patientTelephone || ""} />
                         <img className='done-tel' src="/icons/done.svg" alt="" />
                         <button>Enregistrer</button>
                         <a href="#" onClick={() => setShowModelPassword(true)}>Modifier votre Mot De Passe</a>
