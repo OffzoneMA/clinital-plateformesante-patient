@@ -16,5 +16,8 @@ export default {
     },
     getPatientById(id){
         return `patient/getPatientById/${id}`;
+    },
+    getMainPatient(){
+        return 'patient/getmypatientaccount'
     }
 }

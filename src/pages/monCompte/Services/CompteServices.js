@@ -22,6 +22,9 @@ class AccountService {
   };
   getPatientById=async (id)=>{
     return await axiosInstance.get(Compteapi.getPatientById(id));
+  };
+  getMainPatient=async ()=>{
+    return await axiosInstance.get(Compteapi.getMainPatient());
   }
 }
 export default new AccountService();
