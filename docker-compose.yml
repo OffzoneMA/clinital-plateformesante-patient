@@ -14,6 +14,6 @@ services:
       LETSENCRYPT_EMAIL: support@clinital.io
 
     ports:
-      - 8080:8080
+      - 8085:8085
       - 3000:3000
       - 3001:3001
