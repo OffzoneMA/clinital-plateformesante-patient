@@ -146,12 +146,12 @@ function Register({ comp, setStep, setIsConnected }) {
           <div className="btns">
             <button>
               <img
-                src="../../images/facebook.png"
+                src="/images/Facebook.png"
                 alt="connexion avec facebook"
               />
             </button>
             <button>
-              <img src="../../images/google.png" alt="connexion avec google" />
+              <img src="/images/Google.png" alt="connexion avec google" />
             </button>
           </div>
           <Link to="forgot-password">Mot de passe oublié ?</Link>

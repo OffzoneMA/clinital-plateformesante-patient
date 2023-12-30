@@ -25,6 +25,9 @@ class AccountService {
   };
   getMainPatient=async ()=>{
     return await axiosInstance.get(Compteapi.getMainPatient());
+  };
+  UpdatePatient=async(id,data)=>{
+    return await axiosInstance.post(Compteapi.UpdatePatient(id),data);
   }
 }
 export default new AccountService();
