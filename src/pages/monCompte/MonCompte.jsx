@@ -78,12 +78,14 @@ const MonCompte = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: 'onSubmit' });
 
     const onSubmit = async (data) => {
+        
         const pass = `${data.password}`
+       
         try {
             setLoading(true);
             CompteServices.ResetPassword({
-                email: email,
-                password: pass
+                "email": email,
+                "password": pass
             })
                 .then((Response) => {
                     if (Response.status === 200) {
@@ -91,8 +93,8 @@ const MonCompte = () => {
                         setShowPasswordchanged(true)
                     }
                 }).catch((error) => {
+                    console.log(error)
                     toast.error(error.message)
-                    setLoading(false)
                 }).finally(() => {
                     setLoading(false);
                 })
@@ -291,6 +293,27 @@ const MonCompte = () => {
         getAllProcheOfCurrentUser();
         getMainPatient();
     }, [id]);
+    const calculateAge=(birthDate)=> {
+        const currentDate = new Date();
+        const dob = new Date(birthDate);
+        
+        let age = currentDate.getFullYear() - dob.getFullYear();
+        const monthDiff = currentDate.getMonth() - dob.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && currentDate.getDate() < dob.getDate())) {
+          age--;
+        }
+        
+        return age;
+      }
+      const formatDate=(dateString)=> {
+        const dateComponents = dateString.split('T')[0].split('-');
+        const year = dateComponents[0];
+        const month = dateComponents[1];
+        const day = dateComponents[2];
+        
+        return `${year}/${month}/${day}`;
+      }
 
     const ActiveBtn = (e) => {
         const allElements = [...document.querySelectorAll(".filtre .moiproche")];
@@ -725,10 +748,10 @@ const MonCompte = () => {
                         {
                             <div className="body">
                                 <div>
-                                    <h3>{data.civilite_pat}  {data.nom_pat} {data.prenom_pat} </h3>
+                                    <h3>{account.civilite_pat}  {account.nom_pat} {account.prenom_pat} </h3>
                                     <div className='info-body'>
-                                        <p>{data.dateNaissance}- 26 ans</p>
-                                        <p>{data.adresse_pat}, {data.codePost_pat}</p>
+                                        <p>{formatDate(account.dateNaissance)} - {calculateAge(account.dateNaissance)}ans</p>
+                                        <p>{account.adresse_pat}, {account.codePost_pat}</p>
                                     </div>
                                     <button id="btn-moi" >Moi</button>
                                 </div>

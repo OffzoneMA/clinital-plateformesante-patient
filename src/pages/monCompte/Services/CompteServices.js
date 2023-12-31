@@ -4,7 +4,7 @@ import Compteapi from "../Apiaccount/Compteapi";
 
 class AccountService {
   async ResetPassword(data) {
-    return await axiosInstance.post(Compteapi.ResetPassword(), data);
+    return await axiosInstance.post(Compteapi.ResetPassword(),JSON.stringify(data));
   }
 
   deleteProche = async (idproch) => {
