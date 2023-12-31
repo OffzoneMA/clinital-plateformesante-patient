@@ -8,9 +8,6 @@ export default {
     AddPatient(){
         return 'patient/addpatient';
     },
-    UpdatePatient(id){
-        return `patient/updatepatient/${id}`;
-    },
     getAllProch(){
         return 'patient/getallproch';
     },

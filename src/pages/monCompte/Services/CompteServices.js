@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axiosInstance from "../../../services/Axios";
 import Compteapi from "../Apiaccount/Compteapi";
 
@@ -27,7 +28,13 @@ class AccountService {
     return await axiosInstance.get(Compteapi.getMainPatient());
   };
   UpdatePatient=async(id,data)=>{
-    return await axiosInstance.post(Compteapi.UpdatePatient(id),data);
+    try {
+      return await axiosInstance.post(Compteapi.UpdatePatient(id),data);
+    } catch (error) {
+      console.log(error)
+      toast.error(error.message)
+    }
+   
   }
 }
 export default new AccountService();
