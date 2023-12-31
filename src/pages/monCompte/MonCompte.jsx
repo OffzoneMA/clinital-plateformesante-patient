@@ -101,14 +101,16 @@ const MonCompte = () => {
         }
     }
     const UpdateinfoPateint = (e) => {
-        e.preventDefault();
+
         try {
+            e.preventDefault();
+            console.log(account)
             setLoading(true);
-            let id_patient=account.id;
-            CompteServices.UpdatePatient(id_patient,account)
+            CompteServices.UpdatePatient(account.id,JSON.stringify(account))
             .then((response)=>{
                 console.log(response)
                 toast.success("Vos informations sont bien modifier")
+                setAccount(response.data)
             }).catch((error)=>{
                 toast.error(error.message)
             }).finally(()=>{
@@ -271,11 +273,10 @@ const MonCompte = () => {
             CompteServices.getMainPatient()
                 .then((res) => {
                     if (res.status === 200) {
-                        setAccount(res.data)
+                        setAccount(res?.data)
                     }
                 }).catch((error) => {
                     toast.error(error.message);
-                    setLoading(false)
                 }).finally(() => {
                     setLoading(false)
                 });
@@ -289,7 +290,6 @@ const MonCompte = () => {
         GetPatient(id)
         getAllProcheOfCurrentUser();
         getMainPatient();
-
     }, [id]);
 
     const ActiveBtn = (e) => {
@@ -350,11 +350,10 @@ const MonCompte = () => {
         <div className='container-moncompte'>
             <div className="moncompte">
                 <h1>Mon compte</h1>
-                {console.log(account)}
                 <form action="" onSubmit={UpdateinfoPateint}>
                     <div>
                         <label htmlFor="">Adresse e-mail</label>
-                        <input type="email" placeholder='demos@clinital.io' value={email || ""} />
+                        <input type="email" placeholder='demos@clinital.io' defaultValue={email || ""} />
                         <img className='done-email' src="/icons/done.svg" alt="" />
                         <br />
                         <label htmlFor="">Numéro de téléphone </label>
@@ -365,7 +364,7 @@ const MonCompte = () => {
                                 patientTelephone: e.target.value // Update the desired property
                             }))} />
                         <img className='done-tel' src="/icons/done.svg" alt="" />
-                        <button>Enregistrer</button>
+                        <button type='submit' disabled={Loading}>{!Loading?"Enregistrer":"Loading..."}</button>
                         <a href="#" onClick={() => setShowModelPassword(true)}>Modifier votre Mot De Passe</a>
                     </div>
                 </form>
